@@ -9,7 +9,6 @@ import 'controller/login_page_controller.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -23,7 +22,7 @@ class Login extends StatelessWidget {
               child: Consumer<LoginController>(
                 builder: (context, controller, _) {
                   return Form(
-                    key: controller.key,
+                    key: controller.loginFormKey,
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +103,7 @@ class Login extends StatelessWidget {
                           ),
                           const SizedBox(height: 40),
                           ElevatedButton(
-                            onPressed: controller.login,
+                            onPressed:(){controller.login(context);} ,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

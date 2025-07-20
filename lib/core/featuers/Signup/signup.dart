@@ -2,10 +2,8 @@ import 'package:fitness/core/featuers/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../widget/TextFormFild.dart';
 import 'controller/signup_controller.dart';
-
 class Signup extends StatelessWidget {
   Signup({super.key});
 
