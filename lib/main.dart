@@ -12,14 +12,14 @@ import 'firebase_options.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceManager().init();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final bool FirstTime = PreferenceManager().getbool(StoregKey.FirstTime) ?? false;
+  final bool FirstTime = PreferenceManager().getbool(StoregKey.FirstTime) ?? true;
   runApp(MyApp(FirstTime: FirstTime,));
 }
-
 class MyApp extends StatelessWidget {
   final bool FirstTime;
   const MyApp({super.key, required this.FirstTime});
@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Fitness Application',
         theme:lightTheme,
-        home: !FirstTime ? ButtonNavigation() :WelcomeScreen(),
+        themeMode: ThemeMode.light,
+        home: FirstTime ? ButtonNavigation() :WelcomeScreen(),
       ),
     );
   }

@@ -32,8 +32,9 @@ ThemeData lightTheme = ThemeData(
     primary: Color(0xFF1D1617),
     onPrimary: Color(0xFFFFFFFF),// Dark gray for text and backgrounds
     secondary: Color(0xFF86A8E7), // Soft blue for accents
-    surface: Color(0xFFFFFFFF),
     onSecondary:   Color(0xffC58BF2),
+    surface: Color(0xFFFFFFFF),
+    primaryContainer: Color(0xff92A3FD)
     // White for cards and containers
   ),
 

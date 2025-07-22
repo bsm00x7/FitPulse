@@ -34,7 +34,7 @@ class SignupController extends ChangeNotifier {
           ContentType.failure,
         );
       } else {
-        final ResgisterModel newUser = ResgisterModel(
+        final RegisterModel newUser = RegisterModel(
           firstname: firstname.value.text.trim(),
           lastname: lastname.value.text.trim(),
           email: emailController.value.text.trim(),

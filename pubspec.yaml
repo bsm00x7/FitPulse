@@ -19,6 +19,12 @@ dependencies:
   carousel_slider: ^5.1.1
   firebase_core: ^3.15.1
   firebase_auth: ^5.6.2
+  percent_indicator: ^4.2.5
+  fl_chart: ^1.0.0
+  dots_indicator: ^4.0.1
+  simple_animation_progress_bar: ^1.9.2
+  dotted_line: ^3.2.3
+  workmanager: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -29,12 +35,14 @@ flutter:
   uses-material-design: true
 
   assets:
-    - lib/assets/onboarding_image/
-    - lib/assets/login/
-    - lib/assets/signup/
+    - lib/assets/
+    - lib/assets/home/
+    - lib/assets/button_navigation/
     - lib/assets/complete/
     - lib/assets/goal/
-    - lib/assets/button_navigation/
+    - lib/assets/login/
+    - lib/assets/onboarding_image/
+    - lib/assets/signup/
 
   fonts:
     - family: Poppins

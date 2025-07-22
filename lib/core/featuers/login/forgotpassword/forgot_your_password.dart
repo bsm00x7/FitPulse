@@ -10,7 +10,6 @@ class ForgotYourPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final loginController = Provider.of<LoginController>(context, listen: false);
-
     return Scaffold(
       body: SafeArea(
         child: Padding(

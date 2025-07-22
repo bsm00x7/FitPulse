@@ -1,5 +1,7 @@
+import 'package:fitness/core/featuers/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../activity/activity.dart';
 import '../home/home.dart';
@@ -12,16 +14,18 @@ class ButtonNavigation extends StatefulWidget {
   @override
   State<ButtonNavigation> createState() => _ButtonNavigationState();
 }
-
 class _ButtonNavigationState extends State<ButtonNavigation> {
-  final List<Widget> pages = const [Home(), Activity(), Search(), Profile()];
+  final List<Widget> pages = [ ChangeNotifierProvider(create: (BuildContext context) => HomeController()..init(),
+  child: Home()),  Activity(),  Search(),  Profile()];
   int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: pages[_currentIndex],
+      body: SafeArea(child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30 , vertical: 10),
+        child: pages[_currentIndex],
+      )),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         selectedLabelStyle : TextStyle(

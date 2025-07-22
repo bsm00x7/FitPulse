@@ -21,6 +21,12 @@ class PreferenceManager {
   String? getString (String key){
     return _preferences.getString(key) ;
   }
+  setDouble (String key, double value){
+    return _preferences.setDouble(key, value);
+  }
+  getDouble (String key ){
+    return _preferences.getDouble(key);
+  }
   bool? getbool (String key){
     return _preferences.getBool(key) ;
   }
