@@ -103,7 +103,9 @@ class Login extends StatelessWidget {
                           ),
                           const SizedBox(height: 40),
                           ElevatedButton(
-                            onPressed:(){controller.login(context);} ,
+                            onPressed:(){
+                              controller.loginUser(context);
+                            } ,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

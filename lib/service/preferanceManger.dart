@@ -27,6 +27,9 @@ class PreferenceManager {
   getDouble (String key ){
     return _preferences.getDouble(key);
   }
+  remove(String key){
+    return _preferences.remove(key);
+  }
   bool? getbool (String key){
     return _preferences.getBool(key) ;
   }

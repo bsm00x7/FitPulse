@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/login.dart';
 import '../../../service/auth_service.dart';
-import '../../complete/complete.dart';
+import '../../button_navigation_bar/button_navigation_bar.dart';
 
 class LoginController extends ChangeNotifier {
   // Form keys for login and password reset forms
@@ -27,55 +25,22 @@ class LoginController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Attempts to log in the user with the provided credentials
-  Future<void> login(BuildContext context) async {
-    if (loginFormKey.currentState?.validate() != true) {
-      return; // Early return if form validation fails
-    }
-
-    try {
-      final loginModel = LoginModel(
-        email: emailController.text.trim(),
-        password: passwordController.text,
+  void loginUser(BuildContext context) async {
+    AuthService auth = AuthService();
+    if (await auth.loginAuth(
+          email: emailController.text,
+          password: passwordController.text,
+          context: context,
+        ) !=
+        false) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ButtonNavigation()), (Route<dynamic> route) => false
       );
 
-      final userCredential = await AuthService().login(context, loginModel);
-      if (userCredential.user != null) {
-        // Navigate to the Complete screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const Complete()),
-        );
-      }
-    } catch (e) {
-      // Error handling is managed in AuthService (SnackBar shown there)
-      debugPrint('Login failed: $e'); // Use debugPrint for logging
-    }
-  }
-
-  /// Sends a password reset link to the provided email
-  Future<bool> sendResetLink(BuildContext context) async {
-    if (resetFormKey.currentState?.validate() != true) {
-      return false; // Early return if form validation fails
     }
 
-    try {
-      final success = await AuthService().forgetPassword(
-        context: context,
-        email: resetPasswordController.text.trim(),
-      );
-
-      if (success) {
-        resetPasswordController.clear();
-      }
-
-      return success;
-    } catch (e) {
-      debugPrint('Password reset failed: $e');
-      return false;
-    } finally {
-      notifyListeners(); // Notify listeners only after operation completes
-    }
+    notifyListeners();
   }
 
   @override

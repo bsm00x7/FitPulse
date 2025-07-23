@@ -123,7 +123,7 @@ class Signup extends StatelessWidget {
                       ),
                       const SizedBox(height: 50),
                       ElevatedButton(
-                        onPressed: (){ value.register(context);},
+                        onPressed: (){ context.read<SignupController>().register( context: context);},
                         child: Text(
                           "Register",
                           style: theme.textTheme.headlineSmall!.copyWith(

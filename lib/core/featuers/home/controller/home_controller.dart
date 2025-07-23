@@ -36,10 +36,19 @@ class HomeController with ChangeNotifier {
     {"time": "9am - 11am", "amount": 500, "isActive": false, "value": 1 / 5},
   ];
 
+  initDrinkWater()async{
+    DateTime dataNow = DateTime.now();
+    if(dataNow.hour>=5){
+      await PreferenceManager().remove("startWater");
+      await PreferenceManager().remove("intakeData");
+
+    }
+  }
   // Initialize controller
   Future<void> init() async {
     await loadIntakeDate(); // Try to load existing data first
     // If no data was loaded, initialize with defaults
+    await initDrinkWater();
     if (intakeDataNew.isEmpty) {
       intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
       await saveDateWater();

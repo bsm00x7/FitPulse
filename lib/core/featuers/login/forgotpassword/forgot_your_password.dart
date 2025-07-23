@@ -58,11 +58,7 @@ class ForgotYourPassword extends StatelessWidget {
                     foregroundColor: theme.colorScheme.onPrimary,
                   ),
                   onPressed: () async {
-                    final sendSuccess = await loginController.sendResetLink(context);
-                    if (sendSuccess) {
-                      // Navigate back to login screen on success
-                      Navigator.pop(context);
-                    }
+
                   },
                   child:  Text(
                     "Send Reset Link",

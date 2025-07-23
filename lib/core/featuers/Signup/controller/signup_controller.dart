@@ -24,49 +24,9 @@ class SignupController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> register(BuildContext context) async {
-    if (key.currentState!.validate()) {
-      if (isChecked == false) {
-        _SnackBar(
-          context,
-          "warning",
-          "Please Accept our Privacy Policy!",
-          ContentType.failure,
-        );
-      } else {
-        final RegisterModel newUser = RegisterModel(
-          firstname: firstname.value.text.trim(),
-          lastname: lastname.value.text.trim(),
-          email: emailController.value.text.trim(),
-          password: passwordController.value.text.trim(),
-        );
-        final registerSuccess = await AuthService().register(context ,newUser);
-        if (registerSuccess?.user != null) {
-          _SnackBar(
-            context,
-            "Registration Success",
-            "Registration Success ",
-            ContentType.success,
-          );
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => Complete()),
-            (Route<dynamic> route) => false,
-          );
-        } else {
-          _SnackBar(
-            context,
-            "Registration Failed",
-            "We couldn't complete your registration. Please check your details and try again later.",
-            ContentType.failure,
-          );
-        };
-
-        // TO DO Register Account
-        // If Success Navigator on  complete your profile
-      }
-    }
-  }
+   void register ({ required BuildContext context}){
+     AuthService().register(email: emailController.text.trim(), password: passwordController.text, context: context);
+   }
 
   void _SnackBar(
     BuildContext context,
