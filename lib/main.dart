@@ -1,28 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitness/core/featuers/onboarding/welcom_screen.dart';
 import 'package:fitness/core/theme/light_theme.dart';
 import 'package:fitness/service/preferanceManger.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'core/constant/StoregKey.dart';
 import 'core/featuers/button_navigation_bar/button_navigation_bar.dart';
 import 'core/featuers/onboarding/controller/navigator_controller.dart';
+import 'core/service/auth_service.dart';
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize PreferenceManager
   await PreferenceManager().init();
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  final bool FirstTime = PreferenceManager().getbool(StoregKey.FirstTime) ?? true;
-  runApp(MyApp(FirstTime: FirstTime,));
+  // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
-  final bool FirstTime;
-  const MyApp({super.key, required this.FirstTime});
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -33,12 +34,19 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fitness Application',
-        theme:lightTheme,
+        theme: lightTheme,
         themeMode: ThemeMode.light,
-        home: FirstTime ? ButtonNavigation() :WelcomeScreen(),
+        home: StreamBuilder<User?>(
+          stream: AuthService().authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            // If user is logged in, show ButtonNavigation; otherwise, show WelcomeScreen
+            return snapshot.hasData ? const ButtonNavigation() : const WelcomeScreen();
+          },
+        ),
       ),
     );
   }
 }
-
-
