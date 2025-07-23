@@ -25,10 +25,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.FirstTime});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) {
-        return NavigatorController();
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigatorController()),
+        Provider<AuthService>(create: (_) => AuthService()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fitness Application',
