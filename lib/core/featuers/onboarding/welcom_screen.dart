@@ -39,9 +39,9 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
-                Text("Fitnest" , style: Theme.of(context).textTheme.titleLarge,),
+                Text('Fitnest' , style: Theme.of(context).textTheme.titleLarge,),
                 SizedBox(width: 4,),
-               Text("Extra" , style: TextStyle(
+               Text('Extra' , style: TextStyle(
                  fontSize: 20,
                  color: Colors.blueAccent,
                  fontWeight: FontWeight.bold
@@ -49,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
               ],
             ),
 
-            Text("Everybody  Can   Train",style:  Theme.of(context).textTheme.titleSmall,)
+            Text('Everybody  Can   Train',style:  Theme.of(context).textTheme.titleSmall,)
           ],
         ),
       ), // Placeholder content

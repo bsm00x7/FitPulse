@@ -28,14 +28,14 @@ class Login extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Hey there,",
+                            'Hey there,',
                             style: theme.textTheme.displayMedium?.copyWith(
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            "Welcome Back",
+                            'Welcome Back',
                             style: theme.textTheme.titleLarge?.copyWith(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
@@ -43,7 +43,7 @@ class Login extends StatelessWidget {
                           ),
                           const SizedBox(height: 30),
                           TextFormFieldWidget(
-                            source: 'lib/assets/login/email.svg',
+                            source: 'assets/login/email.svg',
                             hint: 'Email',
                             controller: controller.emailController,
                             errorValidator: 'Please enter a valid email',
@@ -55,7 +55,7 @@ class Login extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             children: [
                               TextFormFieldWidget(
-                                source: 'lib/assets/login/Lock.svg',
+                                source: 'assets/login/Lock.svg',
                                 hint: 'Password',
                                 controller: controller.passwordController,
                                 errorValidator: 'Please enter your password',
@@ -69,8 +69,8 @@ class Login extends StatelessWidget {
                                   onTap: controller.togglePasswordVisibility,
                                   child: SvgPicture.asset(
                                     controller.isPasswordVisible
-                                        ? 'lib/assets/login/Show-Password.svg'
-                                        : 'lib/assets/login/Hide-Password.svg',
+                                        ? 'assets/login/Show-Password.svg'
+                                        : 'assets/login/Hide-Password.svg',
                                     width: 24,
                                     height: 24,
                                   ),
@@ -93,7 +93,7 @@ class Login extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                "Forgot your password?",
+                                'Forgot your password?',
                                 style: theme.textTheme.headlineSmall!.copyWith(
                                   fontSize: 14,
                                   decoration: TextDecoration.underline,
@@ -110,11 +110,11 @@ class Login extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
-                                  'lib/assets/login/LoginDor.svg',
+                                  'assets/login/LoginDor.svg',
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  "Login",
+                                  'Login',
                                   style: theme.textTheme.labelLarge?.copyWith(
                                     color: theme.colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class Login extends StatelessWidget {
                                   horizontal: 10,
                                 ),
                                 child: Text(
-                                  "Or",
+                                  'Or',
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
@@ -158,7 +158,7 @@ class Login extends StatelessWidget {
                             children: [
                               _buildSocialButton(
                                 context,
-                                asset: 'lib/assets/login/google-logo.svg',
+                                asset: 'assets/login/google-logo.svg',
                                 onPressed: () {
                                   // Implement Google login
                                 },
@@ -166,7 +166,7 @@ class Login extends StatelessWidget {
                               const SizedBox(width: 20),
                               _buildSocialButton(
                                 context,
-                                asset: 'lib/assets/login/facebook 1.svg',
+                                asset: 'assets/login/facebook 1.svg',
                                 onPressed: () {
                                   // Implement Facebook login
                                 },
@@ -185,14 +185,14 @@ class Login extends StatelessWidget {
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "Don’t have an account yet? ",
+                                    text: 'Don’t have an account yet? ',
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       fontSize: 15,
                                       color: theme.colorScheme.onSurface,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: "Register",
+                                    text: 'Register',
                                     style: theme.textTheme.headlineSmall
                                         ?.copyWith(
                                           fontSize: 15,

@@ -25,7 +25,7 @@ class Complete extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      "lib/assets/complete/dumbbell-solid.svg",
+                      'assets/complete/dumbbell-solid.svg',
                       height: 170,
                       width: 170,
                       colorFilter: ColorFilter.mode(
@@ -35,7 +35,7 @@ class Complete extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      "Let’s complete your profile",
+                      'Let’s complete your profile',
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleLarge?.copyWith(
                         fontSize: 24,
@@ -44,7 +44,7 @@ class Complete extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      "It will help us to know more about you!",
+                      'It will help us to know more about you!',
                       style: theme.textTheme.displaySmall!.copyWith(
                         fontSize: 15,
                       ),
@@ -61,7 +61,7 @@ class Complete extends StatelessWidget {
                               children: [
                                 const SizedBox(height: 16),
                                 TextFormFieldWidget(
-                                  source: 'lib/assets/complete/2 User.svg',
+                                  source: 'assets/complete/2 User.svg',
                                   hint: 'Choose Gender',
                                   controller: value.gender,
                                   errorValidator: 'Please enter Your First Name',
@@ -73,7 +73,7 @@ class Complete extends StatelessWidget {
                                   controller: value.birth,
                                   validator: (String? value){
                                     if (value == null || value.trim().isEmpty) {
-                                      return "Please Take Your Birth Day";
+                                      return 'Please Take Your Birth Day';
                                     }
                                   },
 
@@ -93,7 +93,7 @@ class Complete extends StatelessWidget {
                                         horizontal: 10,
                                       ),
                                       child: SvgPicture.asset(
-                                        'lib/assets/complete/Calendar.svg',
+                                        'assets/complete/Calendar.svg',
                                         width: 18,
                                         height: 18,
                                         colorFilter: ColorFilter.mode(
@@ -102,7 +102,7 @@ class Complete extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    hintText: "Enter Your Birth",
+                                    hintText: 'Enter Your Birth',
                                     hintStyle: theme.textTheme.bodyMedium
                                         ?.copyWith(color: Colors.grey),
                                   ),
@@ -113,10 +113,10 @@ class Complete extends StatelessWidget {
                                     Expanded(
                                       flex: 6, // Give more space to the weight input
                                       child: TextFormFieldWidget(
-                                        source: 'lib/assets/complete/weight.svg',
-                                        hint: "Your Weight",
+                                        source: 'assets/complete/weight.svg',
+                                        hint: 'Your Weight',
                                         controller: value.weight,
-                                        errorValidator: "Please enter Your weight",
+                                        errorValidator: 'Please enter Your weight',
                                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}$')),
@@ -132,7 +132,7 @@ class Complete extends StatelessWidget {
                                         color: theme.colorScheme.secondary,
                                         borderRadius: BorderRadius.circular(14)
                                       ),
-                                      child: Center(child: Text("KG" , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w600),)),
+                                      child: Center(child: Text('KG' , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w600),)),
                                     ))
 
                                   ],
@@ -143,10 +143,10 @@ class Complete extends StatelessWidget {
                                     Expanded(
                                       flex: 6, // Give more space to the weight input
                                       child: TextFormFieldWidget(
-                                        source: 'lib/assets/complete/Swap.svg',
-                                        hint: "Your Height",
+                                        source: 'assets/complete/Swap.svg',
+                                        hint: 'Your Height',
                                         controller: value.height,
-                                        errorValidator: "Please enter Your Height",
+                                        errorValidator: 'Please enter Your Height',
                                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}$')),
@@ -161,7 +161,7 @@ class Complete extends StatelessWidget {
                                           color: theme.colorScheme.secondary,
                                           borderRadius: BorderRadius.circular(14)
                                       ),
-                                      child: Center(child: Text("CM" , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w600),)),
+                                      child: Center(child: Text('CM' , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w600),)),
                                     ))
 
                                   ],
@@ -173,11 +173,11 @@ class Complete extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
-                                        'lib/assets/login/LoginDor.svg',
+                                        'assets/login/LoginDor.svg',
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        "Login",
+                                        'Confirm',
                                         style: theme.textTheme.labelLarge
                                             ?.copyWith(
                                           color:

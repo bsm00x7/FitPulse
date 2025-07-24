@@ -1,13 +1,15 @@
-import 'dart:async';
+// ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import '../featuers/complete/complete.dart';
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   // Getters
-  User? get currentUser => _auth.currentUser;
+  User? getUser() {
+    return _auth.currentUser;
+  }
 
   Stream<User?> authStateChanges() {
     return _auth.authStateChanges();
@@ -44,10 +46,9 @@ class AuthService with ChangeNotifier {
           errorMessage = 'An unexpected error occurred. Please try again.';
       }
 
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessage)));
     } catch (e) {
       // Optional: handle other exceptions (e.g., network issues)
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,16 +58,32 @@ class AuthService with ChangeNotifier {
     return false;
   }
 
+  signOut(BuildContext context) {
+    _auth.signOut();
+  }
 
-  register({required String email , required String password , required BuildContext context})async {
-   try{
-     // Carate New user
-     await _auth.createUserWithEmailAndPassword(email: email, password: password);
-     // Navigator to Home Page
-   }on FirebaseAuthException catch(e){
-     final snackBar = SnackBar(content: Text(e.code));
-     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-   }
-
+  register({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      // Carate New user
+      UserCredential user = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (user.user != null) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Complete()),
+          (Route<dynamic> route) => false,
+        );
+      }
+      // Navigator to Home Page
+    } on FirebaseAuthException catch (e) {
+      final snackBar = SnackBar(content: Text(e.code));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 }

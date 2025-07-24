@@ -16,10 +16,10 @@ class AppBarWidget extends StatelessWidget {
       children: [
         Column(
           children: [
-            Text("Welcome Back,", style: theme.textTheme.displaySmall),
+            Text('Welcome Back,', style: theme.textTheme.displaySmall),
             // ! TO DO GET USER NAME OF DATE BASE [ LOCAL , SERVER]
             Text(
-              "Bassem Naser",
+              'Bassem Naser',
               style: theme.textTheme.titleMedium!.copyWith(fontSize: 20),
             ),
           ],
@@ -28,12 +28,12 @@ class AppBarWidget extends StatelessWidget {
         InkWell(
           onTap: (){},
           child: Hero(
-            tag: "bell",
+            tag: 'bell',
             child: CircleAvatar(
               backgroundColor: Color(0xffF7F8F8),
               //! Checking this icon is correct or no
               child: SvgPicture.asset(
-                "lib/assets/home/Bell-Icon.svg",
+                'assets/home/Bell-Icon.svg',
                 width: 18,
                 height: 18,
               ),

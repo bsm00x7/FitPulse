@@ -13,36 +13,36 @@ class OnBoarding extends StatefulWidget {
 
 final List<Map<String, String>> listpage = [
   {
-    "Title": "Track Your Goal",
-    "Description":
+    'Title': 'Track Your Goal',
+    'Description':
     "Don't worry if you have trouble determining your goals, We can help you determine your goals and track your goals",
-    "ImageSource": "lib/assets/onboarding_image/page2.svg",
+    'ImageSource': 'assets/onboarding_image/page2.svg',
   },
   {
-    "Title": "Get Burn",
-    "Description":
-    "Let’s keep burning, to achieve your goals, it hurts only temporarily, if you give up now you will be in pain forever",
-    "ImageSource": "lib/assets/onboarding_image/runner_2_.svg",
+    'Title': 'Get Burn',
+    'Description':
+    'Let’s keep burning, to achieve your goals, it hurts only temporarily, if you give up now you will be in pain forever',
+    'ImageSource': 'assets/onboarding_image/runner_2_.svg',
   },
   {
-    "Title": "Eat Well",
-    "Description":
+    'Title': 'Eat Well',
+    'Description':
     "Let's start a healthy lifestyle with us, we can determine your diet every day. healthy eating is fun",
-    "ImageSource": "lib/assets/onboarding_image/EatWell.svg",
+    'ImageSource': 'assets/onboarding_image/EatWell.svg',
   },
   {
-    "Title": "Improve Sleep Quality",
-    "Description":
-    "Improve the quality of your sleep with us, good quality sleep can bring a good mood in the morning",
-    "ImageSource":
-    "lib/assets/onboarding_image/sleeping-square-svgrepo-com.svg",
+    'Title': 'Improve Sleep Quality',
+    'Description':
+    'Improve the quality of your sleep with us, good quality sleep can bring a good mood in the morning',
+    'ImageSource':
+    'assets/onboarding_image/sleeping-square-svgrepo-com.svg',
   },
 ];
 
 class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
-    print("Build");
+    print('Build');
     return SafeArea(
       child: Scaffold(
         floatingActionButton: Stack(
@@ -83,7 +83,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       value.nextPage();
                       value.jumpPage();
                     } else {
-                      value.navigatorSignupPage(context);
+                      value.navigatorLogin(context);
                     }
                   },
                   shape: RoundedRectangleBorder(
@@ -99,7 +99,7 @@ class _OnBoardingState extends State<OnBoarding> {
           children: [
             Expanded(
               child: Selector<NavigatorController,NavigatorController>(
-                selector: (BuildContext , controller ) =>controller,
+                selector: (BuildContext, controller ) =>controller,
                 builder: (BuildContext context, value, Widget? child) {
                   return  PageView.builder(
                     controller:value.pageController,

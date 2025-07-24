@@ -39,14 +39,14 @@ class ActivityStatusWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Heart Rate",
+                'Heart Rate',
                 style: theme.textTheme.titleMedium!.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
-                "78 BPM",
+                '78 BPM',
                 style: theme.textTheme.titleMedium!.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -149,8 +149,8 @@ class ActivityStatusWidget extends StatelessWidget {
             show: true,
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF92A3FD).withOpacity(0.3),
-                const Color(0xFF9DCEFF).withOpacity(0.1),
+                const Color(0xFF92A3FD).withValues(alpha: 0.3),
+                const Color(0xFF9DCEFF).withValues(alpha: 0.1),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -162,7 +162,7 @@ class ActivityStatusWidget extends StatelessWidget {
       lineTouchData: LineTouchData(
         enabled: true,
         touchTooltipData: LineTouchTooltipData(
-          getTooltipColor: (_) => Colors.white.withOpacity(0.9),
+          getTooltipColor: (_) => Colors.white.withValues(alpha: 0.9),
           tooltipPadding: const EdgeInsets.all(8),
           tooltipBorderRadius: BorderRadius.circular(9),
           getTooltipItems: (List<LineBarSpot> touchedSpots) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../service/auth_service.dart';
-import '../../button_navigation_bar/button_navigation_bar.dart';
+import '../../choosing_goal/choosing_goal.dart';
 
 class LoginController extends ChangeNotifier {
   // Form keys for login and password reset forms
@@ -35,7 +35,7 @@ class LoginController extends ChangeNotifier {
         false) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => ButtonNavigation()), (Route<dynamic> route) => false
+        MaterialPageRoute(builder: (context) => ChoosingGoal()), (Route<dynamic> route) => false
       );
 
     }

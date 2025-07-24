@@ -1,9 +1,8 @@
+// ignore: file_names
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitness/core/featuers/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../button_navigation_bar/button_navigation_bar.dart';
-
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});
 
@@ -14,22 +13,22 @@ class CarouselSliderWidget extends StatefulWidget {
 class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
   final List<Map<String, String>> views = [
     {
-      "title": "Improve Shape",
-      "description":
-          "I have a low amount of body fat and need / want to build more muscle",
-      "image_source": "lib/assets/goal/Person1.svg",
+      'title': 'Improve Shape',
+      'description':
+          'I have a low amount of body fat and need / want to build more muscle',
+      'image_source': 'assets/goal/Person1.svg',
     },
     {
-      "title": "Lean & Tone",
-      "description":
-          "I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way",
-      "image_source": "lib/assets/goal/Person2.svg",
+      'title': 'Lean & Tone',
+      'description':
+          'I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way',
+      'image_source': 'assets/goal/Person2.svg',
     },
     {
-      "title": "Lose",
-      "description":
-          "I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass",
-      "image_source": "lib/assets/goal/Person3.svg",
+      'title': 'Lose',
+      'description':
+          'I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass',
+      'image_source': 'assets/goal/Person3.svg',
     },
   ];
   final CarouselSliderController buttonCarouselController =
@@ -44,7 +43,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
         children: <Widget>[
           const SizedBox(height: 40),
           Text(
-            "Let’s complete your profile",
+            'Let’s complete your profile',
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.titleLarge?.copyWith(
               fontSize: 24,
@@ -53,7 +52,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
           ),
           const SizedBox(height: 5),
           Text(
-            "It will help us to know more about you!",
+            'It will help us to know more about you!',
             style: theme.textTheme.displaySmall!.copyWith(fontSize: 15),
           ),
           SizedBox(height: 50),
@@ -125,7 +124,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (BuildContext context) {
-                    return ButtonNavigation();
+                    return Login();
                   }),(Route<dynamic> route) => false);
               },
               child: Text(

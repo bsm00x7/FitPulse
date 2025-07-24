@@ -1,10 +1,10 @@
 
 // navigator_controller.dart
 import 'package:fitness/core/constant/StoregKey.dart';
+import 'package:fitness/core/featuers/login/login.dart';
 import 'package:fitness/service/preferanceManger.dart';
 import 'package:flutter/material.dart';
 
-import '../../Signup/signup.dart';
 
 
 class NavigatorController extends ChangeNotifier {
@@ -28,15 +28,15 @@ class NavigatorController extends ChangeNotifier {
     currentPage = index;
     notifyListeners();
   }
-  void navigatorSignupPage(BuildContext context) {
+  void navigatorLogin(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) =>  Signup(),
+        builder: (BuildContext context) =>  Login(),
       ),
 
     );
-    PreferenceManager().setBoll(StoregKey.FirstTime, true);
+    PreferenceManager().setBoll(StoregKey.firstTime, true);
     notifyListeners();
   }
 

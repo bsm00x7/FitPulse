@@ -29,18 +29,18 @@ class HomeController with ChangeNotifier {
   ];
   // Default intake data template
   final List<Map<String, dynamic>> intakeData = [
-    {"time": "11am - 2pm", "amount": 1000, "isActive": false, "value": 1.0},
-    {"time": "4pm - now", "amount": 900, "isActive": false, "value": 4 / 5},
-    {"time": "2pm - 4pm", "amount": 700, "isActive": false, "value": 3 / 4},
-    {"time": "6am - 8am", "amount": 600, "isActive": false, "value": 2 / 5},
-    {"time": "9am - 11am", "amount": 500, "isActive": false, "value": 1 / 5},
+    {'time': '11am - 2pm', 'amount': 1000, 'isActive': false, 'value': 1.0},
+    {'time': '4pm - now', 'amount': 900, 'isActive': false, 'value': 4 / 5},
+    {'time': '2pm - 4pm', 'amount': 700, 'isActive': false, 'value': 3 / 4},
+    {'time': '6am - 8am', 'amount': 600, 'isActive': false, 'value': 2 / 5},
+    {'time': '9am - 11am', 'amount': 500, 'isActive': false, 'value': 1 / 5},
   ];
 
   initDrinkWater()async{
     DateTime dataNow = DateTime.now();
     if(dataNow.hour>=5){
-      await PreferenceManager().remove("startWater");
-      await PreferenceManager().remove("intakeData");
+      await PreferenceManager().remove('startWater');
+      await PreferenceManager().remove('intakeData');
 
     }
   }
@@ -59,14 +59,14 @@ class HomeController with ChangeNotifier {
 
   // Save intake data to preferences
   Future<void> saveDateWater() async {
-    await PreferenceManager().setString("intakeData", jsonEncode(intakeDataNew));
-    await PreferenceManager().setDouble("startWater", startWater?? 0);
+    await PreferenceManager().setString('intakeData', jsonEncode(intakeDataNew));
+    await PreferenceManager().setDouble('startWater', startWater?? 0);
   }
 
   // Load intake data from preferences
   Future<void> loadIntakeDate() async {
-    final String? data = PreferenceManager().getString("intakeData");
-    final double? lastDrinkWater = PreferenceManager().getDouble("startWater") ?? 0;
+    final String? data = PreferenceManager().getString('intakeData');
+    final double? lastDrinkWater = PreferenceManager().getDouble('startWater') ?? 0;
     if (data != null && data.isNotEmpty ) {
       try {
         final decodedData = jsonDecode(data);
@@ -76,7 +76,7 @@ class HomeController with ChangeNotifier {
           );
         }
       } catch (e) {
-        print("Error loading intake data: $e");
+        print('Error loading intake data: $e');
         // Fallback to default data if loading fails
         intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
       }
@@ -90,18 +90,18 @@ class HomeController with ChangeNotifier {
   // Calculate BMI
   void calculateBmi() {
     if (weight == null || height == null || weight! <= 0 || height! <= 0) {
-      type = "Invalid Input";
+      type = 'Invalid Input';
       bmi = null;
     } else {
       bmi = weight! / (height! * height!);
       if (bmi! < 18.5) {
-        type = "Underweight";
+        type = 'Underweight';
       } else if (bmi! >= 18.5 && bmi! <= 24.9) {
-        type = "Normal Weight";
+        type = 'Normal Weight';
       } else if (bmi! >= 25 && bmi! <= 29.9) {
-        type = "Overweight";
+        type = 'Overweight';
       } else {
-        type = "Obese";
+        type = 'Obese';
       }
     }
     notifyListeners();
@@ -111,33 +111,33 @@ class HomeController with ChangeNotifier {
   void updateWater(int size) {
     // Reset all active states
     for (var item in intakeDataNew) {
-      item["isActive"] = false;
+      item['isActive'] = false;
     }
 
     // Set active states based on size
     if (size == 500) {
-      intakeDataNew[4]["isActive"] = true;
-      startWater = intakeDataNew[4]["value"];
+      intakeDataNew[4]['isActive'] = true;
+      startWater = intakeDataNew[4]['value'];
     } else if (size == 600) {
-      intakeDataNew[4]["isActive"] = true;
-      intakeDataNew[3]["isActive"] = true;
-      startWater = intakeDataNew[3]["value"];
+      intakeDataNew[4]['isActive'] = true;
+      intakeDataNew[3]['isActive'] = true;
+      startWater = intakeDataNew[3]['value'];
     } else if (size == 700) {
-      intakeDataNew[4]["isActive"] = true;
-      intakeDataNew[3]["isActive"] = true;
-      intakeDataNew[2]["isActive"] = true;
-      startWater = intakeDataNew[2]["value"];
+      intakeDataNew[4]['isActive'] = true;
+      intakeDataNew[3]['isActive'] = true;
+      intakeDataNew[2]['isActive'] = true;
+      startWater = intakeDataNew[2]['value'];
     } else if (size == 900) {
-      intakeDataNew[4]["isActive"] = true;
-      intakeDataNew[3]["isActive"] = true;
-      intakeDataNew[2]["isActive"] = true;
-      intakeDataNew[1]["isActive"] = true;
-      startWater = intakeDataNew[1]["value"];
+      intakeDataNew[4]['isActive'] = true;
+      intakeDataNew[3]['isActive'] = true;
+      intakeDataNew[2]['isActive'] = true;
+      intakeDataNew[1]['isActive'] = true;
+      startWater = intakeDataNew[1]['value'];
     } else if (size == 1000) {
       for (var item in intakeDataNew) {
-        item["isActive"] = true;
+        item['isActive'] = true;
       }
-      startWater = intakeDataNew[0]["value"];
+      startWater = intakeDataNew[0]['value'];
     }
     saveDateWater(); // Persist changes
     notifyListeners();

@@ -9,7 +9,6 @@ class Signup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Build Widget");
     final theme = Theme.of(context);
     return ChangeNotifierProvider(
       create: (BuildContext context) => SignupController(),
@@ -25,14 +24,14 @@ class Signup extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Hey there,",
+                        'Hey there,',
                         style: theme.textTheme.displayMedium?.copyWith(
                           fontWeight: FontWeight.w400,
                         ),
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        "Create an Account",
+                        'Create an Account',
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
@@ -40,7 +39,7 @@ class Signup extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       TextFormFieldWidget(
-                        source: 'lib/assets/signup/Profile.svg',
+                        source: 'assets/signup/Profile.svg',
                         hint: 'First Name',
                         controller: value.firstname,
                         errorValidator: 'Please enter Your First Name',
@@ -49,7 +48,7 @@ class Signup extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       TextFormFieldWidget(
-                        source: 'lib/assets/signup/Profile.svg',
+                        source: 'assets/signup/Profile.svg',
                         hint: 'Last Name',
                         controller: value.lastname,
                         errorValidator: 'Please enter Your Last Name',
@@ -58,7 +57,7 @@ class Signup extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       TextFormFieldWidget(
-                        source: 'lib/assets/login/email.svg',
+                        source: 'assets/login/email.svg',
                         hint: 'Email',
                         controller: value.emailController,
                         errorValidator: 'Please enter a valid email',
@@ -70,7 +69,7 @@ class Signup extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         children: [
                           TextFormFieldWidget(
-                            source: 'lib/assets/login/Lock.svg',
+                            source: 'assets/login/Lock.svg',
                             hint: 'Password',
                             controller: value.passwordController,
                             errorValidator: 'Please enter your password',
@@ -84,8 +83,8 @@ class Signup extends StatelessWidget {
                               onTap: value.togglePasswordVisibility,
                               child: SvgPicture.asset(
                                 value.isPasswordVisible
-                                    ? 'lib/assets/login/Show-Password.svg'
-                                    : 'lib/assets/login/Hide-Password.svg',
+                                    ? 'assets/login/Show-Password.svg'
+                                    : 'assets/login/Hide-Password.svg',
                                 width: 18,
                                 height: 18,
                               ),
@@ -115,7 +114,7 @@ class Signup extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "By continuing you accept our Privacy Policy and \nTerm of Use",
+                            'By continuing you accept our Privacy Policy and \nTerm of Use',
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.displaySmall,
                           ),
@@ -125,7 +124,7 @@ class Signup extends StatelessWidget {
                       ElevatedButton(
                         onPressed: (){ context.read<SignupController>().register( context: context);},
                         child: Text(
-                          "Register",
+                          'Register',
                           style: theme.textTheme.headlineSmall!.copyWith(
                             color: Colors.white,
                           ),
@@ -143,7 +142,7 @@ class Signup extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
-                              "Or",
+                              'Or',
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -165,7 +164,7 @@ class Signup extends StatelessWidget {
                         children: [
                           _buildSocialButton(
                             context,
-                            asset: 'lib/assets/login/google-logo.svg',
+                            asset: 'assets/login/google-logo.svg',
                             onPressed: () {
                               // Implement Google login
                             },
@@ -173,7 +172,7 @@ class Signup extends StatelessWidget {
                           const SizedBox(width: 20),
                           _buildSocialButton(
                             context,
-                            asset: 'lib/assets/login/facebook 1.svg',
+                            asset: 'assets/login/facebook 1.svg',
                             onPressed: () {
                               // Implement Facebook login
                             },
@@ -187,14 +186,14 @@ class Signup extends StatelessWidget {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: "Already have an account? ",
+                                text: 'Already have an account? ',
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   fontSize: 15,
                                   color: theme.colorScheme.onSurface,
                                 ),
                               ),
                               TextSpan(
-                                text: "Login",
+                                text: 'Login',
                                 style: theme.textTheme.headlineSmall
                                     ?.copyWith(
                                   fontSize: 15,

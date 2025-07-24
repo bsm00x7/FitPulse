@@ -42,9 +42,9 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              "lib/assets/button_navigation/Home.svg",
+              'assets/button_navigation/Home.svg',
               colorFilter: ColorFilter.mode(
-                _currentIndex == 0 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withOpacity(0.6),
+                _currentIndex == 0 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 BlendMode.srcIn,
               ),
             ),
@@ -52,9 +52,9 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              "lib/assets/button_navigation/Activity.svg",
+              'assets/button_navigation/Activity.svg',
               colorFilter: ColorFilter.mode(
-                _currentIndex == 1 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withOpacity(0.6),
+                _currentIndex == 1 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 BlendMode.srcIn,
               ),
             ),
@@ -62,9 +62,9 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              "lib/assets/button_navigation/Search.svg",
+              'assets/button_navigation/Search.svg',
               colorFilter: ColorFilter.mode(
-                _currentIndex == 2 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withOpacity(0.6),
+                _currentIndex == 2 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 BlendMode.srcIn,
               ),
             ),
@@ -72,9 +72,9 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              "lib/assets/button_navigation/Profile.svg",
+              'assets/button_navigation/Profile.svg',
               colorFilter: ColorFilter.mode(
-                _currentIndex == 3 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withOpacity(0.6),
+                _currentIndex == 3 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 BlendMode.srcIn,
               ),
             ),

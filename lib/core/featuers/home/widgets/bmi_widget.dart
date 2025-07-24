@@ -48,7 +48,7 @@ class BmiWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "BMI (Body Mass Index)",
+                        'BMI (Body Mass Index)',
                         style: theme.textTheme.titleMedium!.copyWith(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -63,7 +63,7 @@ class BmiWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(  "Normal Weight" ,
+                      Text(  'Normal Weight' ,
                         style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
                           color: theme.colorScheme.primaryContainer,
@@ -114,7 +114,7 @@ class BmiWidget extends StatelessWidget {
           ],
         ),
         child: Text(
-          "Calculate BMI",
+          'Calculate BMI',
           style: theme.textTheme.titleSmall!.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w600,
@@ -138,7 +138,7 @@ class BmiWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "BMI Details",
+                'BMI Details',
                 style: theme.textTheme.titleMedium!.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -146,7 +146,7 @@ class BmiWidget extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                "Your BMI: 21.0 (Normal)",
+                'Your BMI: 21.0 (Normal)',
                 style: theme.textTheme.bodyMedium!.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -155,7 +155,7 @@ class BmiWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                "18.5–24.9: Normal weight range",
+                '18.5–24.9: Normal weight range',
                 style: theme.textTheme.bodySmall!.copyWith(
                   fontSize: 14,
                   color: Colors.grey[600],
@@ -165,7 +165,7 @@ class BmiWidget extends StatelessWidget {
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
-                  "Close",
+                  'Close',
                   style: theme.textTheme.titleSmall!.copyWith(
                     fontSize: 14,
                     color: theme.colorScheme.primary,
@@ -258,7 +258,7 @@ class _BmiProgressIndicatorState extends State<_BmiProgressIndicator> with Singl
             ),
             // BMI Value
             Text(
-              "${(_animation.value * 100).toInt()}",
+              '${(_animation.value * 100).toInt()}',
               style: widget.theme.textTheme.titleMedium!.copyWith(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,

@@ -26,15 +26,15 @@ class ForgotYourPassword extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Reset Password",
+                  'Reset Password',
                   style: theme.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 20),
                 TextFormFieldWidget(
-                  source: 'lib/assets/login/email.svg',
-                  hint: "Email",
+                  source: 'assets/login/email.svg',
+                  hint: 'Email',
                   controller: loginController.resetPasswordController,
-                  errorValidator: "Please enter a valid email",
+                  errorValidator: 'Please enter a valid email',
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                   validator: (value) {
@@ -61,7 +61,7 @@ class ForgotYourPassword extends StatelessWidget {
 
                   },
                   child:  Text(
-                    "Send Reset Link",
+                    'Send Reset Link',
                     style: theme.textTheme.labelLarge?.copyWith(
                       color: theme.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
