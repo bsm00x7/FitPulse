@@ -6,4 +6,7 @@ class AppColor{
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
+  static const colorPurple= Color(0xffC58BF2);
+  static const colorBlue               =Color(0xff92A3FD);
+  static const contentColorWhite = Color(0xffffffff);
 }

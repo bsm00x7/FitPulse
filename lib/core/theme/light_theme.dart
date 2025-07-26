@@ -5,17 +5,12 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xffF7F8F8),
   // Set Poppins as the default font family for the entire app
   fontFamily: 'Poppins',
-  appBarTheme: AppBarTheme(
-      centerTitle: true,
-
-  ),
+  appBarTheme: AppBarTheme(centerTitle: true),
   // Configure the theme for ElevatedButton widgets
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       minimumSize: const Size(double.infinity, 55),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       backgroundColor: Color(0xFF1D1617),
       foregroundColor: Color(0xFFFFFFFF),
     ),
@@ -34,11 +29,13 @@ ThemeData lightTheme = ThemeData(
   // Define the color scheme for the light theme
   colorScheme: const ColorScheme.light(
     primary: Color(0xFF1D1617),
-    onPrimary: Color(0xFFFFFFFF),// Dark gray for text and backgrounds
-    secondary: Color(0xFF86A8E7), // Soft blue for accents
-    onSecondary:   Color(0xffC58BF2),
+    onPrimary: Color(0xFFFFFFFF),
+    // Dark gray for text and backgrounds
+    secondary: Color(0xFF86A8E7),
+    // Soft blue for accents
+    onSecondary: Color(0xffC58BF2),
     surface: Color(0xFFFFFFFF),
-    primaryContainer: Color(0xff92A3FD)
+    primaryContainer: Color(0xff92A3FD),
     // White for cards and containers
   ),
 
@@ -47,7 +44,7 @@ ThemeData lightTheme = ThemeData(
     labelSmall: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      color: Colors.white
+      color: Colors.white,
     ),
     // Small headline style, typically for smaller headings
     headlineSmall: TextStyle(
