@@ -1,6 +1,8 @@
-import 'package:fitness/core/featuers/home/controller/home_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../controller/home_controller.dart';
 
 class BmiWidget extends StatelessWidget {
   const BmiWidget({

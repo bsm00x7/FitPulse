@@ -1,11 +1,12 @@
-import 'package:fitness/core/featuers/Signup/signup.dart';
-import 'package:fitness/core/featuers/login/forgotpassword/forgot_your_password.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widget/TextFormField.dart';
+import '../Signup/signup.dart';
 import 'controller/login_page_controller.dart';
+import 'forgotpassword/forgot_your_password.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});

@@ -1,9 +1,10 @@
-import 'package:fitness/core/featuers/home/controller/home_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../activity/activity.dart';
+import '../home/controller/home_controller.dart';
 import '../home/home.dart';
 import '../profile/profile.dart';
 import '../search/search.dart';

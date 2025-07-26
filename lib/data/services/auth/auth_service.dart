@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/featuers/complete/complete.dart';
+import '../../../core/features/complete/complete.dart';
+
+
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;

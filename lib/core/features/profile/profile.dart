@@ -1,8 +1,10 @@
-import 'package:fitness/core/featuers/profile/controlles/controller.dart';
-import 'package:fitness/core/featuers/profile/widgets/box.dart';
+
+import 'package:fitness/core/features/profile/widgets/box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
+import 'controlles/controller.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});

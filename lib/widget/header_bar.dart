@@ -1,6 +1,9 @@
-import 'package:fitness/core/featuers/home/widgets/boxIcons.dart';
+
 import 'package:flutter/material.dart';
-import '../core/featuers/button_navigation_bar/button_navigation_bar.dart';
+
+import '../core/features/button_navigation_bar/button_navigation_bar.dart';
+import '../core/features/home/widgets/boxIcons.dart';
+
 
 class HeaderBar extends StatelessWidget {
   const HeaderBar({

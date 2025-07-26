@@ -1,10 +1,11 @@
 
 // navigator_controller.dart
-import 'package:fitness/core/featuers/login/login.dart';
+
 import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant/storeg_key.dart';
+import '../../login/login.dart';
 
 
 

@@ -1,13 +1,15 @@
 import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
-import 'package:fitness/core/featuers/home/controller/home_controller.dart';
-import 'package:fitness/core/featuers/home/widgets/activity_status_widget.dart';
-import 'package:fitness/core/featuers/home/widgets/app_bar.dart';
-import 'package:fitness/core/featuers/home/widgets/bmi_widget.dart';
-import 'package:fitness/core/featuers/home/widgets/target_today.dart';
+import 'package:fitness/core/features/home/widgets/activity_status_widget.dart';
+import 'package:fitness/core/features/home/widgets/app_bar.dart';
+import 'package:fitness/core/features/home/widgets/bmi_widget.dart';
+import 'package:fitness/core/features/home/widgets/target_today.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
+
+import 'controller/home_controller.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
