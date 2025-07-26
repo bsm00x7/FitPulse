@@ -2,13 +2,16 @@
 
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
-import '../featuers/complete/complete.dart';
+
+import '../../../core/featuers/complete/complete.dart';
+
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // Getters
-  User? getUser() {
-    return _auth.currentUser;
+  String? getUser() {
+    return _auth.currentUser?.uid;
   }
 
   Stream<User?> authStateChanges() {
@@ -25,7 +28,6 @@ class AuthService with ChangeNotifier {
       return true;
     } on FirebaseAuthException catch (e) {
       String errorMessage;
-      print("This is problem ${e.code}");
       switch (e.code) {
         case 'user-not-found':
           errorMessage = 'No user found for that email.';
@@ -60,9 +62,12 @@ class AuthService with ChangeNotifier {
 
   signOut(BuildContext context) {
     _auth.signOut();
+    notifyListeners();
   }
 
   register({
+    required String username,
+    required String lastname,
     required String email,
     required String password,
     required BuildContext context,
@@ -74,6 +79,8 @@ class AuthService with ChangeNotifier {
         password: password,
       );
       if (user.user != null) {
+        PreferenceManager().setString('username', username);
+        PreferenceManager().setString('lastname', lastname);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Complete()),

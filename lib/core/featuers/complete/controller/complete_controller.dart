@@ -1,20 +1,24 @@
-
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Added for DateFormat
 import 'package:provider/provider.dart'; // Added for Provider
-import '../../../service/auth_service.dart';
-import '../../../service/store_user_information.dart';
+import '../../../../data/services/auth/auth_service.dart';
+import '../../../../data/services/store_user_information.dart';
+import '../../../../service/preference_manager.dart';
 import '../../choosing_goal/choosing_goal.dart';
-
 
 class CompleteController with ChangeNotifier {
   final GlobalKey<FormState> key = GlobalKey<FormState>();
-  final TextEditingController gender = TextEditingController();
+  String? selectedGender;
   final TextEditingController birth = TextEditingController();
   final TextEditingController weight = TextEditingController();
   final TextEditingController height = TextEditingController();
+  
+  void setGender(String gender) {
+    selectedGender = gender;
+    notifyListeners();
+  }
 
   Future<void> pickDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -31,22 +35,34 @@ class CompleteController with ChangeNotifier {
   Future<void> nextComplete(BuildContext context) async {
     final user = Provider.of<AuthService>(context, listen: false).getUser();
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No user logged in')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('No user logged in')));
       return;
     }
 
-    if (key.currentState!.validate() && birth.text.isNotEmpty) {
+    if (key.currentState!.validate() && birth.text.isNotEmpty && selectedGender != null) {
       try {
-        final firestoreService = Provider.of<FirestoreService>(context, listen: false);
-        final birthDate = DateTime.parse(birth.text); // Parse string to DateTime
-        final weightValue = double.parse(weight.text.trim()); // Parse string to double
-        final heightValue = double.parse(height.text.trim()); // Parse string to double
-
+        final firestoreService = Provider.of<FirestoreService>(
+          context,
+          listen: false,
+        );
+        final birthDate = DateTime.parse(
+          birth.text,
+        ); // Parse string to DateTime
+        final weightValue = double.parse(
+          weight.text.trim(),
+        ); // Parse string to double
+        final heightValue = double.parse(
+          height.text.trim(),
+        ); // Parse string to double
+        final String?  userName = PreferenceManager().getString('username');
+        final String? lastName = PreferenceManager().getString('lastname');
         await firestoreService.saveUserDetails(
-          user.uid,
-          gender.text.trim(),
+          user,
+          userName!,
+          lastName!,
+          selectedGender!,
           birthDate,
           weightValue,
           heightValue,
@@ -56,9 +72,9 @@ class CompleteController with ChangeNotifier {
           MaterialPageRoute(builder: (context) => ChoosingGoal()),
         );
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save details: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to save details: $e')));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -69,7 +85,6 @@ class CompleteController with ChangeNotifier {
 
   @override
   void dispose() {
-    gender.dispose();
     birth.dispose();
     weight.dispose();
     height.dispose();

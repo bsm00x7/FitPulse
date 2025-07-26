@@ -4,10 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../widget/TextFormFild.dart';
+import '../../../widget/TextFormField.dart';
 class Complete extends StatelessWidget {
   const Complete({super.key});
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -60,13 +59,49 @@ class Complete extends StatelessWidget {
                             child: Column(
                               children: [
                                 const SizedBox(height: 16),
-                                TextFormFieldWidget(
-                                  source: 'assets/complete/2 User.svg',
-                                  hint: 'Choose Gender',
-                                  controller: value.gender,
-                                  errorValidator: 'Please enter Your First Name',
-                                  keyboardType: TextInputType.emailAddress,
-                                  obscureText: false,
+                                DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: const Color(0xFFF7F8F8),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      child: SvgPicture.asset(
+                                        'assets/complete/2 User.svg',
+                                        width: 18,
+                                        height: 18,
+                                        colorFilter: ColorFilter.mode(
+                                          theme.iconTheme.color ?? Colors.grey,
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
+                                    ),
+                                    hintText: 'Choose Gender',
+                                    hintStyle: theme.textTheme.bodyMedium
+                                        ?.copyWith(color: Colors.grey),
+                                  ),
+                                  value: value.selectedGender,
+                                  onChanged: (String? newValue) {
+                                    value.setGender(newValue!);
+                                  },
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select your gender';
+                                    }
+                                    return null;
+                                  },
+                                  items: <String>['Male', 'Female', 'Other']
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
                                 ),
                                 const SizedBox(height: 16),
                                 TextFormField(
@@ -75,6 +110,7 @@ class Complete extends StatelessWidget {
                                     if (value == null || value.trim().isEmpty) {
                                       return 'Please Take Your Birth Day';
                                     }
+                                    return null;
                                   },
 
                                   readOnly: true,

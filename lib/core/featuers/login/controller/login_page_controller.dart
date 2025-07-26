@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../service/auth_service.dart';
+import '../../../../data/services/auth/auth_service.dart';
 import '../../choosing_goal/choosing_goal.dart';
 
 class LoginController extends ChangeNotifier {

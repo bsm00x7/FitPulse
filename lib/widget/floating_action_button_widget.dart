@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 
 class FloatingActionButtonWidget extends StatelessWidget {
-
-   FloatingActionButtonWidget({super.key , required this.onPressed , required this.textlabel});
-  Function onPressed;
-  String? textlabel ;
+   const FloatingActionButtonWidget({super.key , required this.onPressed , required this.textLabel});
+  final void Function() onPressed;
+  final String? textLabel;
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
@@ -14,7 +13,7 @@ class FloatingActionButtonWidget extends StatelessWidget {
       backgroundColor: Colors.transparent, // Make FAB transparent to show gradient
       elevation: 0, // Optional: remove shadow for a flatter look
       label: Text(
-          textlabel!,
+          textLabel!,
           style: Theme.of(context).textTheme.displayMedium
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:fitness/core/featuers/choosing_goal/compoenent/CarsouelSlider.dart';
+import 'package:fitness/core/featuers/choosing_goal/compoenent/CarouselSlider.dart';
 import 'package:flutter/material.dart';
 class ChoosingGoal extends StatelessWidget {
    const ChoosingGoal({super.key});

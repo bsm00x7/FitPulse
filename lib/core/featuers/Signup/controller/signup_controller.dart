@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import '../../../service/auth_service.dart';
 
+import '../../../../data/services/auth/auth_service.dart';
 class SignupController extends ChangeNotifier {
   bool isPasswordVisible = true;
   bool isChecked = false;
@@ -25,7 +25,7 @@ class SignupController extends ChangeNotifier {
 
    void register ({ required BuildContext context}){
 
-     AuthService().register(email: emailController.text.trim(), password: passwordController.text, context: context);
+     AuthService().register(email: emailController.text.trim(), password: passwordController.text, context: context, username:firstname.text , lastname: lastname.text);
    }
 
 }

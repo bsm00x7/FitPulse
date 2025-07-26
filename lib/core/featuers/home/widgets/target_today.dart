@@ -50,14 +50,14 @@ class _TodayTargetWidgetState extends State<TodayTargetWidget> with SingleTicker
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Today Target",
+                'Today Target',
                 style: widget.theme.textTheme.titleMedium!.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                   shadows: [
                     Shadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 2,
                       offset: const Offset(0, 1),
                     ),
@@ -96,13 +96,13 @@ class _TodayTargetWidgetState extends State<TodayTargetWidget> with SingleTicker
             ],
           ),
           child: Text(
-            "Check",
+            'Check',
             style: widget.theme.textTheme.titleSmall!.copyWith(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF92A3FD),
             ),
-            semanticsLabel: "Check Today Target",
+            semanticsLabel: 'Check Today Target',
           ),
         ),
       ),

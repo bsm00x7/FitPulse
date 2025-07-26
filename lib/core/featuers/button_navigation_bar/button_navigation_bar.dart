@@ -15,9 +15,22 @@ class ButtonNavigation extends StatefulWidget {
   State<ButtonNavigation> createState() => _ButtonNavigationState();
 }
 class _ButtonNavigationState extends State<ButtonNavigation> {
-  final List<Widget> pages = [ ChangeNotifierProvider(create: (BuildContext context) => HomeController()..init(),
-  child: Home()),  Activity(),  Search(),  Profile()];
+  final List<Widget> pages = [
+    Home(),
+    Activity(),
+    Search(),
+    Profile()
+  ];
   int _currentIndex = 0;
+  
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the HomeController when the navigation bar is created
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<HomeController>(context, listen: false).init();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

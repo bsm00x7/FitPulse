@@ -43,10 +43,10 @@ class Home extends StatelessWidget {
           BMI = 70 / (1.75 × 1.75) = 70 / 3.0625 ≈ 22.86
           Categories (for reference):
             Below 18.5: Underweight
-      18.5–24.9: Normal weight
-                  25–29.9: Overweight
-      30 and above: Obesity
-      Let me know if you need help with specific values!
+             18.5–24.9: Normal weight
+             25–29.9: Overweight
+             30 and above: Obesity
+             Let me know if you need help with specific values!
 
 
 
@@ -84,7 +84,7 @@ class Home extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        child: Container(
+                        child: SizedBox(
                           height: 300,
                           width: size.width,
 

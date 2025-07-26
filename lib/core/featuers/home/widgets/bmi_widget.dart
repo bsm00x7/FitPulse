@@ -16,10 +16,9 @@ class BmiWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeController>(
       builder: (BuildContext context, HomeController value, Widget? child) {
-        return  GestureDetector(
+        return GestureDetector(
           onTap: () {
-            // Show BMI details or navigate to calculator
-            _showBmiDetails(context);
+            _showBmiDetails(context, value);
           },
           child: Container(
             height: 180,
@@ -41,7 +40,6 @@ class BmiWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // BMI Information
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +61,8 @@ class BmiWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(  'Normal Weight' ,
+                      Text(
+                        value.type ?? 'Not Calculated',
                         style: theme.textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
                           color: theme.colorScheme.primaryContainer,
@@ -75,9 +74,8 @@ class BmiWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                // BMI Progress Indicator
                 _BmiProgressIndicator(
-                  value: 0.21, // Represents 21 BMI (scaled to 0-1 for progress)
+                  value: value.bmi ?? 0.0, // Ensure null safety
                   size: size,
                   theme: theme,
                 ),
@@ -86,16 +84,16 @@ class BmiWidget extends StatelessWidget {
           ),
         );
       },
-
     );
   }
 
   Widget _buildCalculateButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-       context.read<HomeController>().calculateBmi();
-
+        // Stop propagation to prevent triggering parent GestureDetector
+        context.read<HomeController>().calculateBmi();
       },
+      behavior: HitTestBehavior.opaque, // Ensure button captures taps
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
@@ -125,7 +123,7 @@ class BmiWidget extends StatelessWidget {
     );
   }
 
-  void _showBmiDetails(BuildContext context) {
+  void _showBmiDetails(BuildContext context, HomeController controller) {
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -146,7 +144,9 @@ class BmiWidget extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Your BMI: 21.0 (Normal)',
+                controller.bmi != null
+                    ? 'Your BMI: ${controller.bmi!.toStringAsFixed(1)} (${controller.type ?? 'Unknown'})'
+                    : 'BMI: Not Calculated',
                 style: theme.textTheme.bodyMedium!.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -195,7 +195,8 @@ class _BmiProgressIndicator extends StatefulWidget {
   State<_BmiProgressIndicator> createState() => _BmiProgressIndicatorState();
 }
 
-class _BmiProgressIndicatorState extends State<_BmiProgressIndicator> with SingleTickerProviderStateMixin {
+class _BmiProgressIndicatorState extends State<_BmiProgressIndicator>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -206,10 +207,37 @@ class _BmiProgressIndicatorState extends State<_BmiProgressIndicator> with Singl
       vsync: this,
       duration: const Duration(seconds: 2),
     );
-    _animation = Tween<double>(begin: 0, end: widget.value).animate(
+    // Scale BMI (15–40 range) to 0–1, ensuring valid range
+    final double scaledValue = widget.value > 0
+        ? ((widget.value.clamp(15.0, 40.0) - 15.0) / (40.0 - 15.0))
+        : 0.0;
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: scaledValue,
+    ).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
     _controller.forward();
+  }
+
+  @override
+  void didUpdateWidget(_BmiProgressIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      // Update animation when BMI value changes
+      final double scaledValue = widget.value > 0
+          ? ((widget.value.clamp(15.0, 40.0) - 15.0) / (40.0 - 15.0))
+          : 0.0;
+      _animation = Tween<double>(
+        begin: _animation.value,
+        end: scaledValue,
+      ).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      );
+      _controller
+        ..reset()
+        ..forward();
+    }
   }
 
   @override
@@ -241,7 +269,6 @@ class _BmiProgressIndicatorState extends State<_BmiProgressIndicator> with Singl
                 semanticsValue: '${(_animation.value * 100).toInt()}%',
               ),
             ),
-            // Custom gradient arc
             SizedBox(
               width: 100,
               height: 100,
@@ -256,9 +283,8 @@ class _BmiProgressIndicatorState extends State<_BmiProgressIndicator> with Singl
                 ),
               ),
             ),
-            // BMI Value
             Text(
-              '${(_animation.value * 100).toInt()}',
+              widget.value > 0 ? widget.value.toStringAsFixed(1) : 'N/A',
               style: widget.theme.textTheme.titleMedium!.copyWith(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
@@ -296,7 +322,7 @@ class _GradientArcPainter extends CustomPainter {
     canvas.drawArc(
       rect,
       -90 * (3.14159 / 180),
-      2 * 3.14159 * progress,
+      2 * 3.14159 * progress.clamp(0.0, 1.0), // Ensure progress is valid
       false,
       paint,
     );

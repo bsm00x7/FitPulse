@@ -1,11 +1,12 @@
+import 'package:fitness/core/featuers/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+
+import '../natification_app_bar.dart';
 
 class AppBarWidget extends StatelessWidget {
-  const AppBarWidget({
-    super.key,
-    required this.theme,
-  });
+  const AppBarWidget({super.key, required this.theme});
 
   final ThemeData theme;
 
@@ -18,15 +19,22 @@ class AppBarWidget extends StatelessWidget {
           children: [
             Text('Welcome Back,', style: theme.textTheme.displaySmall),
             // ! TO DO GET USER NAME OF DATE BASE [ LOCAL , SERVER]
-            Text(
-              'Bassem Naser',
-              style: theme.textTheme.titleMedium!.copyWith(fontSize: 20),
+            Selector<HomeController , String>(
+              selector: (BuildContext , user ) => user.username!,
+              builder: (BuildContext context,  username, Widget? child) {
+                return Text('$username ',
+                  style: theme.textTheme.titleMedium!.copyWith(fontSize: 20),
+                );
+              }, 
             ),
           ],
         ),
         // ! Add sheet button[ draggable]
         InkWell(
-          onTap: (){},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_)=>Notifications()));
+            
+          },
           child: Hero(
             tag: 'bell',
             child: CircleAvatar(

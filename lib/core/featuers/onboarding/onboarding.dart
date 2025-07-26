@@ -42,15 +42,14 @@ final List<Map<String, String>> listpage = [
 class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
-    print('Build');
     return SafeArea(
       child: Scaffold(
         floatingActionButton: Stack(
           alignment: Alignment.center,
           children: [
-            Selector<NavigatorController , int>(
-                selector: (BuildContext , NavigatorController) {
-                  return NavigatorController.currentPage;
+            Selector<NavigatorController, int>(
+                selector: (BuildContext context, NavigatorController controller) {
+                  return controller.currentPage;
                 },
                 builder: (BuildContext context,  value, Widget? child) {
                   return Transform.rotate(
@@ -65,7 +64,7 @@ class _OnBoardingState extends State<OnBoarding> {
                             : value / 4 + 0.25,
                         color: Theme.of(context).colorScheme.secondary,
                         backgroundColor:
-                        Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
+                        Theme.of(context).colorScheme.secondary.withAlpha(51),
                       ),
                     ),
                   );
@@ -99,7 +98,7 @@ class _OnBoardingState extends State<OnBoarding> {
           children: [
             Expanded(
               child: Selector<NavigatorController,NavigatorController>(
-                selector: (BuildContext, controller ) =>controller,
+                selector: (BuildContext context, NavigatorController controller) => controller,
                 builder: (BuildContext context, value, Widget? child) {
                   return  PageView.builder(
                     controller:value.pageController,

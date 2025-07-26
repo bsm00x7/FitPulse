@@ -1,9 +1,10 @@
 
 // navigator_controller.dart
-import 'package:fitness/core/constant/StoregKey.dart';
 import 'package:fitness/core/featuers/login/login.dart';
-import 'package:fitness/service/preferanceManger.dart';
+import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
+
+import '../../../constant/storeg_key.dart';
 
 
 
@@ -36,7 +37,7 @@ class NavigatorController extends ChangeNotifier {
       ),
 
     );
-    PreferenceManager().setBoll(StoregKey.firstTime, true);
+    PreferenceManager().setBool(StoregKey.firstTime, true);
     notifyListeners();
   }
 

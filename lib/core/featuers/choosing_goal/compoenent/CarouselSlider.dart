@@ -1,8 +1,9 @@
 // ignore: file_names
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fitness/core/featuers/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../button_navigation_bar/button_navigation_bar.dart';
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});
 
@@ -124,7 +125,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (BuildContext context) {
-                    return Login();
+                    return ButtonNavigation();
                   }),(Route<dynamic> route) => false);
               },
               child: Text(
