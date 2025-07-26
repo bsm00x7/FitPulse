@@ -6,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class BarChartProgress extends StatefulWidget {
-  BarChartProgress({super.key});
+  const BarChartProgress({super.key});
 
   static const List<Color> availableColors = [
     AppColor.colorBlue,
@@ -42,25 +42,24 @@ class _BarChartProgressState extends State<BarChartProgress> {
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 24),
-                  Expanded(
-                    child: BarChart(
-                      isPlaying ? randomData() : mainBarData(),
-                      duration: animDuration,
-                      curve: Curves.easeInOutCubic,
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 24),
+              Expanded(
+                // Use RepaintBoundary to optimize rendering performance
+                child: RepaintBoundary(
+                  child: BarChart(
+                    isPlaying ? randomData() : mainBarData(),
+                    duration: animDuration,
+                    curve: Curves.easeInOutCubic,
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -186,7 +185,10 @@ class _BarChartProgressState extends State<BarChartProgress> {
     );
   }
 
-  BarChartData randomData() {
+  // Memoize the random data to avoid unnecessary recalculations
+  late final BarChartData _cachedRandomData = _generateRandomData();
+  
+  BarChartData _generateRandomData() {
     return BarChartData(
       barTouchData: const BarTouchData(enabled: false),
       titlesData: mainBarData().titlesData,
@@ -197,12 +199,16 @@ class _BarChartProgressState extends State<BarChartProgress> {
         return makeGroupData(
           i,
           randomValue,
-          barColor: BarChartProgress.availableColors[Random().nextInt(BarChartProgress.availableColors.length)],
+          barColor: BarChartProgress.availableColors[i % BarChartProgress.availableColors.length],
         );
       }),
       gridData: mainBarData().gridData,
       maxY: 20,
     );
+  }
+  
+  BarChartData randomData() {
+    return _cachedRandomData;
   }
 
   // FIXED: The getTitlesWidget callback should return the widget directly.

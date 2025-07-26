@@ -1,7 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class ActivityStatusWidget extends StatelessWidget {
+
+
+class ActivityStatusWidget extends StatefulWidget {
   const ActivityStatusWidget({
     super.key,
     required this.size,
@@ -12,12 +14,17 @@ class ActivityStatusWidget extends StatelessWidget {
   final List<FlSpot> heartRateData;
 
   @override
+  State<ActivityStatusWidget> createState() => _ActivityStatusWidgetState();
+}
+
+class _ActivityStatusWidgetState extends State<ActivityStatusWidget> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Container(
       height: 200,
-      width: size.width,
+      width: widget.size.width,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -127,7 +134,7 @@ class ActivityStatusWidget extends StatelessWidget {
       // Line chart data
       lineBarsData: [
         LineChartBarData(
-          spots: heartRateData,
+          spots: widget.heartRateData,
           isCurved: true,
           color: const Color(0xFF92A3FD),
           gradient: const LinearGradient(

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import 'controlles/controller.dart';
 
+import 'controller/controller.dart';
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
@@ -96,7 +96,7 @@ class Profile extends StatelessWidget {
                     title: Text('Personal Data'),
                     trailing: SvgPicture.asset('assets/profile/Icon-Arrow.svg'),
                   ),
-                  Divider(color: Colors.grey.withValues(alpha: 0.2)),
+                  Divider(color: Colors.grey.withValues( alpha:  0.2)),
                   ListTile(
                     leading: SvgPicture.asset(
                       'assets/profile/Icon-Achievement.svg',

@@ -7,7 +7,7 @@ import '../activity/activity.dart';
 import '../home/controller/home_controller.dart';
 import '../home/home.dart';
 import '../profile/profile.dart';
-import '../search/search.dart';
+import '../walking/walking_screen.dart';
 
 class ButtonNavigation extends StatefulWidget {
   const ButtonNavigation({super.key});
@@ -19,10 +19,10 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
   final List<Widget> pages = [
     Home(),
     Activity(),
-    Search(),
+    WalkingScreen(),
     Profile()
   ];
-  int _currentIndex = 0;
+  int _currentIndex = 2;
   
   @override
   void initState() {
@@ -76,13 +76,13 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/button_navigation/Search.svg',
+              'assets/button_navigation/walking.svg' ,height: 28,
               colorFilter: ColorFilter.mode(
                 _currentIndex == 2 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 BlendMode.srcIn,
               ),
             ),
-            label: 'Search',
+            label: 'Walking',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
