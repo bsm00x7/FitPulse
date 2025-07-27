@@ -14,7 +14,7 @@ class FirestoreService extends ChangeNotifier {
       notifyListeners(); // Notify UI of data changes
       return data;
     } catch (e) {
-      print('Error fetching collection data: $e');
+
       return [];
     }
   }

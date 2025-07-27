@@ -60,8 +60,7 @@ class HomeController with ChangeNotifier {
         // Calculate BMI with the loaded values
         calculateBmi();
       } catch (e) {
-        print('Error parsing user data: $e');
-      }
+        return;      }
     }
 
     notifyListeners();
