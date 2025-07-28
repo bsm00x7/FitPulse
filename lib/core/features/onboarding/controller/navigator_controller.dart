@@ -36,7 +36,6 @@ class NavigatorController extends ChangeNotifier {
       MaterialPageRoute(
         builder: (BuildContext context) =>  Login(),
       ),
-
     );
     PreferenceManager().setBool(StorageKey.firstTime, true);
     notifyListeners();
