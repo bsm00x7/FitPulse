@@ -38,7 +38,7 @@ class NavigatorController extends ChangeNotifier {
       ),
 
     );
-    PreferenceManager().setBool(StoregKey.firstTime, true);
+    PreferenceManager().setBool(StorageKey.firstTime, true);
     notifyListeners();
   }
 

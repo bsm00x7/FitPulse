@@ -1,3 +1,3 @@
-class StoregKey {
+class StorageKey {
   static const  firstTime = 'login';
 }
