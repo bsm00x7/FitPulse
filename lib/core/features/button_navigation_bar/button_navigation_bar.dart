@@ -22,7 +22,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
     WalkingScreen(),
     Profile()
   ];
-  int _currentIndex = 2;
+  int _currentIndex = 0;
   
   @override
   void initState() {

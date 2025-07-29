@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:fitness/core/constant/storeg_key.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Added for DateFormat
 import 'package:provider/provider.dart'; // Added for Provider
@@ -35,6 +36,7 @@ class CompleteController with ChangeNotifier {
   Future<void> nextComplete(BuildContext context) async {
     final user = Provider.of<AuthService>(context, listen: false).getUser();
     if (user == null) {
+
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('No user logged in')));
@@ -56,8 +58,8 @@ class CompleteController with ChangeNotifier {
         final heightValue = double.parse(
           height.text.trim(),
         ); // Parse string to double
-        final String?  userName = PreferenceManager().getString('username');
-        final String? lastName = PreferenceManager().getString('lastname');
+        final String?  userName = PreferenceManager().getString(StorageKey.firstName);
+        final String? lastName = PreferenceManager().getString(StorageKey.lastname);
         await firestoreService.saveUserDetails(
           user,
           userName!,

@@ -19,6 +19,7 @@ class Home extends StatelessWidget {
     final theme = Theme.of(context);
     final ValueNotifier<double> valueNotifier = ValueNotifier(0);
     final size = MediaQuery.of(context).size;
+
     final controller = context.read<HomeController>();
     return SingleChildScrollView(
       child: Column(
@@ -166,11 +167,11 @@ class Home extends StatelessWidget {
                         children: [
 
                           SimpleAnimationProgressBar(
-                            height: size.height * 0.4,
+                            height: size.height * 0.3,
                             width: size.width * 0.07,
                             backgroundColor: Color(0xffF7F8F8),
                             foregroundColor: Color(0xffB4C0FE),
-                            ratio: value.startWater ?? 0.1,
+                            ratio: value.startWater ?? 0.0,
                             direction: Axis.vertical,
                             curve: Curves.fastLinearToSlowEaseIn,
                             duration: const Duration(seconds: 3),
@@ -379,9 +380,8 @@ class Home extends StatelessWidget {
   }) {
     return InkWell(
       onTap: () {
-
-        controller.updateWater(size);
-
+         controller.updateWater(size);
+        controller.saveLastActivity(size);
         Navigator.pop(context);
       },
       child: SvgPicture.asset(

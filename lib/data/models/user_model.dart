@@ -8,6 +8,7 @@ class UserModel {
   final double weight;
   final String gender;
 
+
   UserModel({
     required this.firstName,
     required this.lastName,
@@ -54,5 +55,23 @@ class UserModel {
       'weight': weight,
       'gender': gender,
     };
+  }
+
+  UserModel copyWith({
+    String? firstName,
+    String? lastName,
+    String? birthday,
+    double? height,
+    double? weight,
+    String? gender,
+  }) {
+    return UserModel(
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      birthday: birthday ?? this.birthday,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      gender: gender ?? this.gender,
+    );
   }
 }

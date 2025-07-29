@@ -3,6 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../service/preference_manager.dart';
+import '../../../constant/storeg_key.dart';
 import '../../button_navigation_bar/button_navigation_bar.dart';
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});
@@ -32,8 +34,8 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
       'image_source': 'assets/goal/Person3.svg',
     },
   ];
-  final CarouselSliderController buttonCarouselController =
-      CarouselSliderController();
+   String goal = 'Improve Shape' ;
+  final CarouselSliderController buttonCarouselController = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +60,10 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
           ),
           SizedBox(height: 50),
           CarouselSlider(
+
             items: views
                 .map(
-                  (e) => // Fixed map syntax
+                  (e) =>
                   Container(
                     margin: const EdgeInsets.all(4.0),
                     height: 800,
@@ -107,12 +110,13 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                 .toList(),
             carouselController: buttonCarouselController,
             options: CarouselOptions(
+              onPageChanged: (index, reason) => goal=views[index]['title']!,
               autoPlay: false,
               enlargeCenterPage: true,
               viewportFraction: 0.75,
               enableInfiniteScroll: false,
               aspectRatio: 0.7,
-              initialPage: 1,
+              initialPage: 0,
               enlargeFactor: 0.4,
             ),
           ),
@@ -122,6 +126,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               onPressed: () {
+                 PreferenceManager().setString(StorageKey.userGoal, goal);
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (BuildContext context) {

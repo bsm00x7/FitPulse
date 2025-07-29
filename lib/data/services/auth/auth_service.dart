@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitness/service/preference_manager.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/features/complete/complete.dart';
@@ -62,7 +62,7 @@ class AuthService with ChangeNotifier {
     return false;
   }
 
-  signOut(BuildContext context) {
+  signOut() {
     _auth.signOut();
     notifyListeners();
   }
@@ -81,8 +81,6 @@ class AuthService with ChangeNotifier {
         password: password,
       );
       if (user.user != null) {
-        PreferenceManager().setString('username', username);
-        PreferenceManager().setString('lastname', lastname);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Complete()),

@@ -1,11 +1,17 @@
-// activity_model.dart
+
+import 'package:uuid/uuid.dart';
+
+var uuid = Uuid();
 class ActivityModel {
   final String sourceImage;
   final String title;
   final String subTitle;
   final DateTime timestamp;
+  final String id ;
 
-  ActivityModel({
+
+  ActivityModel( {
+    required this.id,
     required this.sourceImage,
     required this.title,
     required this.subTitle,
@@ -14,6 +20,7 @@ class ActivityModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'sourceImage': sourceImage,
       'title': title,
       'subTitle': subTitle,
@@ -27,6 +34,7 @@ class ActivityModel {
       title: map['title'],
       subTitle: map['subTitle'],
       timestamp: DateTime.parse(map['timestamp']),
+      id:  map['id'],
     );
   }
 }

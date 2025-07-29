@@ -12,7 +12,6 @@ import 'core/features/onboarding/welcome_screen.dart';
 import 'data/services/auth/auth_service.dart';
 import 'data/services/store_user_information.dart';
 import 'firebase_options.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize PreferenceManager

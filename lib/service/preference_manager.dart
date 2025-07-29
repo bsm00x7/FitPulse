@@ -12,11 +12,11 @@ class PreferenceManager {
   }
 
   PreferenceManager._internal();
-  setString (String key , String value){
-    _preferences.setString(key, value);
+  setString (String key , String value)async{
+    await _preferences.setString(key, value);
   }
-  setBool (String key , bool value){
-    _preferences.setBool(key, value);
+  setBool (String key , bool value)async{
+    await _preferences.setBool(key, value);
   }
   String? getString (String key){
     return _preferences.getString(key) ;

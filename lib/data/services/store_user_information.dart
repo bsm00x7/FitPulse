@@ -87,6 +87,17 @@ Future<Map<String, dynamic>?> getUserFromCollection({
   }
 
   // Example: Update a document
+  Future<void> updateUserName({required String newUserName,
+    required String docId,}
+      ) async {
+    try {
+       final coll= await _firestore.collection('users').doc(docId);
+       coll.update({'username': newUserName});
+      notifyListeners(); // Notify UI after updating
+    } catch (e) {
+      print('Error updating document: $e');
+    }
+  }
   Future<void> updateDocument(
     String collectionPath,
     String docId,
