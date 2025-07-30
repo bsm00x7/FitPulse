@@ -8,13 +8,14 @@ class Box extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 1,
-      color: Colors.white,
+
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
         padding: EdgeInsets.only(top: 12),
         width: 95,
         height: 70,
         decoration: BoxDecoration(
+          color: Color(0xFFF0E4D3).withValues(alpha: 0.4),
           boxShadow: [
             BoxShadow(
               color: Colors.white,

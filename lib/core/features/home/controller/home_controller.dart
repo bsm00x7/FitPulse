@@ -18,6 +18,7 @@ class HomeController with ChangeNotifier {
   double? height;
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
+  String? username;
 
   // Graph of Activity status
   final List<FlSpot> heartRateData = [
@@ -44,6 +45,7 @@ class HomeController with ChangeNotifier {
     await loadIntakeData(); // Try to load existing data first
     // If no data was loaded, initialize with defaults
     await initDrinkWater();
+    await getUsername();
     if (intakeDataNew.isEmpty) {
       intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
       await saveDateWater();
@@ -213,8 +215,6 @@ class HomeController with ChangeNotifier {
       final Map<String, dynamic>? userData =
       await FirestoreService().getUserFromCollection(userId: userId);
       if (userData != null) {
-        await PreferenceManager().setString(StorageKey.firstName,userData['username']);
-        await PreferenceManager().setString(StorageKey.lastname,userData['lastname']);
         final user = UserModel(
           firstName: userData['username'],
           lastName: userData['lastname'],
@@ -228,8 +228,19 @@ class HomeController with ChangeNotifier {
       }
     }
   }
-  String? get username => PreferenceManager().getString(StorageKey.firstName) ?? 'Gust';
 
+
+  Future<void> getUsername() async {
+    try {
+      String? docId = AuthService().getUser();
+      if (docId != null) {
+        username = await FirestoreService().getUserName(docId);
+      }
+    } catch (e) {
+
+      rethrow; // Rethrow the exception for upstream handling
+    }
+  }
   // Reset to default intake data
   Future<void> resetIntakeData() async {
     intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));

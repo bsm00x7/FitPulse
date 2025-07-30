@@ -19,10 +19,11 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
   final List<Widget> pages = [
     Home(),
     Activity(),
+
     WalkingScreen(),
     Profile()
   ];
-  int _currentIndex = 0;
+  int _currentIndex = 3;
   
   @override
   void initState() {

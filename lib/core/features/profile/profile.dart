@@ -21,6 +21,7 @@ class _ProfileState extends State<Profile> {
       },
       builder: (BuildContext context, Widget? child) {
         return SingleChildScrollView(
+
           child: Column(
             children: [
               Consumer<ProfileController>(
@@ -55,7 +56,7 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          Text(value.username!),
+                          Text(value.userName ?? "user not found"),
                           Text(
                             value.userGoal!,
                             style: theme.textTheme.titleSmall!.copyWith(
@@ -78,7 +79,7 @@ class _ProfileState extends State<Profile> {
                               key: provider.key,
                               onPressed: ()async{
                                    provider.updateUserInformation(context: context);
-                                   ProfileController().init();
+
 
                               }
                             );
@@ -119,7 +120,7 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:Color(0xFF78B9B5).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -177,7 +178,7 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:Color(0xFF78B9B5).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: ListTile(
@@ -187,12 +188,12 @@ class _ProfileState extends State<Profile> {
                     inactiveTrackColor: Colors.white,
                     trackOutlineColor: WidgetStateProperty.resolveWith((state) {
                       if (state.contains(WidgetState.selected)) {
-                        return theme.colorScheme.onSecondary;
+                        return Colors.cyan;
                       } else {
                         return Colors.grey.withValues(alpha: 0.5);
                       }
                     }),
-                    activeTrackColor: theme.colorScheme.onSecondary,
+                    activeTrackColor: Colors.cyan,
                     thumbColor: WidgetStateProperty.resolveWith((state) {
                       if (state.contains(WidgetState.selected)) {
                         return Colors.white;
@@ -216,7 +217,7 @@ class _ProfileState extends State<Profile> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:Color(0xFF78B9B5).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(

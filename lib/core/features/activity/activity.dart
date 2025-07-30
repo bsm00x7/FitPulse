@@ -175,7 +175,7 @@ class Activity extends StatelessWidget {
                                IconButton(onPressed: (){
                                  valueProvider.lastActivity.removeAt(index);
                                  valueProvider.saveLastActivity(index);
-                               }, icon: Icon(Icons.delete))
+                               }, icon: Icon(Icons.delete , color: Colors.red,))
                               ],
                             ),
                           ),

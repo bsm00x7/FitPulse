@@ -120,4 +120,14 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       print('Error deleting document: $e');
     }
   }
+  Future<String?> getUserName(String docId)async{
+  try{
+   final data = await _firestore.collection('users').doc(docId).get();
+   if (data.exists) {
+     return data.data()?['username'];
+   }
+  }catch (e){
+  rethrow;
+  }
+  }
 }

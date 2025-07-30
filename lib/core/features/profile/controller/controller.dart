@@ -1,6 +1,9 @@
 import 'dart:convert';
+
 import 'package:fitness/core/constant/storeg_key.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import '../../../../data/models/user_model.dart';
 import '../../../../data/services/auth/auth_service.dart';
 import '../../../../data/services/store_user_information.dart';
@@ -11,7 +14,6 @@ class ProfileController with ChangeNotifier {
   double? height;
   double? weight;
   int? brith;
-  String? get username => PreferenceManager().getString(StorageKey.firstName) ?? 'Unknown';
   String? get userGoal => PreferenceManager().getString(StorageKey.userGoal) ?? 'Unknown';
   final TextEditingController usernameController = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
@@ -21,20 +23,22 @@ class ProfileController with ChangeNotifier {
   void init() {
     getUserInformation(); // Load user data on initialization
   }
-
   // Function to calculate age from DateTime
   // Load user information from preferences
   void getUserInformation() {
+    try {
       final String? userdata = PreferenceManager().getString(StorageKey.user);
       if (userdata != null) {
-        // jsonDecode returns Map<String, dynamic>, not String
         final String decodedData = jsonDecode(userdata);
         final UserModel user = UserModel.fromJson(decodedData);
         userName = user.firstName;
         height = user.height;
         weight = user.weight;
-        // Parse birthday String to DateTime
-        }
+      }
+    } catch (e) {
+
+    }
+
       }
 
     @override
@@ -49,7 +53,6 @@ class ProfileController with ChangeNotifier {
    await FirestoreService().updateUserName(newUserName: usernameController.text.trim(), docId: docId!);
    getUserInformation();
    notifyListeners();
-
    Navigator.pop(context);
 
  }

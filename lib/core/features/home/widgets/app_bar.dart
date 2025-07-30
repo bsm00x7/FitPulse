@@ -20,13 +20,12 @@ class AppBarWidget extends StatelessWidget {
           children: [
             Text('Welcome Back,', style: theme.textTheme.displaySmall),
             // ! TO DO GET USER NAME OF DATE BASE [ LOCAL , SERVER]
-            Selector<HomeController , String>(
-              selector: (BuildContext , user ) => user.username!,
-              builder: (BuildContext context,  username, Widget? child) {
-                return Text('$username ',
-                  style: theme.textTheme.titleMedium!.copyWith(fontSize: 20),
+            Consumer<HomeController>(
+              builder: (BuildContext context,  HomeController value, Widget? child) {
+                return Text( value.username ?? 'No name found',
+                  style: theme.textTheme.titleMedium?.copyWith(fontSize: 20),
                 );
-              }, 
+              },
             ),
           ],
         ),
