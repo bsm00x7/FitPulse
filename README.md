@@ -4,32 +4,7 @@ A **Flutter-based mobile application** designed to help users monitor daily fitn
 
 ---
 
-## 📂 Project Structure
 
-fitness_app/
-├── lib/
-│   ├── core/
-│   │   ├── constant/               # App-wide constants (e.g., StorageKey, AppColors)
-│   │   ├── features/               # Feature-specific modules
-│   │   │   ├── home/
-│   │   │   │   ├── activity/
-│   │   │   │   │   ├── controller/ # State management (Provider classes)
-│   │   │   │   │   ├── model/      # Data models (ActivityModel, etc.)
-│   │   │   │   │   ├── view/       # UI screens (ActivityScreen, etc.)
-│   │   │   │   │   └── widgets/    # Reusable components for activity feature
-│   │   │   ├── button_navigation_bar/
-│   │   │   └── ...                 # Other features (e.g., workout, profile, walking)
-│   ├── service/                    # Shared services (e.g., PreferenceManager)
-│   ├── widget/                     # Reusable UI widgets across the app
-│   └── main.dart                   # App entry point
-├── assets/
-│   ├── activity/                   # SVG icons related to activities
-│   ├── button_navigation/          # SVGs for bottom nav bar
-│   └── home/                       # Home screen SVG assets
-├── test/                           # Unit and widget tests
-└── pubspec.yaml                    # App dependencies and metadata
-
----
 
 ## 🚀 Features
 
