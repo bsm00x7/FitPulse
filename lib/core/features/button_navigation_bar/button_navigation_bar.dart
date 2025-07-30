@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../activity/activity.dart';
+
 import '../home/controller/home_controller.dart';
 import '../home/home.dart';
 import '../profile/profile.dart';
 import '../walking/walking_screen.dart';
+import '../workout/work_out.dart';
 
 class ButtonNavigation extends StatefulWidget {
   const ButtonNavigation({super.key});
@@ -18,12 +19,11 @@ class ButtonNavigation extends StatefulWidget {
 class _ButtonNavigationState extends State<ButtonNavigation> {
   final List<Widget> pages = [
     Home(),
-    Activity(),
-
+    WorkOut(),
     WalkingScreen(),
     Profile()
   ];
-  int _currentIndex = 3;
+  int _currentIndex = 0;
   
   @override
   void initState() {
@@ -73,7 +73,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
                 BlendMode.srcIn,
               ),
             ),
-            label: 'Activity',
+            label: 'Work Out',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(

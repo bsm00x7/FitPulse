@@ -5,4 +5,6 @@ class StorageKey {
   static const userGoal = 'userGaol';
   static const lastname = 'lastName';
   static const user = 'user';
+  static const waterSize = 'waterSize';
+  static const steps = 'steps';
 }

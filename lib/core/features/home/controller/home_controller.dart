@@ -8,8 +8,7 @@ import 'package:fitness/service/preference_manager.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../activity/model/activity_model.dart';
+import '../activity/model/activity_model.dart';
 
 class HomeController with ChangeNotifier {
   String? type;
@@ -19,7 +18,7 @@ class HomeController with ChangeNotifier {
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
   String? username;
-
+  double? targetWaterToday = PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
   // Graph of Activity status
   final List<FlSpot> heartRateData = [
     FlSpot(0, 8),
@@ -42,13 +41,13 @@ class HomeController with ChangeNotifier {
   ];
   // Initialize controller
   Future<void> init() async {
-    await loadIntakeData(); // Try to load existing data first
-    // If no data was loaded, initialize with defaults
+    await loadIntakeData();
     await initDrinkWater();
     await getUsername();
     if (intakeDataNew.isEmpty) {
       intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
       await saveDateWater();
+
     }
 
     // Load user details from Firestore
@@ -178,14 +177,11 @@ class HomeController with ChangeNotifier {
     for (var item in intakeDataNew) {
       item['isActive'] = false;
     }
-
     // Set active states based on size
     if (size == 500) {
       intakeDataNew[4]['isActive'] = true;
       startWater = intakeDataNew[4]['value'];
-    } else if (size == 600) {
-      intakeDataNew[4]['isActive'] = true;
-      intakeDataNew[3]['isActive'] = true;
+    } else if (size == 500) {
       startWater = intakeDataNew[3]['value'];
     } else if (size == 700) {
       intakeDataNew[4]['isActive'] = true;

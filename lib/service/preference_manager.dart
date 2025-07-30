@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PreferenceManager {
+class PreferenceManager with ChangeNotifier {
   static final PreferenceManager  _instance = PreferenceManager._internal();
   factory PreferenceManager(){
     return _instance;
@@ -21,10 +22,16 @@ class PreferenceManager {
   String? getString (String key){
     return _preferences.getString(key) ;
   }
-  setDouble (String key, double value){
+  setDouble (String key, double value)async{
     return _preferences.setDouble(key, value);
   }
-  getDouble (String key ){
+  setInt (String key, int value){
+    return _preferences.setInt(key, value);
+  }
+  int? getInt (String key){
+    return _preferences.getInt(key);
+  }
+  double? getDouble (String key ){
     return _preferences.getDouble(key);
   }
   remove(String key){

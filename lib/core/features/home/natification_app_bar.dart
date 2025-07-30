@@ -1,6 +1,7 @@
 import 'package:fitness/widget/header_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Notifications extends StatelessWidget {
   Notifications({super.key});
@@ -35,10 +36,7 @@ class Notifications extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeaderBar(
-
-
-                svgIcon1: 'assets/home/arrowbutton.svg',
-                svgIcon2: 'assets/home/optionAppBar.svg', title: 'Notification',
+               title: 'Notification', onIcon1Tap: () {  Navigator.pop(context); },
               ),
               const SizedBox(height: 30),
               Expanded(
@@ -111,7 +109,7 @@ class Notifications extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          SvgPicture.asset('assets/notification_image/more-vertical 5.svg'),
+                          Icon(FontAwesomeIcons.trash , size: 16, color: Colors.red.withValues(alpha: 0.8),)
                         ],
                       ),
                     );
