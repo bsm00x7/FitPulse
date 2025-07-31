@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fitness/core/constant/storeg_key.dart';
+import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,10 +21,8 @@ class ProfileController with ChangeNotifier {
     init();
   }
   void init() {
-    getUserInformation(); // Load user data on initialization
+    getUserInformation();
   }
-  // Function to calculate age from DateTime
-  // Load user information from preferences
   void getUserInformation() {
     try {
       final String? userdata = PreferenceManager().getString(StorageKey.user);
@@ -36,6 +34,7 @@ class ProfileController with ChangeNotifier {
         weight = user.weight;
       }
     } catch (e) {
+      rethrow;
 
     }
 

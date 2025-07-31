@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../service/preference_manager.dart';
-import '../../../constant/storeg_key.dart';
+import '../../../constant/storage_Key.dart';
 import '../../button_navigation_bar/button_navigation_bar.dart';
 class CarouselSliderWidget extends StatefulWidget {
   const CarouselSliderWidget({super.key});

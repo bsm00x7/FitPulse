@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:fitness/core/constant/storeg_key.dart';
+import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:fitness/service/preference_manager.dart';
 
 class ActivityControllerProvider with ChangeNotifier {

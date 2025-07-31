@@ -38,7 +38,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
     final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30 , vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
         child: pages[_currentIndex],
       )),
       bottomNavigationBar: BottomNavigationBar(

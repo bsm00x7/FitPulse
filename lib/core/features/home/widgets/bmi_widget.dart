@@ -55,7 +55,7 @@ class BmiWidget extends StatelessWidget {
                           color: Colors.black87,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 2,
                               offset: const Offset(0, 1),
                             ),
@@ -130,7 +130,7 @@ class BmiWidget extends StatelessWidget {
       context: context,
       builder: (context) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        backgroundColor: Colors.white.withOpacity(0.95),
+        backgroundColor: Colors.white.withValues(alpha: 0.95),
         child: Container(
           padding: const EdgeInsets.all(16),
           height: 200,
@@ -261,7 +261,7 @@ class _BmiProgressIndicatorState extends State<_BmiProgressIndicator>
               height: 100,
               child: CircularProgressIndicator(
                 value: _animation.value,
-                backgroundColor: widget.theme.colorScheme.onSecondary.withOpacity(0.2),
+                backgroundColor: widget.theme.colorScheme.onSecondary.withValues(alpha: 0.2),
                 color: Colors.transparent,
                 strokeWidth: 10,
                 strokeAlign: BorderSide.strokeAlignOutside,

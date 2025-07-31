@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fitness/core/constant/storeg_key.dart';
+import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:fitness/data/models/user_model.dart';
 import 'package:fitness/data/services/auth/auth_service.dart';
 import 'package:fitness/data/services/store_user_information.dart';
@@ -162,7 +162,7 @@ class HomeController with ChangeNotifier {
           notifyListeners();
         }
       } catch (e) {
-        debugPrint('Error loading intake data: $e');
+
         intakeDataNew = List.from(
           intakeData.map((e) => Map<String, dynamic>.from(e)),
         );
@@ -305,7 +305,7 @@ class HomeController with ChangeNotifier {
       );
       notifyListeners();
     } catch (e) {
-      debugPrint('Error saving last activity: $e');
+
       await PreferenceManager().remove(StorageKey.lastActivity);
     }
   }
@@ -321,24 +321,8 @@ class HomeController with ChangeNotifier {
     return (currentWaterIntake / 1000).toStringAsFixed(2);
   }
 
-  // Test method to verify calculations
-  void testWaterProgress() {
-    debugPrint('=== Water Progress Test ===');
-    debugPrint('Current intake: ${currentWaterIntake}ml');
-    debugPrint(
-      'Target: ${targetWaterToday}L (${(targetWaterToday ?? 4.0) * 1000}ml)',
-    );
-    debugPrint(
-      'Percentage: ${(waterProgressPercentage * 100).toStringAsFixed(1)}%',
-    );
-    debugPrint('Active segments:');
-    for (int i = 0; i < intakeDataNew.length; i++) {
-      debugPrint(
-        '  Segment $i (${intakeDataNew[i]['time']}): ${intakeDataNew[i]['isActive'] ? 'ACTIVE' : 'inactive'}',
-      );
-    }
-    debugPrint('========================');
-  }
+
+
 
   void incrementWater(double amount) {
     currentWaterIntake += amount;
@@ -401,11 +385,5 @@ class HomeController with ChangeNotifier {
       startWater = 0.0;
     }
 
-    debugPrint(
-      'Water Progress: ${currentWaterIntake}ml / ${totalTarget}ml = ${(percentage * 100).toStringAsFixed(1)}%',
-    );
-    debugPrint(
-      'Active segments: $activeSegments, Progress bar: ${(startWater! * 100).toStringAsFixed(1)}%',
-    );
   }
 }

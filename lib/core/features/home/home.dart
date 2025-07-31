@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
-
 import 'activity/activity.dart';
 import 'controller/home_controller.dart';
 
@@ -272,8 +271,8 @@ class Home extends StatelessWidget {
                                     );
                                   },
                                 ),
-                                // Show current progress
 
+                                // Show current progress
                                 Text(
                                   'Real time updates',
                                   style: theme.textTheme.titleSmall!.copyWith(
