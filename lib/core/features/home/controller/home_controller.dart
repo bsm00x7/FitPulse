@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fitness/core/constant/storeg_key.dart';
 import 'package:fitness/data/models/user_model.dart';
 import 'package:fitness/data/services/auth/auth_service.dart';
@@ -18,8 +17,30 @@ class HomeController with ChangeNotifier {
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
   String? username;
-  double? targetWaterToday = PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
-  // Graph of Activity status
+
+  // Add current water consumption tracking
+  double currentWaterIntake = 0; // in ml
+
+  // Change from direct initialization to a getter to always get the latest value
+  double? get targetWaterToday =>
+      PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
+
+  // Dynamic intake data with proper time slots
+  List<Map<String, dynamic>> get intakeData {
+    return [
+      {'time': '6am - 8am', 'amount': 0, 'isActive': false, 'value': 0.2},
+      // 20%
+      {'time': '8am - 10am', 'amount': 0, 'isActive': false, 'value': 0.4},
+      // 40%
+      {'time': '10am - 1pm', 'amount': 0, 'isActive': false, 'value': 0.6},
+      // 60%
+      {'time': '1pm - 4pm', 'amount': 0, 'isActive': false, 'value': 0.8},
+      // 80%
+      {'time': '4pm - 8pm', 'amount': 0, 'isActive': false, 'value': 1.0},
+      // 100%
+    ];
+  }
+
   final List<FlSpot> heartRateData = [
     FlSpot(0, 8),
     FlSpot(2, 1),
@@ -31,23 +52,16 @@ class HomeController with ChangeNotifier {
     FlSpot(8, 1),
     FlSpot(9, 0),
   ];
-  // Default intake data template
-  final List<Map<String, dynamic>> intakeData = [
-    {'time': '11am - 2pm', 'amount': 1000, 'isActive': false, 'value': 1.0},
-    {'time': '4pm - now', 'amount': 900, 'isActive': false, 'value': (4 / 7)},
-    {'time': '2pm - 4pm', 'amount': 700, 'isActive': false, 'value': 3 / 7},
-    {'time': '6am - 8am', 'amount': 600, 'isActive': false, 'value': 2 / 7},
-    {'time': '9am - 11am', 'amount': 500, 'isActive': false, 'value': 1 / 7},
-  ];
+
   // Initialize controller
   Future<void> init() async {
     await loadIntakeData();
     await initDrinkWater();
     await getUsername();
-    if (intakeDataNew.isEmpty) {
-      intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
-      await saveDateWater();
 
+    if (intakeDataNew.isEmpty) {
+      updateIntakeDataAmounts();
+      await saveDateWater();
     }
 
     // Load user details from Firestore
@@ -57,13 +71,10 @@ class HomeController with ChangeNotifier {
     final String? userData = PreferenceManager().getString('user');
     if (userData != null && userData.isNotEmpty) {
       final decodedData = jsonDecode(userData);
-
       final UserModel user = UserModel.fromJson(decodedData);
       weight = user.weight;
       height = user.height;
       calculateBmi();
-
-
     }
 
     notifyListeners();
@@ -72,20 +83,16 @@ class HomeController with ChangeNotifier {
   // Initialize drink water tracking
   Future<void> initDrinkWater() async {
     final DateTime dataNow = DateTime.now();
-
-    // Get the last reset date from preferences
-    final String? lastResetDateStr = PreferenceManager().getString('lastResetDate');
-
-    // Check if we need to reset water data
+    final String? lastResetDateStr = PreferenceManager().getString(
+      'lastResetDate',
+    );
     bool shouldReset = false;
 
     if (lastResetDateStr == null) {
-      // First time app is run, set today as reset date
       shouldReset = true;
     } else {
       try {
         final DateTime lastResetDate = DateTime.parse(lastResetDateStr);
-        // Reset if it's a new day and after 5 AM
         if (dataNow.day != lastResetDate.day ||
             (dataNow.day == lastResetDate.day &&
                 lastResetDate.hour < 5 &&
@@ -99,54 +106,76 @@ class HomeController with ChangeNotifier {
     }
 
     if (shouldReset) {
-      // Reset water tracking data
       await PreferenceManager().remove('startWater');
       await PreferenceManager().remove('intakeData');
-
-      // Update the last reset date
-      await PreferenceManager().setString('lastResetDate', dataNow.toIso8601String());
+      await PreferenceManager().remove('currentWaterIntake');
+      currentWaterIntake = 0;
+      await PreferenceManager().setString(
+        'lastResetDate',
+        dataNow.toIso8601String(),
+      );
+    } else {
+      // Load current water intake
+      currentWaterIntake =
+          PreferenceManager().getDouble('currentWaterIntake') ?? 0;
     }
   }
 
   // Save intake data to preferences
   Future<void> saveDateWater() async {
-    await PreferenceManager().setString('intakeData', jsonEncode(intakeDataNew));
+    await PreferenceManager().setString(
+      'intakeData',
+      jsonEncode(intakeDataNew),
+    );
     await PreferenceManager().setDouble('startWater', startWater ?? 0);
+    await PreferenceManager().setDouble(
+      'currentWaterIntake',
+      currentWaterIntake,
+    );
   }
 
   // Load intake data from preferences
   Future<void> loadIntakeData() async {
     final String? data = PreferenceManager().getString('intakeData');
     final double? lastDrinkWater = PreferenceManager().getDouble('startWater');
+
     if (data != null && data.isNotEmpty) {
       try {
         final decodedData = jsonDecode(data);
         if (decodedData is List) {
           intakeDataNew = decodedData
-              .where((item) => item is Map<String, dynamic>)
+              .whereType<Map<String, dynamic>>()
               .map((item) => Map<String, dynamic>.from(item))
               .toList();
           if (intakeDataNew.isEmpty) {
-            intakeDataNew =
-                List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
+            intakeDataNew = List.from(
+              intakeData.map((e) => Map<String, dynamic>.from(e)),
+            );
           }
           startWater = lastDrinkWater ?? 0;
           notifyListeners();
         } else {
-          intakeDataNew =
-              List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
+          intakeDataNew = List.from(
+            intakeData.map((e) => Map<String, dynamic>.from(e)),
+          );
           startWater = 0;
           notifyListeners();
         }
       } catch (e) {
         debugPrint('Error loading intake data: $e');
-        intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
+        intakeDataNew = List.from(
+          intakeData.map((e) => Map<String, dynamic>.from(e)),
+        );
         startWater = 0;
         notifyListeners();
       }
     } else {
       startWater = 0;
     }
+
+    // Load current water intake
+    currentWaterIntake =
+        PreferenceManager().getDouble('currentWaterIntake') ?? 0;
   }
 
   // Calculate BMI
@@ -155,7 +184,6 @@ class HomeController with ChangeNotifier {
       type = 'Invalid Input';
       bmi = null;
     } else {
-      // Convert height from cm to meters before calculating BMI
       final double heightInMeters = height! / 100;
       bmi = weight! / (heightInMeters * heightInMeters);
       if (bmi! < 18.5) {
@@ -171,36 +199,27 @@ class HomeController with ChangeNotifier {
     notifyListeners();
   }
 
-  // Update water intake status
-  void updateWater(int size) {
-    // Reset all active states
-    for (var item in intakeDataNew) {
-      item['isActive'] = false;
-    }
-    // Set active states based on size
-    if (size == 500) {
-      intakeDataNew[4]['isActive'] = true;
-      startWater = intakeDataNew[4]['value'];
-    } else if (size == 500) {
-      startWater = intakeDataNew[3]['value'];
-    } else if (size == 700) {
-      intakeDataNew[4]['isActive'] = true;
-      intakeDataNew[3]['isActive'] = true;
-      intakeDataNew[2]['isActive'] = true;
-      startWater = intakeDataNew[2]['value'];
-    } else if (size == 900) {
-      intakeDataNew[4]['isActive'] = true;
-      intakeDataNew[3]['isActive'] = true;
-      intakeDataNew[2]['isActive'] = true;
-      intakeDataNew[1]['isActive'] = true;
-      startWater = intakeDataNew[1]['value'];
-    } else if (size == 1000) {
-      for (var item in intakeDataNew) {
-        item['isActive'] = true;
-      }
-      startWater = intakeDataNew[0]['value'];
-    }
-    saveDateWater(); // Persist changes
+  // Update intake amounts based on waterSize
+  void updateIntakeDataAmounts() {
+    final waterTarget = targetWaterToday ?? 4.0;
+    final totalMl = waterTarget * 1000;
+    final part = (totalMl / 5).round();
+
+    intakeDataNew = List.from(
+      intakeData.map((e) {
+        final newItem = Map<String, dynamic>.from(e);
+        newItem['amount'] = part;
+        return newItem;
+      }),
+    );
+
+    notifyListeners();
+  }
+
+  // Refresh water size when it changes
+  void refreshWaterSize() {
+    updateIntakeDataAmounts();
+    saveDateWater();
     notifyListeners();
   }
 
@@ -208,23 +227,21 @@ class HomeController with ChangeNotifier {
   Future<void> getUserDetails() async {
     final String? userId = AuthService().getUser();
     if (userId != null) {
-      final Map<String, dynamic>? userData =
-      await FirestoreService().getUserFromCollection(userId: userId);
+      final Map<String, dynamic>? userData = await FirestoreService()
+          .getUserFromCollection(userId: userId);
       if (userData != null) {
         final user = UserModel(
           firstName: userData['username'],
           lastName: userData['lastname'],
           birthday: userData['birth'].toString(),
-          height: userData['height']?.toDouble(),
-          weight: userData['weight']?.toDouble(),
+          height: userData['height'].toDouble(),
+          weight: userData['weight'].toDouble(),
           gender: userData['gender'],
         );
-        // Store in SharedPreferences
         await PreferenceManager().setString('user', jsonEncode(user.toJson()));
       }
     }
   }
-
 
   Future<void> getUsername() async {
     try {
@@ -233,54 +250,55 @@ class HomeController with ChangeNotifier {
         username = await FirestoreService().getUserName(docId);
       }
     } catch (e) {
-
-      rethrow; // Rethrow the exception for upstream handling
+      rethrow;
     }
   }
+
   // Reset to default intake data
   Future<void> resetIntakeData() async {
-    intakeDataNew = List.from(intakeData.map((e) => Map<String, dynamic>.from(e)));
+    intakeDataNew = List.from(
+      intakeData.map((e) => Map<String, dynamic>.from(e)),
+    );
     startWater = 0;
+    currentWaterIntake = 0;
     await saveDateWater();
     notifyListeners();
   }
 
   // Save last activity
-  Future<void> saveLastActivity(int size) async {
+  Future<void> saveLastActivity(double amount) async {
     try {
-      final String? savedData = PreferenceManager().getString(StorageKey.lastActivity);
+      final String? savedData = PreferenceManager().getString(
+        StorageKey.lastActivity,
+      );
       List<Map<String, dynamic>> activities = [];
       var uuid = Uuid();
-      // Create new activity
+
+      String actionText = amount > 0
+          ? 'Added ${amount.toInt()}ml'
+          : 'Removed ${(-amount).toInt()}ml';
+
       final newActivity = ActivityModel(
         sourceImage: 'assets/activity/drinkWater.svg',
-        title: 'Drink $size Water',
-        subTitle: 'just 1 s',
+        title: actionText,
+        subTitle: 'just now',
         id: uuid.v4(),
       ).toMap();
 
-      // Handle existing data (could be List or Map)
       if (savedData != null && savedData.isNotEmpty) {
         final dynamic decoded = jsonDecode(savedData);
-
         if (decoded is List) {
-          // Existing data is a List
           activities = List<Map<String, dynamic>>.from(decoded);
         } else if (decoded is Map) {
-          // Existing data is a single Map (old format)
           activities = [Map<String, dynamic>.from(decoded)];
         }
       }
 
-      // Add new activity at beginning
       activities.insert(0, newActivity);
-
-      // Keep only last 4 activities
       if (activities.length > 4) {
         activities = activities.sublist(0, 4);
       }
 
-      // Save as JSON array
       await PreferenceManager().setString(
         StorageKey.lastActivity,
         jsonEncode(activities),
@@ -288,10 +306,106 @@ class HomeController with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       debugPrint('Error saving last activity: $e');
-      // Optional: Clear corrupt data
       await PreferenceManager().remove(StorageKey.lastActivity);
     }
   }
 
-    //await PreferenceManager().setString(StorageKey.lastActivity, -)
+  // Get current water intake percentage
+  double get waterProgressPercentage {
+    final totalTarget = (targetWaterToday ?? 4.0) * 1000;
+    return (currentWaterIntake / totalTarget).clamp(0.0, 1.0);
   }
+
+  // Get current water intake in liters as string
+  String get currentWaterLiters {
+    return (currentWaterIntake / 1000).toStringAsFixed(2);
+  }
+
+  // Test method to verify calculations
+  void testWaterProgress() {
+    debugPrint('=== Water Progress Test ===');
+    debugPrint('Current intake: ${currentWaterIntake}ml');
+    debugPrint(
+      'Target: ${targetWaterToday}L (${(targetWaterToday ?? 4.0) * 1000}ml)',
+    );
+    debugPrint(
+      'Percentage: ${(waterProgressPercentage * 100).toStringAsFixed(1)}%',
+    );
+    debugPrint('Active segments:');
+    for (int i = 0; i < intakeDataNew.length; i++) {
+      debugPrint(
+        '  Segment $i (${intakeDataNew[i]['time']}): ${intakeDataNew[i]['isActive'] ? 'ACTIVE' : 'inactive'}',
+      );
+    }
+    debugPrint('========================');
+  }
+
+  void incrementWater(double amount) {
+    currentWaterIntake += amount;
+    // Ensure we don't go below 0
+    if (currentWaterIntake < 0) {
+      currentWaterIntake = 0;
+    }
+
+    updateWaterProgress();
+    saveLastActivity(amount);
+    saveDateWater();
+    notifyListeners();
+  }
+
+  // NEW: Method to decrement water intake
+  void decrementWater(double amount) {
+    currentWaterIntake -= amount;
+    // Ensure we don't go below 0
+    if (currentWaterIntake < 0) {
+      currentWaterIntake = 0;
+    }
+
+    updateWaterProgress();
+    saveLastActivity(-amount);
+    saveDateWater();
+    notifyListeners();
+  }
+
+  // NEW: Update water progress based on current intake
+  void updateWaterProgress() {
+    // Reset all active states
+    for (var item in intakeDataNew) {
+      item['isActive'] = false;
+    }
+
+    // Get total water target in ml
+    final totalTarget = (targetWaterToday ?? 4.0) * 1000;
+    final percentage = currentWaterIntake / totalTarget;
+
+    // Ensure we have data to work with
+    if (intakeDataNew.isEmpty) return;
+
+    // Calculate how many segments should be active based on percentage
+    int activeSegments = 0;
+    if (percentage > 0) {
+      activeSegments = (percentage * 5).ceil(); // 5 segments total
+      activeSegments = activeSegments.clamp(1, 5); // At least 1, max 5
+    }
+
+    // Activate segments from bottom to top (index 4 to 0)
+    for (int i = 0; i < activeSegments && i < intakeDataNew.length; i++) {
+      int segmentIndex = intakeDataNew.length - 1 - i; // Start from last index
+      intakeDataNew[segmentIndex]['isActive'] = true;
+    }
+
+    // Update startWater for the progress bar
+    if (activeSegments > 0) {
+      startWater = percentage.clamp(0.0, 1.0);
+    } else {
+      startWater = 0.0;
+    }
+
+    debugPrint(
+      'Water Progress: ${currentWaterIntake}ml / ${totalTarget}ml = ${(percentage * 100).toStringAsFixed(1)}%',
+    );
+    debugPrint(
+      'Active segments: $activeSegments, Progress bar: ${(startWater! * 100).toStringAsFixed(1)}%',
+    );
+  }
+}

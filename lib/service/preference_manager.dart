@@ -23,10 +23,10 @@ class PreferenceManager with ChangeNotifier {
     return _preferences.getString(key) ;
   }
   setDouble (String key, double value)async{
-    return _preferences.setDouble(key, value);
+    await _preferences.setDouble(key, value);
   }
-  setInt (String key, int value){
-    return _preferences.setInt(key, value);
+  setInt (String key, int value)async{
+     await _preferences.setInt(key, value);
   }
   int? getInt (String key){
     return _preferences.getInt(key);

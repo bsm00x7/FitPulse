@@ -7,4 +7,5 @@ class StorageKey {
   static const user = 'user';
   static const waterSize = 'waterSize';
   static const steps = 'steps';
+
 }

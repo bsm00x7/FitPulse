@@ -19,9 +19,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final ValueNotifier<double> valueNotifier = ValueNotifier(0);
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final controller = context.read<HomeController>();
     return SingleChildScrollView(
       child: Column(
@@ -44,6 +42,8 @@ class Home extends StatelessWidget {
                   },
                 ),
               );
+              // Add this line to refresh the water size when returning from Activity screen
+              context.read<HomeController>().refreshWaterSize();
             },
           ),
           SizedBox(height: 30),
@@ -74,66 +74,139 @@ class Home extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        child: SizedBox(
-                          height: 300,
+                        child: Container(
+                          height: 400,
                           width: size.width,
-
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-
-                                    Icon(
-                                      FontAwesomeIcons.glassWater,
-                                      size: 80,
-                                      color: Colors.lightBlue,
-                                    ),
-
-                                    Text('500 ml'),
-                                  ],
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Water Intake',
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    controller.updateWater(500);
-                                    controller.saveLastActivity(500);
-                                  },
-                                  icon: Icon(FontAwesomeIcons.circlePlus),
-                                ),
-                                SizedBox(width: 10),
-                                SizedBox(
-                                  height: 40,
-                                  width: 100,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: theme.colorScheme.secondary
-                                          .withValues(alpha: 0.6),
-                                      borderRadius: BorderRadius.circular(8),
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '500 ml',
-                                        style: TextStyle(
+                              ),
+                              const SizedBox(height: 20),
+
+                              // Current water display
+                              Consumer<HomeController>(
+                                builder: (context, controller, child) {
+                                  return Text(
+                                    '${controller.currentWaterIntake.toInt()} ml',
+                                    style: theme.textTheme.headlineMedium
+                                        ?.copyWith(
+                                          color: Colors.lightBlue,
                                           fontWeight: FontWeight.bold,
                                         ),
+                                  );
+                                },
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              // Water glass icon
+                              Icon(
+                                FontAwesomeIcons.glassWater,
+                                size: 60,
+                                color: Colors.lightBlue,
+                              ),
+
+                              const SizedBox(height: 30),
+
+                              // Control buttons row
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // 250ml section
+                                  Column(
+                                    children: [
+                                      Text(
+                                        '250 ml',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.decrementWater(250);
+                                            },
+                                            icon: Icon(
+                                              FontAwesomeIcons.circleMinus,
+                                            ),
+                                            color: Colors.red,
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.incrementWater(250);
+                                            },
+                                            icon: Icon(
+                                              FontAwesomeIcons.circlePlus,
+                                            ),
+                                            color: Colors.green,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
+
+                                  // 500ml section
+                                  Column(
+                                    children: [
+                                      Text(
+                                        '500 ml',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.decrementWater(500);
+                                            },
+                                            icon: Icon(
+                                              FontAwesomeIcons.circleMinus,
+                                            ),
+                                            color: Colors.red,
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.incrementWater(500);
+                                            },
+                                            icon: Icon(
+                                              FontAwesomeIcons.circlePlus,
+                                            ),
+                                            color: Colors.green,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              // Close button
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(120, 40),
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    controller.updateWater(-500);
-                                    controller.saveLastActivity(-500);
-                                  },
-                                  icon: Icon(FontAwesomeIcons.circleMinus),
-                                ),
-                              ],
-                            ),
+                                child: Text('Close'),
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -184,19 +257,23 @@ class Home extends StatelessWidget {
                                   ),
                                 ),
                                 Selector<HomeController, double?>(
-                                  selector: (context, provider) => provider.targetWaterToday,
-                                  builder: (context, value, child) {
+                                  selector: (context, provider) =>
+                                      provider.targetWaterToday,
+                                  builder: (context, targetValue, child) {
                                     return Text(
-                                      '$value Liters',
+                                      '$targetValue Liters',
                                       style: theme.textTheme.titleMedium!
                                           .copyWith(
-                                        color: theme.colorScheme
-                                            .primaryContainer,
-                                        fontSize: 21,
-                                      ),
+                                            color: theme
+                                                .colorScheme
+                                                .primaryContainer,
+                                            fontSize: 21,
+                                          ),
                                     );
                                   },
                                 ),
+                                // Show current progress
+
                                 Text(
                                   'Real time updates',
                                   style: theme.textTheme.titleSmall!.copyWith(
@@ -206,18 +283,16 @@ class Home extends StatelessWidget {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: controller.intakeDataNew.map((
-                                        obj,) {
-                                      final isActive =
-                                      obj['isActive']; // Default to false if not present
+                                        CrossAxisAlignment.start,
+                                    children: value.intakeDataNew.map((obj) {
+                                      final isActive = obj['isActive'];
                                       return Padding(
                                         padding: const EdgeInsets.only(
                                           top: 6.0,
                                         ),
                                         child: Row(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               width: 10,
@@ -235,7 +310,7 @@ class Home extends StatelessWidget {
                                             ),
                                             Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "${obj["time"] ?? 'N/A'}",
@@ -364,15 +439,14 @@ class Home extends StatelessWidget {
                               child: Center(
                                 child: ValueListenableBuilder(
                                   valueListenable: valueNotifier,
-                                  builder: (_, double value, __) =>
-                                      Text(
-                                        '${1000 - value.toInt()}',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 18,
-                                        ),
-                                      ),
+                                  builder: (_, double value, __) => Text(
+                                    '${1000 - value.toInt()}',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -389,6 +463,4 @@ class Home extends StatelessWidget {
       ),
     );
   }
-
-
 }

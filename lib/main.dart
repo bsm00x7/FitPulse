@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 import 'package:fitness/core/theme/light_theme.dart';
+
 import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/features/button_navigation_bar/button_navigation_bar.dart';
@@ -16,6 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize PreferenceManager
   await PreferenceManager().init();
+
   // Initialize Firebase
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

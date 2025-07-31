@@ -42,7 +42,7 @@ Future<Map<String, dynamic>?> getUserFromCollection({
     }
   } catch (e) {
     // Handle error appropriately
-    print('Error fetching user: $e');
+    debugPrint('Error fetching user: $e');
     return null;
   }
 }
@@ -56,7 +56,7 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       await _firestore.collection(collectionPath).add(data);
       notifyListeners(); // Notify UI after adding
     } catch (e) {
-      print('Error adding document: $e');
+      debugPrint('Error adding document: $e');
     }
   }
 
@@ -91,11 +91,11 @@ Future<Map<String, dynamic>?> getUserFromCollection({
     required String docId,}
       ) async {
     try {
-       final coll= await _firestore.collection('users').doc(docId);
+       final coll= _firestore.collection('users').doc(docId);
        coll.update({'username': newUserName});
       notifyListeners(); // Notify UI after updating
     } catch (e) {
-      print('Error updating document: $e');
+      debugPrint('Error updating document: $e');
     }
   }
   Future<void> updateDocument(
@@ -107,7 +107,7 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       await _firestore.collection(collectionPath).doc(docId).update(data);
       notifyListeners(); // Notify UI after updating
     } catch (e) {
-      print('Error updating document: $e');
+      debugPrint('Error updating document: $e');
     }
   }
 
@@ -117,7 +117,7 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       await _firestore.collection(collectionPath).doc(docId).delete();
       notifyListeners(); // Notify UI after deletion
     } catch (e) {
-      print('Error deleting document: $e');
+      debugPrint('Error deleting document: $e');
     }
   }
   Future<String?> getUserName(String docId)async{
@@ -129,5 +129,6 @@ Future<Map<String, dynamic>?> getUserFromCollection({
   }catch (e){
   rethrow;
   }
+  return null;
   }
 }
