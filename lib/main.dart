@@ -12,6 +12,7 @@ import 'core/features/button_navigation_bar/button_navigation_bar.dart';
 import 'core/features/home/controller/home_controller.dart';
 import 'core/features/onboarding/controller/navigator_controller.dart';
 import 'core/features/onboarding/welcome_screen.dart';
+import 'core/features/walking/controller/walking_controllerprovider.dart';
 import 'data/services/auth/auth_service.dart';
 import 'data/services/store_user_information.dart';
 import 'firebase_options.dart';
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+
         ChangeNotifierProvider(create: (_) => NavigatorController()),
-        Provider<AuthService>(create: (_) => AuthService()),
+        ChangeNotifierProvider<AuthService>(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => FirestoreService()),
         ChangeNotifierProvider(create: (_) => HomeController())
       ],

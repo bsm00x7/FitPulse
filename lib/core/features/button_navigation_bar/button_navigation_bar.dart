@@ -19,7 +19,7 @@ class ButtonNavigation extends StatefulWidget {
 class _ButtonNavigationState extends State<ButtonNavigation> {
   final List<Widget> pages = [
     Home(),
-    WorkOut(),
+    WorkoutScreen(),
     WalkingScreen(),
     Profile()
   ];

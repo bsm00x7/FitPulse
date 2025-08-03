@@ -32,51 +32,58 @@ class CompleteController with ChangeNotifier {
       notifyListeners();
     }
   }
-
   Future<void> nextComplete(BuildContext context) async {
     final user = Provider.of<AuthService>(context, listen: false).getUser();
     if (user == null) {
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('No user logged in')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No user logged in'))
+      );
       return;
     }
 
-    if (key.currentState!.validate() && birth.text.isNotEmpty && selectedGender != null) {
+    if (key.currentState!.validate() &&
+        birth.text.isNotEmpty &&
+        selectedGender != null) {
       try {
         final firestoreService = Provider.of<FirestoreService>(
           context,
           listen: false,
         );
-        final birthDate = DateTime.parse(
-          birth.text,
-        ); // Parse string to DateTime
-        final weightValue = double.parse(
-          weight.text.trim(),
-        ); // Parse string to double
-        final heightValue = double.parse(
-          height.text.trim(),
-        ); // Parse string to double
-        final String?  userName = PreferenceManager().getString(StorageKey.firstName);
+
+        final birthDate = DateTime.parse(birth.text);
+        final weightValue = double.parse(weight.text.trim());
+        final heightValue = double.parse(height.text.trim());
+
+        // Get user details with null checking
+        final String? userName = PreferenceManager().getString(StorageKey.firstName);
         final String? lastName = PreferenceManager().getString(StorageKey.lastname);
+
+        // Check if userName and lastName are not null
+        if (userName == null || lastName == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('User name information is missing'))
+          );
+          return;
+        }
+
         await firestoreService.saveUserDetails(
           user,
-          userName!,
-          lastName!,
+          userName, // Now safe to use without !
+          lastName, // Now safe to use without !
           selectedGender!,
           birthDate,
           weightValue,
           heightValue,
         );
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ChoosingGoal()),
         );
       } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Failed to save details: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to save details: $e'))
+        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -84,7 +91,6 @@ class CompleteController with ChangeNotifier {
       );
     }
   }
-
   @override
   void dispose() {
     birth.dispose();

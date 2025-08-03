@@ -17,15 +17,13 @@ class HomeController with ChangeNotifier {
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
   String? username;
-
-  // Add current water consumption tracking
+  final double _Calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0;
   double currentWaterIntake = 0; // in ml
 
-  // Change from direct initialization to a getter to always get the latest value
+
+  double get calories => _Calories;
   double? get targetWaterToday =>
       PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
-
-  // Dynamic intake data with proper time slots
   List<Map<String, dynamic>> get intakeData {
     return [
       {'time': '6am - 8am', 'amount': 0, 'isActive': false, 'value': 0.2},

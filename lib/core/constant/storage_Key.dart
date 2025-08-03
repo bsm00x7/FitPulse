@@ -7,5 +7,7 @@ class StorageKey {
   static const user = 'user';
   static const waterSize = 'waterSize';
   static const steps = 'steps';
+  static const walkingStepsTrakcer = 'walkingStepTracker';
+  static const calories = 'calories';
 
 }

@@ -416,39 +416,43 @@ class Home extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '760 kCal',
+                            '1000 kCal',
                             style: theme.textTheme.titleMedium!.copyWith(
                               fontSize: 20,
                               color: theme.colorScheme.onSecondary,
                             ),
                           ),
-                          Expanded(
-                            child: DashedCircularProgressBar.aspectRatio(
-                              aspectRatio: 1.6,
-                              // width ÷ height
-                              valueNotifier: valueNotifier,
-                              progress: 1000 - 240,
-                              maxProgress: 1000,
-                              corners: StrokeCap.round,
-                              foregroundColor: Color(0xffB4C0FE),
-                              backgroundColor: Color(0xffF7F8F8),
-                              foregroundStrokeWidth: 12,
-                              backgroundStrokeWidth: 12,
-                              animation: true,
-                              child: Center(
-                                child: ValueListenableBuilder(
-                                  valueListenable: valueNotifier,
-                                  builder: (_, double value, __) => Text(
-                                    '${1000 - value.toInt()}',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 18,
+                          Consumer<HomeController>(
+                            builder: (context, provider, child) {
+                              return Expanded(
+                                child: DashedCircularProgressBar.aspectRatio(
+                                  aspectRatio: 1.6,
+
+                                  valueNotifier: ValueNotifier(600),
+                                  progress: provider.calories,
+                                  maxProgress: 1000,
+                                  corners: StrokeCap.round,
+                                  foregroundColor: Color(0xffB4C0FE),
+                                  backgroundColor: Color(0xffF7F8F8),
+                                  foregroundStrokeWidth: 12,
+                                  backgroundStrokeWidth: 12,
+                                  animation: true,
+                                  child: Center(
+                                    child: ValueListenableBuilder(
+                                      valueListenable: valueNotifier,
+                                      builder: (_, double value, __) => Text(
+                                        '${1000 - value.toInt()}',
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         ],
                       ),
