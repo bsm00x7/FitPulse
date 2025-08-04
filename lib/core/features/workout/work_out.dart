@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gif/gif.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/work_out_controller.dart';
@@ -10,11 +10,8 @@ class WorkoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ChangeNotifierProvider(
-      create: (BuildContext context) {
-        return WorkOutControllerProvider();
-      },
-      child: SafeArea(
+    return SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 60),
@@ -25,10 +22,9 @@ class WorkoutScreen extends StatelessWidget {
                   return ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: (){
-                          provider.bodyFocusItem();
-                          debugPrint(provider.bodyFocus.length.toString());
+                      return  InkWell(
+                        onTap:(){
+                         provider.randomExercice(nameMuscle: provider.bodyFocus[index]);
                         },
                         child: Container(
                           width: 100,
@@ -38,20 +34,43 @@ class WorkoutScreen extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '$index',
+                              provider.bodyFocus[index],
                               style: theme.textTheme.displaySmall!.copyWith(
                                 fontSize: 18,
-                                color: Colors.black45,
+                                color: Colors.black54,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
                         ),
                       );
                     },
+                    itemCount :provider.bodyFocus.length,
                     separatorBuilder: (context, index) {
                       return SizedBox(width: 6);
                     },
-                    itemCount: 20,
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 60),
+            SizedBox(
+              height: 250,
+              child: Consumer<WorkOutControllerProvider>(
+                builder: (context, provider, child) {
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          Gif(image: AssetImage('https://static.exercisedb.dev/media/K1vlode.gif'))
+                        ],
+                      );
+                    },
+                    itemCount :provider.random.length,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(width: 6);
+                    },
                   );
                 },
               ),
