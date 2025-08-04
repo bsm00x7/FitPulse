@@ -5,7 +5,7 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Color(0xffF7F8F8),
   // Set Poppins as the default font family for the entire app
   fontFamily: 'Poppins',
-  appBarTheme: AppBarTheme(centerTitle: true),
+  appBarTheme: AppBarTheme(centerTitle: true , backgroundColor: Color(0xffF7F8F8)) ,
   // Configure the theme for ElevatedButton widgets
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(

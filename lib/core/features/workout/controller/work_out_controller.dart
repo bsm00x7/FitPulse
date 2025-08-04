@@ -28,8 +28,8 @@ class WorkOutControllerProvider with ChangeNotifier {
       }
 
     }catch(e){
-    debugPrint('Error fetching muscles: $e');
-  }
+      debugPrint('Error fetching muscles: $e');
+    }
   }
   // Fetch all Muscles for add in container in top
   Future<void> allMuscles() async {
@@ -52,12 +52,12 @@ class WorkOutControllerProvider with ChangeNotifier {
     }
   }
   Future <void> randomExercice({required String nameMuscle}) async{
-      final response = await http.get(Uri.parse('https://www.exercisedb.dev/api/v1/exercises/filter?limit=10&muscles=${nameMuscle.toLowerCase()}'));
-      debugPrint(response.statusCode.toString());
-      if(response.statusCode ==200) {
-        final List<dynamic>decoded = jsonDecode(response.body)['data'];
-        _random = decoded.map((element) => ExerciseModel.fromMap(element)).toList();
-      }
+    final response = await http.get(Uri.parse('https://www.exercisedb.dev/api/v1/exercises/filter?limit=10&muscles=${nameMuscle.toLowerCase()}'));
+    debugPrint(response.statusCode.toString());
+    if(response.statusCode ==200) {
+      final List<dynamic>decoded = jsonDecode(response.body)['data'];
+      _random = decoded.map((element) => ExerciseModel.fromMap(element)).toList();
     }
+  }
 
 }
