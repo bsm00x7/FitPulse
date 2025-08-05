@@ -53,7 +53,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
             _currentIndex = value;
           });
         },
-        selectedItemColor: theme.colorScheme.onSecondary, // Color for selected item (label and icon)
+        selectedItemColor: theme.colorScheme.onSecondary,
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(

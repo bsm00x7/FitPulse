@@ -1,7 +1,10 @@
 
+import 'package:fitness/core/features/workout/subScreen/controller_shared_screen/controller_sub_screen.dart';
 import 'package:fitness/core/features/workout/subScreen/full_body_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -19,11 +22,12 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   @override
   void initState() {
     super.initState();
+    // Animation Controller Timer
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-
+    // Entry Animation
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -99,7 +103,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
 
                 // Workout Cards
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       _buildWorkoutCard(
@@ -110,7 +114,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '320 kcal',
                         color: const Color(0xFF6C63FF),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context),
+                        onPressed: () => _navigateToWorkout(context, level: 'Intermediate', partOf: 'Full Body Workout'),
                         delay: 0,
                       ),
                       const SizedBox(height: 20),
@@ -122,7 +126,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '280 kcal',
                         color: const Color(0xFF4ECDC4),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context),
+                        onPressed: () => _navigateToWorkout(context, level: 'Beginner', partOf: 'Lower Body Workout'),
                         delay: 200,
                       ),
                       const SizedBox(height: 20),
@@ -134,7 +138,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '240 kcal',
                         color: const Color(0xFFFF6B9D),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context),
+                        onPressed: () => _navigateToWorkout(context, level: 'Advanced', partOf: 'AB Workout'),
                         delay: 400,
                       ),
                       const SizedBox(height: 20),
@@ -146,7 +150,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '300 kcal',
                         color: const Color(0xFFFFA726),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context),
+                        onPressed: () => _navigateToWorkout(context, level: 'Intermediate', partOf: 'Upper Body Workout'),
                         delay: 600,
                       ),
                       const SizedBox(height: 40),
@@ -161,12 +165,13 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     );
   }
 
-  void _navigateToWorkout(BuildContext context) {
+  void _navigateToWorkout(BuildContext context , {required String level , required String partOf}) {
     Navigator.push(
       context,
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-        const FullBodyScreen(),
+        ChangeNotifierProvider(create: (BuildContext context) =>ControllerSubScreen(),
+        child: FullBodyScreen(level: level, partOf: partOf,)),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
@@ -299,18 +304,6 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
     }
   }
 
-  Color _getDifficultyColor(String difficulty) {
-    switch (difficulty.toLowerCase()) {
-      case 'beginner':
-        return Colors.green;
-      case 'intermediate':
-        return Colors.orange;
-      case 'advanced':
-        return Colors.red;
-      default:
-        return Colors.green;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +328,6 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
             scale: _isPressed ? 0.98 : _scaleAnimation.value,
             child: Container(
               height: 180,
-              // Add proper constraints to prevent overflow
               constraints: const BoxConstraints(
                 maxHeight: 180,
                 minHeight: 180,
@@ -346,13 +338,13 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                   end: Alignment.bottomRight,
                   colors: [
                     widget.color,
-                    widget.color.withOpacity(0.8),
+                    widget.color.withValues(alpha:0.8),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: widget.color.withOpacity(0.3),
+                    color: widget.color.withValues(alpha: 0.3),
                     blurRadius: _elevationAnimation.value,
                     offset: Offset(0, _elevationAnimation.value / 2),
                   ),
@@ -361,9 +353,8 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
-                  clipBehavior: Clip.hardEdge, // Prevent overflow
+                  clipBehavior: Clip.hardEdge,
                   children: [
-                    // Background pattern - constrained properly
                     Positioned(
                       right: -20,
                       top: -20,
@@ -372,7 +363,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                         height: 120,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha:0.1),
                         ),
                       ),
                     ),
@@ -384,12 +375,12 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                         height: 80,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha:0.05),
                         ),
                       ),
                     ),
 
-                    // Content with proper constraints
+
                     Container(
                       constraints: const BoxConstraints.expand(),
                       padding: const EdgeInsets.all(24.0),
@@ -408,7 +399,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                     vertical: 6,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
+                                    color: Colors.white.withValues(alpha:0.2),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Row(
@@ -453,7 +444,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                   widget.subTitle,
                                   style: widget.theme.textTheme.bodyMedium
                                       ?.copyWith(
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -464,7 +455,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                   widget.calories,
                                   style: widget.theme.textTheme.bodySmall
                                       ?.copyWith(
-                                    color: Colors.white.withOpacity(0.8),
+                                    color: Colors.white.withValues(alpha:0.8),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -481,7 +472,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                     borderRadius: BorderRadius.circular(25),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
+                                        color: Colors.black.withValues(alpha:0.1),
                                         blurRadius: 8,
                                         offset: const Offset(0, 4),
                                       ),
@@ -542,7 +533,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                     height: 100,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.white.withOpacity(0.15),
+                                      color: Colors.white.withValues(alpha:0.15),
                                     ),
                                   ),
                                   Container(
@@ -550,7 +541,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                     height: 70,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.white.withOpacity(0.2),
+                                      color: Colors.white.withValues(alpha:0.2),
                                     ),
                                   ),
                                   // SVG with explicit size constraints
