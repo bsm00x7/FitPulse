@@ -52,11 +52,15 @@ class Home extends StatelessWidget {
           ),
           SizedBox(height: 30),
           // ********************* Activity Status ********************
+          // In your widget
           Consumer<HomeController>(
-            builder: (BuildContext context, value, Widget? child) {
+            builder: (context, controller, child) {
               return ActivityStatusWidget(
-                size: size,
-                heartRateData: value.heartRateData,
+                size: MediaQuery.of(context).size,
+                heartRateData: controller.heartRateData,
+                currentHeartRate: controller.currentHeartRate,
+                isLoading: controller.isLoadingHeartRate,
+                onRefresh: () => controller.refreshHeartRateData(),
               );
             },
           ),

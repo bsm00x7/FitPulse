@@ -5,8 +5,10 @@ import 'package:fitness/data/services/auth/auth_service.dart';
 import 'package:fitness/data/services/store_user_information.dart';
 import 'package:fitness/service/preference_manager.dart';
 import 'package:fl_chart/fl_chart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import '../../../services/health_service.dart';
 import '../activity/model/activity_model.dart';
 class HomeController with ChangeNotifier {
   String? type;
@@ -36,44 +38,172 @@ class HomeController with ChangeNotifier {
     ];
   }
 
-  final List<FlSpot> heartRateData = [
-    FlSpot(0, 8),
-    FlSpot(2, 1),
-    FlSpot(3, 8),
-    FlSpot(4, 1),
-    FlSpot(5, 9),
-    FlSpot(6, 1),
-    FlSpot(7, 9),
-    FlSpot(8, 1),
-    FlSpot(9, 0),
-  ];
+  List<FlSpot> heartRateData = [];
+  double? currentHeartRate;
+  bool isLoadingHeartRate = false;
 
-  // Initialize controller
-  Future<void> init() async {
-    await loadIntakeData();
-    await initDrinkWater();
-    await getUsername();
+  final HealthService _healthService = HealthService();
 
-    if (intakeDataNew.isEmpty) {
-      updateIntakeDataAmounts();
-      await saveDateWater();
-    }
-
-    // Load user details from Firestore
-    await getUserDetails();
-
-    // Load user data from SharedPreferences and update weight/height if available
-    final String? userData = PreferenceManager().getString('user');
-    if (userData != null && userData.isNotEmpty) {
-      final decodedData = jsonDecode(userData);
-      final UserModel user = UserModel.fromJson(decodedData);
-      weight = user.weight;
-      height = user.height;
-      calculateBmi();
-    }
-
+  /// Fetch heart rate data with better error handling and loading states
+  Future<void> fetchHeartRateData() async {
+    isLoadingHeartRate = true;
     notifyListeners();
+
+    try {
+      // Request permissions first
+      final hasPermission = await _healthService.requestPermissions();
+      if (!hasPermission) {
+        debugPrint('Health permissions not granted');
+        _setDefaultHeartRateData();
+        return;
+      }
+
+      final DateTime now = DateTime.now();
+      final DateTime startOfDay = DateTime(now.year, now.month, now.day);
+
+      // Fetch chart points for the last 24 hours
+      heartRateData = await _healthService.getHeartRateChartPoints(
+        startDate: startOfDay,
+        endDate: now,
+        maxPoints: 15, // Limit points for better performance
+      );
+
+      // Get current/latest heart rate
+      currentHeartRate = await _healthService.getLatestHeartRate();
+
+      // If no current heart rate, try to get average for last hour
+      if (currentHeartRate == null) {
+        currentHeartRate = await _healthService.getAverageHeartRate(
+          startDate: now.subtract(const Duration(hours: 1)),
+          endDate: now,
+        );
+      }
+
+      // Fallback to default if still no data
+      if (heartRateData.isEmpty) {
+        _setDefaultHeartRateData();
+      }
+
+
+    } catch (e) {
+      debugPrint('Error fetching heart rate data: $e');
+      _setDefaultHeartRateData();
+    } finally {
+      isLoadingHeartRate = false;
+      notifyListeners();
+    }
   }
+
+  /// Set default heart rate data when real data is unavailable
+  void _setDefaultHeartRateData() {
+    heartRateData = [
+      const FlSpot(0, 70),
+      const FlSpot(2, 72),
+      const FlSpot(4, 75),
+      const FlSpot(6, 73),
+      const FlSpot(8, 71),
+      const FlSpot(10, 74),
+      const FlSpot(12, 76),
+    ];
+    currentHeartRate = 72; // Default current heart rate
+  }
+
+  /// Refresh heart rate data
+  Future<void> refreshHeartRateData() async {
+    await fetchHeartRateData();
+  }
+
+  /// Get formatted current heart rate string
+  String get formattedCurrentHeartRate {
+    if (currentHeartRate == null) return '--';
+    return '${currentHeartRate!.round()} BPM';
+  }
+
+  /// Check if heart rate is in normal range
+  bool get isHeartRateNormal {
+    if (currentHeartRate == null) return true;
+    return currentHeartRate! >= 60 && currentHeartRate! <= 100;
+  }
+
+  /// Get heart rate status color
+  Color getHeartRateStatusColor() {
+    if (currentHeartRate == null) return Colors.grey;
+
+    if (currentHeartRate! < 60) {
+      return Colors.blue; // Low
+    } else if (currentHeartRate! > 100) {
+      return Colors.orange; // High
+    } else {
+      return Colors.green; // Normal
+    }
+  }
+
+  /// Get heart rate status text
+  String getHeartRateStatus() {
+    if (currentHeartRate == null) return 'No data';
+
+    if (currentHeartRate! < 60) {
+      return 'Below normal';
+    } else if (currentHeartRate! > 100) {
+      return 'Above normal';
+    } else {
+      return 'Normal';
+    }
+  }
+
+  // Improved init method
+  @override
+  Future<void> init() async {
+    try {
+      // Run these concurrently for better performance
+      await Future.wait([
+        fetchHeartRateData(),
+        loadIntakeData(),
+        initDrinkWater(),
+        getUsername(),
+        getUserDetails(),
+      ]);
+
+      if (intakeDataNew.isEmpty) {
+        updateIntakeDataAmounts();
+        await saveDateWater();
+      }
+
+      // Load user data from SharedPreferences
+      final String? userData = PreferenceManager().getString('user');
+      if (userData != null && userData.isNotEmpty) {
+        try {
+          final decodedData = jsonDecode(userData);
+          final UserModel user = UserModel.fromJson(decodedData);
+          weight = user.weight;
+          height = user.height;
+          calculateBmi();
+        } catch (e) {
+          debugPrint('Error parsing user data: $e');
+        }
+      }
+
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error initializing HomeController: $e');
+      // Set defaults in case of error
+      _setDefaultHeartRateData();
+      notifyListeners();
+    }
+  }
+
+  /// Periodic refresh method (call this every few minutes if needed)
+  Future<void> performPeriodicRefresh() async {
+    try {
+      await Future.wait([
+        refreshHeartRateData(),
+        // Add other periodic updates here
+      ]);
+    } catch (e) {
+      debugPrint('Error during periodic refresh: $e');
+    }
+  }
+
 
   // Initialize drink water tracking
   Future<void> initDrinkWater() async {

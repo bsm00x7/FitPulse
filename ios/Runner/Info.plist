@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<key>NSHealthShareUsageDescription</key>
+<string>This app needs access to health data to show your heart rate.</string>
     <key>NSMotionUsageDescription</key>
     <string>This application tracks your steps</string>
     <key>UIBackgroundModes</key>
