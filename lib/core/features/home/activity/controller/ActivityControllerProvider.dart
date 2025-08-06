@@ -26,7 +26,7 @@ class ActivityControllerProvider with ChangeNotifier {
         lastActivity = List<Map<String, dynamic>>.from(decoded);
         notifyListeners();
       } catch (e) {
-        debugPrint('Error loading last activities: $e');
+
       }
     }
   }
@@ -44,7 +44,7 @@ class ActivityControllerProvider with ChangeNotifier {
       loadLastFourActivities();
       notifyListeners();
     } catch (e) {
-      debugPrint('Error loading last activities: $e');
+
     }
   }
 }

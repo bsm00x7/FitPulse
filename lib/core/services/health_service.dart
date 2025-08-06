@@ -1,9 +1,5 @@
-import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/material.dart';
-
 class HealthService {
   static final HealthService _instance = HealthService._internal();
   factory HealthService() => _instance;
@@ -36,7 +32,6 @@ class HealthService {
 
       return hasPermissions ?? false;
     } catch (e) {
-      debugPrint('Error requesting health permissions: $e');
       return false;
     }
   }
@@ -51,7 +46,6 @@ class HealthService {
       ) ??
           false;
     } catch (e) {
-      debugPrint('Error checking permissions: $e');
       return false;
     }
   }
@@ -65,7 +59,6 @@ class HealthService {
       // Check permissions first
       final hasPermission = await hasPermissions();
       if (!hasPermission) {
-        debugPrint('No health permissions available');
         return [];
       }
 
@@ -75,7 +68,6 @@ class HealthService {
       startDate ??= DateTime.now().subtract(const Duration(days: 1));
       endDate ??= DateTime.now();
 
-      debugPrint('Fetching heart rate data from $startDate to $endDate');
 
       final healthData = await _health.getHealthDataFromTypes(
         types: types,
@@ -92,10 +84,10 @@ class HealthService {
       // Sort by date
       heartRateData.sort((a, b) => a.dateFrom.compareTo(b.dateFrom));
 
-      debugPrint('Found ${heartRateData.length} heart rate data points');
+;
       return heartRateData;
     } catch (e) {
-      debugPrint('Error fetching heart rate data: $e');
+
       return [];
     }
   }
@@ -113,7 +105,6 @@ class HealthService {
       );
 
       if (dataPoints.isEmpty) {
-        debugPrint('No heart rate data available, returning default points');
         return _getDefaultHeartRatePoints();
       }
 
@@ -146,10 +137,8 @@ class HealthService {
       // Sort by x-axis (time)
       spots.sort((a, b) => a.x.compareTo(b.x));
 
-      debugPrint('Generated ${spots.length} chart points');
       return spots;
     } catch (e) {
-      debugPrint('Error converting heart rate data to chart points: $e');
       return _getDefaultHeartRatePoints();
     }
   }
@@ -174,7 +163,6 @@ class HealthService {
       }
       return null;
     } catch (e) {
-      debugPrint('Error extracting numeric value from HealthValue: $e');
       return null;
     }
   }
@@ -234,7 +222,6 @@ class HealthService {
       final latest = dataPoints.last;
       return _extractHeartRateValue(latest.value);
     } catch (e) {
-      debugPrint('Error getting latest heart rate: $e');
       return null;
     }
   }
@@ -265,7 +252,6 @@ class HealthService {
 
       return validCount > 0 ? total / validCount : null;
     } catch (e) {
-      debugPrint('Error calculating average heart rate: $e');
       return null;
     }
   }
@@ -291,7 +277,6 @@ class HealthService {
           .where((point) => point.type == HealthDataType.STEPS)
           .toList();
     } catch (e) {
-      debugPrint('Error fetching steps data: $e');
       return [];
     }
   }
@@ -317,7 +302,6 @@ class HealthService {
 
       return totalSteps;
     } catch (e) {
-      debugPrint('Error getting today\'s steps: $e');
       return 0;
     }
   }
@@ -345,7 +329,6 @@ class HealthService {
 
       return totalCalories;
     } catch (e) {
-      debugPrint('Error getting today\'s calories: $e');
       return 0.0;
     }
   }

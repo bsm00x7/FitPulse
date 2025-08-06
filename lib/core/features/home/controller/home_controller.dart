@@ -53,7 +53,6 @@ class HomeController with ChangeNotifier {
       // Request permissions first
       final hasPermission = await _healthService.requestPermissions();
       if (!hasPermission) {
-        debugPrint('Health permissions not granted');
         _setDefaultHeartRateData();
         return;
       }
@@ -86,7 +85,6 @@ class HomeController with ChangeNotifier {
 
 
     } catch (e) {
-      debugPrint('Error fetching heart rate data: $e');
       _setDefaultHeartRateData();
     } finally {
       isLoadingHeartRate = false;
@@ -179,13 +177,13 @@ class HomeController with ChangeNotifier {
           height = user.height;
           calculateBmi();
         } catch (e) {
-          debugPrint('Error parsing user data: $e');
+
         }
       }
 
       notifyListeners();
     } catch (e) {
-      debugPrint('Error initializing HomeController: $e');
+
       // Set defaults in case of error
       _setDefaultHeartRateData();
       notifyListeners();
@@ -200,7 +198,7 @@ class HomeController with ChangeNotifier {
         // Add other periodic updates here
       ]);
     } catch (e) {
-      debugPrint('Error during periodic refresh: $e');
+
     }
   }
 
@@ -225,7 +223,7 @@ class HomeController with ChangeNotifier {
           shouldReset = true;
         }
       } catch (e) {
-        debugPrint('Error parsing last reset date: $e');
+
         shouldReset = true;
       }
     }
@@ -521,6 +519,4 @@ class HomeController with ChangeNotifier {
     _calories =  0.0;
     notifyListeners();
   }
-
-
 }

@@ -77,7 +77,7 @@ class ControllerSubScreen with ChangeNotifier {
       }
     } catch (e) {
       errorMessage = 'Network error: $e';
-      debugPrint('Network Error: $e');
+
     }
 
     isLoading = false;

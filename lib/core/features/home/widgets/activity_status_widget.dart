@@ -179,7 +179,7 @@ class _ActivityStatusWidgetState extends State<ActivityStatusWidget>
       gridData: FlGridData(
         show: true,
         drawVerticalLine: false,
-        horizontalInterval: (maxY - minY) / 4,
+        horizontalInterval: (maxY - minY) / 3,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: Colors.grey[200],
@@ -195,6 +195,7 @@ class _ActivityStatusWidgetState extends State<ActivityStatusWidget>
         rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
+            maxIncluded: false,
             showTitles: true,
             reservedSize: 40,
             interval: (maxY - minY) / 3,
@@ -288,14 +289,11 @@ class _ActivityStatusWidgetState extends State<ActivityStatusWidget>
       maxY: maxY,
     );
   }
-
   double _calculateXInterval() {
     if (widget.heartRateData.isEmpty) return 4.0;
-
     final maxX = widget.heartRateData.map((e) => e.x).reduce((a, b) => a > b ? a : b);
     return (maxX / 6).ceilToDouble();
   }
-
   String _formatTimeLabel(double value) {
     final hours = value.toInt();
     if (hours == 0) return 'Now';

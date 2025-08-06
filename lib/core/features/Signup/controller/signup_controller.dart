@@ -1,4 +1,6 @@
 
+import 'package:fitness/core/constant/storage_Key.dart';
+import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/services/auth/auth_service.dart';
@@ -24,7 +26,8 @@ class SignupController extends ChangeNotifier {
   }
 
    void register ({ required BuildContext context}){
-
+    PreferenceManager().setString(StorageKey.firstName, firstname.text);
+    PreferenceManager().setString(StorageKey.lastname, lastname.text);
      AuthService().register(email: emailController.text.trim(), password: passwordController.text, context: context, username:firstname.text , lastname: lastname.text);
    }
 

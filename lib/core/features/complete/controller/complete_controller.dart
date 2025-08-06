@@ -65,11 +65,10 @@ class CompleteController with ChangeNotifier {
           );
           return;
         }
-
         await firestoreService.saveUserDetails(
           user,
-          userName, // Now safe to use without !
-          lastName, // Now safe to use without !
+          userName,
+          lastName,
           selectedGender!,
           birthDate,
           weightValue,
