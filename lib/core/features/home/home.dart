@@ -389,7 +389,7 @@ class Home extends StatelessWidget {
                   SizedBox(height: 15),
                   InkWell(
                     onLongPress: (){
-
+                      _showCaloriesRestDialog(context, theme);
                     },
                     child: Container(
                       height: 150,
@@ -466,6 +466,187 @@ class Home extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+  // Enhanced Calories Rest Dialog
+  void _showCaloriesRestDialog(BuildContext context, ThemeData theme) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          elevation: 8,
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  Colors.grey.shade50,
+                ],
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Icon and Title
+                Container(
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: Color(0xffB4C0FE).withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.restaurant,
+                    color: Color(0xffB4C0FE),
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                Text(
+                  'Reset Calories?',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xff1D1617),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+
+                Consumer<HomeController>(
+                  builder: (context, provider, child) {
+                    return Text(
+                      'Current: ${provider.calories.toInt()} / 1000 kCal\nWould you like to reset your calorie tracking?',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade600,
+                        height: 1.4,
+                      ),
+                      textAlign: TextAlign.center,
+                    );
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 48,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            side: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    Expanded(
+                      child: Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xffB4C0FE),
+                              Color(0xff9BB5FF),
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xffB4C0FE).withValues(alpha: 0.3),
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            _resetCalories(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ),
+                          child: Text(
+                            'Reset',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Reset Calories Method
+  void _resetCalories(BuildContext context) {
+    // Reset calories in your provider
+    final provider = Provider.of<HomeController>(context, listen: false);
+     provider.resetCalories(); // You need to add this method to your HomeController
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(Icons.refresh, color: Colors.white, size: 20),
+            SizedBox(width: 8),
+            Text(
+              'Calories reset successfully!',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        backgroundColor: Color(0xffB4C0FE),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        margin: EdgeInsets.all(16),
+        duration: Duration(seconds: 2),
       ),
     );
   }

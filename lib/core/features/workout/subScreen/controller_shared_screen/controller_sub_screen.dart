@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../data/models/exercise_model.dart';
-import '../../../home/controller/home_controller.dart';
 
 class ControllerSubScreen with ChangeNotifier {
   List<Exercise> exercises = [];

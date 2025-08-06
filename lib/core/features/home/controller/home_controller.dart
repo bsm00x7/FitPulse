@@ -16,7 +16,7 @@ class HomeController with ChangeNotifier {
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
   String? username;
-  final double _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0.0;
+   double _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0.0;
   double currentWaterIntake = 0; // in ml
   double get calories => _calories;
   double? get targetWaterToday =>
@@ -381,6 +381,15 @@ class HomeController with ChangeNotifier {
       startWater = 0.0;
     }
 
+  }
+  void refrechCaloris(){
+    _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0;
+    notifyListeners();
+  }
+  void resetCalories() {
+    PreferenceManager().remove(StorageKey.calories);
+    _calories =  0.0;
+    notifyListeners();
   }
 
 

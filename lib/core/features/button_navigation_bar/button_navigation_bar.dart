@@ -1,18 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-
 import '../home/controller/home_controller.dart';
 import '../home/home.dart';
 import '../profile/profile.dart';
 import '../walking/walking_screen.dart';
 import '../workout/work_out.dart';
-
 class ButtonNavigation extends StatefulWidget {
   const ButtonNavigation({super.key});
-
   @override
   State<ButtonNavigation> createState() => _ButtonNavigationState();
 }
@@ -23,8 +18,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
     WalkingScreen(),
     Profile()
   ];
-  int _currentIndex = 1;
-  
+  int _currentIndex = 0;
   @override
   void initState() {
     super.initState();

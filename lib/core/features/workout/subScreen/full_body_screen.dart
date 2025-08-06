@@ -57,23 +57,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
     super.dispose();
   }
 
-  void _startWorkout() {
-    // Navigate to workout timer or detailed exercise view
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Row(
-          children: [
-            Icon(Icons.play_arrow, color: Colors.white),
-            SizedBox(width: 8),
-            Text('Starting workout...'),
-          ],
-        ),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +72,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
           icon: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.arrow_back_ios_new, color: Colors.black87),
@@ -100,7 +84,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(Icons.favorite_border, color: Colors.black87),
@@ -190,7 +174,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                                   height: 200,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha: 0.1),
                                   ),
                                 ),
                               ),
@@ -215,7 +199,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                                         'Workout',
                                         style: theme.textTheme.headlineMedium
                                             ?.copyWith(
-                                          color: Colors.white.withOpacity(0.8),
+                                          color: Colors.white.withValues(alpha: 0.8),
                                           fontWeight: FontWeight.w300,
                                         ),
                                       ),
@@ -262,7 +246,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                                                     'Progress',
                                                     style: TextStyle(
                                                       color: Colors.white
-                                                          .withOpacity(0.9),
+                                                          .withValues(alpha: 0.9),
                                                       fontWeight: FontWeight.w500,
                                                     ),
                                                   ),
@@ -283,7 +267,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                                                   value: provider.progressPercentage *
                                                       _progressAnimation.value,
                                                   backgroundColor: Colors.white
-                                                      .withOpacity(0.3),
+                                                      .withValues(alpha: 0.3),
                                                   valueColor:
                                                   const AlwaysStoppedAnimation<
                                                       Color
@@ -360,6 +344,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                                   exercise: provider.exercises[index],
                                   onToggle: (){
                                     provider.toggleExercise(index);
+                                    context.read<HomeController>().refrechCaloris();
 
                                   },
                                   theme: theme,
@@ -380,45 +365,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
             ],
           );
         },
-      ),
-
-      // Floating Action Button
-      floatingActionButton: Consumer<ControllerSubScreen>(
-        builder: (context, provider, child) {
-          if (provider.exercises.isEmpty) {
-            return const SizedBox.shrink();
-          }
-
-          return AnimatedScale(
-            scale: provider.completedExercises == provider.exercises.length ? 1.1 : 1.0,
-            duration: const Duration(milliseconds: 200),
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                _startWorkout();
-              },
-              backgroundColor: provider.completedExercises == provider.exercises.length
-                  ? Colors.green
-                  : const Color(0xFF6C63FF),
-              icon: Icon(
-                provider.completedExercises == provider.exercises.length
-                    ? Icons.check_circle
-                    : Icons.play_arrow,
-                color: Colors.white,
-              ),
-              label: Text(
-                provider.completedExercises == provider.exercises.length
-                    ? 'Complete!'
-                    : 'Start Workout',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      )
     );
   }
 
@@ -431,7 +378,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withValues( alpha: 0.15),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -449,7 +396,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
             Text(
               label,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 fontSize: 12,
               ),
             ),
@@ -516,18 +463,18 @@ class _ExerciseCardState extends State<ExerciseCard>
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: widget.exercise.isCompleted
-                    ? Colors.green.withOpacity(0.1)
+                    ? Colors.green.withValues(alpha: 0.1)
                     : Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: widget.exercise.isCompleted
-                      ? Colors.green.withOpacity(0.3)
-                      : Colors.grey.withOpacity(0.1),
+                      ? Colors.green.withValues(alpha: 0.3)
+                      : Colors.grey.withValues(alpha: 0.1),
                   width: 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -542,8 +489,8 @@ class _ExerciseCardState extends State<ExerciseCard>
                     height: 60,
                     decoration: BoxDecoration(
                       color: widget.exercise.isCompleted
-                          ? Colors.green.withOpacity(0.2)
-                          : const Color(0xFF6C63FF).withOpacity(0.1),
+                          ? Colors.green.withValues(alpha: 0.2)
+                          : const Color(0xFF6C63FF).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
@@ -595,7 +542,7 @@ class _ExerciseCardState extends State<ExerciseCard>
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.1),
+                                color: Colors.blue.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text('5:00',
@@ -613,11 +560,11 @@ class _ExerciseCardState extends State<ExerciseCard>
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.orange.withOpacity(0.1),
+                                color: Colors.orange.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                '${widget.exercise.calories ?? 50} cal',
+                                '${widget.exercise.calories} cal',
                                 style: const TextStyle(
                                   color: Colors.orange,
                                   fontSize: 12,
