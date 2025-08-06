@@ -1,32 +1,36 @@
 import 'dart:convert';
 
+import 'package:fitness/core/constant/storage_Key.dart';
+import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../data/models/exercise_model.dart';
+import '../../../home/controller/home_controller.dart';
 
 class ControllerSubScreen with ChangeNotifier {
   List<Exercise> exercises = [];
   bool isLoading = false; // Track loading state
   String? errorMessage; // Track errors
-  static const String apiToken = '9456|tsTIYzKUkDQ53PWA94uViZYDvnOikgRE4Xk5VUG9';
-  int get completedExercises =>
-      exercises
-          .where((e) => e.isCompleted)
-          .length;
+  int get completedExercises => exercises.where((e) => e.isCompleted).length;
 
   int get totalCalories =>
-      exercises.fold(0, (sum, e) => sum + (e.calories ?? 0));
-
-  int get completedCalories =>
-      exercises.where((e) => e.isCompleted).fold(
-          0, (sum, e) => sum + (e.calories ?? 0));
+      exercises.fold(0, (sum, e) => sum + (e.calories));
+  int get completedCalories => exercises
+      .where((e) => e.isCompleted)
+      .fold(0, (sum, e) => sum + (e.calories));
 
   double get progressPercentage =>
       exercises.isEmpty ? 0.0 : completedExercises / exercises.length;
 
   void toggleExercise(int index) {
     exercises[index].isCompleted = !exercises[index].isCompleted;
+    final double? last = PreferenceManager().getDouble(StorageKey.calories);
+    if (last==0 || last ==null){
+      PreferenceManager().setDouble(StorageKey.calories, exercises[index].calories.toDouble());
+    }else if (last +exercises[index].calories <=1000.0){
+      PreferenceManager().setDouble(StorageKey.calories, last+ exercises[index].calories);
+    }
     notifyListeners();
   }
 
@@ -44,50 +48,25 @@ class ControllerSubScreen with ChangeNotifier {
         return ['cardio'];
     }
   }
-Future<int>getCaloriesFromExercisesWithId({required String id})async{
-    final apiUrl = 'https://zylalabs.com/api/7232/workout+routine+api/11447/calories+burned?age=24&gender=male&weight=80&exercise_id=$id';
-    final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: {
-        'Authorization': 'Bearer$apiToken',
-        'Content-Type': 'application/json',
-      }
-    );
-     String data = '20';
-    if (response.statusCode == 200) {
-      data = jsonDecode(response.body)['calories_burned'];
-      debugPrint(data.toString());
 
-    }
-    return int.parse(data);
-}
   Future<void> getExercisesWithTarget({required String targetFilter}) async {
     isLoading = true;
     errorMessage = null;
-    exercises.clear(); // Clear previous exercises
+    exercises.clear();
     List<String> targetParts = switchTarget(targetFilter);
     notifyListeners();
     try {
       List<Exercise> allExercises = [];
       for (String bodyPart in targetParts) {
-        final apiUrl =
-            'https://zylalabs.com/api/7232/workout+routine+api/11409/list+exercise+by+body+part?bodyPart=$bodyPart';
-        final response = await http.get(
-          Uri.parse(apiUrl),
-          headers: {
-            'Authorization': 'Bearer $apiToken',
-            'Content-Type': 'application/json',
-          },
-        );
-
+        final apiUrl = 'https://www.exercisedb.dev/api/v1/bodyparts/$bodyPart/exercises?offset=0&limit=10';
+        final response = await http.get(Uri.parse(apiUrl));
         if (response.statusCode == 200) {
-          final List<dynamic> data = jsonDecode(response.body);
-          Set<Exercise> bodyPartExercises = data.map((e) => Exercise.fromMap(e).copyWith(calories: 40)).toSet();
+          final List<dynamic> data = jsonDecode(response.body)['data'];
+          Set<Exercise> bodyPartExercises = data
+              .map((e) => Exercise.fromMap(e))
+              .toSet();
           allExercises.addAll(bodyPartExercises.toList());
-        } else {
-        }
-
-        // Add a small delay between requests to avoid rate limiting
+        } else {}
         await Future.delayed(const Duration(milliseconds: 200));
       }
 
@@ -97,7 +76,6 @@ Future<int>getCaloriesFromExercisesWithId({required String id})async{
         // Remove duplicates based on exercise name or ID
         exercises = removeDuplicateExercises(allExercises);
       }
-
     } catch (e) {
       errorMessage = 'Network error: $e';
       debugPrint('Network Error: $e');
@@ -111,7 +89,7 @@ Future<int>getCaloriesFromExercisesWithId({required String id})async{
   List<Exercise> removeDuplicateExercises(List<Exercise> exerciseList) {
     final seen = <String>{};
     return exerciseList.where((exercise) {
-      final exerciseName = exercise.name?.toLowerCase() ?? '';
+      final exerciseName = exercise.name.toLowerCase();
       if (seen.contains(exerciseName)) {
         return false;
       }

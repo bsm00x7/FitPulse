@@ -32,7 +32,10 @@ class PreferenceManager with ChangeNotifier {
     return _preferences.getInt(key);
   }
   double? getDouble (String key ){
-    return _preferences.getDouble(key);
+    final value = _preferences?.get(key);
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    return null;
   }
   remove(String key){
     return _preferences.remove(key);

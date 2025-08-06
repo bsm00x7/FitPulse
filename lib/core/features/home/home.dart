@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
                 ),
               );
               // Add this line to refresh the water size when returning from Activity screen
-              context.read<HomeController>().refreshWaterSize();
+              context.read<HomeController>().refresh();
             },
           ),
           SizedBox(height: 30),
@@ -387,74 +387,77 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 15),
-                  Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 2),
-                      ],
+                  InkWell(
+                    onLongPress: (){
 
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 4,
+                    },
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 2),
+                        ],
+
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            'Calories',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xff1D1617),
-                              fontWeight: FontWeight.w600,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 4,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              'Calories',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Color(0xff1D1617),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '1000 kCal',
-                            style: theme.textTheme.titleMedium!.copyWith(
-                              fontSize: 20,
-                              color: theme.colorScheme.onSecondary,
+                            Text(
+                              '1000 kCal',
+                              style: theme.textTheme.titleMedium!.copyWith(
+                                fontSize: 20,
+                                color: theme.colorScheme.onSecondary,
+                              ),
                             ),
-                          ),
-                          Consumer<HomeController>(
-                            builder: (context, provider, child) {
-                              return Expanded(
-                                child: DashedCircularProgressBar.aspectRatio(
-                                  aspectRatio: 1.6,
-
-                                  valueNotifier: ValueNotifier(600),
-                                  progress: provider.calories,
-                                  maxProgress: 1000,
-                                  corners: StrokeCap.round,
-                                  foregroundColor: Color(0xffB4C0FE),
-                                  backgroundColor: Color(0xffF7F8F8),
-                                  foregroundStrokeWidth: 12,
-                                  backgroundStrokeWidth: 12,
-                                  animation: true,
-                                  child: Center(
-                                    child: ValueListenableBuilder(
-                                      valueListenable: valueNotifier,
-                                      builder: (_, double value, __) => Text(
-                                        '${1000 - value.toInt()}',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 18,
+                            Consumer<HomeController>(
+                              builder: (context, provider, child) {
+                                return Expanded(
+                                  child: DashedCircularProgressBar.aspectRatio(
+                                    aspectRatio: 1.6,
+                                    progress: provider.calories,
+                                    maxProgress: 1000,
+                                    corners: StrokeCap.round,
+                                    foregroundColor: Color(0xffB4C0FE),
+                                    backgroundColor: Color(0xffF7F8F8),
+                                    foregroundStrokeWidth: 12,
+                                    backgroundStrokeWidth: 12,
+                                    animation: true,
+                                    child: Center(
+                                      child: ValueListenableBuilder(
+                                        valueListenable: valueNotifier,
+                                        builder: (_, double value, __) => Text(
+                                          '${1000 - provider.calories.toInt()}',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 18,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

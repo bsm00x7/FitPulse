@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/models/exercise_model.dart';
+import '../../home/controller/home_controller.dart';
 import 'controller_shared_screen/controller_sub_screen.dart';
 
 class FullBodyScreen extends StatefulWidget {
@@ -144,7 +145,7 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                   ElevatedButton(
                     onPressed: () {
                       provider.getExercisesWithTarget(
-                        targetFilter: widget.partOf.toLowerCase(),
+                        targetFilter: widget.partOf,
                       );
                     },
                     child: const Text('Retry'),
@@ -357,7 +358,10 @@ class _FullBodyScreenState extends State<FullBodyScreen>
                                 padding: const EdgeInsets.only(bottom: 16.0),
                                 child: ExerciseCard(
                                   exercise: provider.exercises[index],
-                                  onToggle: () => provider.toggleExercise(index),
+                                  onToggle: (){
+                                    provider.toggleExercise(index);
+
+                                  },
                                   theme: theme,
                                 ),
                               ),
@@ -543,7 +547,7 @@ class _ExerciseCardState extends State<ExerciseCard>
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
-                      widget.exercise.icon ?? Icons.fitness_center,
+                      widget.exercise.icon ,
                       size: 28,
                       color: widget.exercise.isCompleted
                           ? Colors.green
@@ -560,7 +564,10 @@ class _ExerciseCardState extends State<ExerciseCard>
                       children: [
                         Text(
                           widget.exercise.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: widget.theme.textTheme.titleMedium?.copyWith(
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             decoration: widget.exercise.isCompleted
                                 ? TextDecoration.lineThrough
@@ -572,7 +579,9 @@ class _ExerciseCardState extends State<ExerciseCard>
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          widget.exercise.equipment,
+                          widget.exercise.equipments.isNotEmpty
+                              ? widget.exercise.equipments[0] // If not empty, show the first equipment
+                              : 'No equipment',
                           style: widget.theme.textTheme.bodySmall?.copyWith(
                             color: Colors.grey[600],
                           ),
@@ -589,8 +598,7 @@ class _ExerciseCardState extends State<ExerciseCard>
                                 color: Colors.blue.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Text(
-                                widget.exercise.duration ?? '5:00',
+                              child: Text('5:00',
                                 style: const TextStyle(
                                   color: Colors.blue,
                                   fontSize: 12,

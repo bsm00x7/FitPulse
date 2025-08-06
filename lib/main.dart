@@ -17,8 +17,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize PreferenceManager
   await PreferenceManager().init();
-
   // Initialize Firebase
+
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );

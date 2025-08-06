@@ -1,93 +1,88 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Exercise {
+  final String exerciseId;
   final String name;
-  final String? duration; // Made optional since not in JSON
-  final IconData? icon; // Made optional since not in JSON
-  final String equipment;
-   int? calories; // Made optional since not in JSON
-  final String bodyPart;
   final String gifUrl;
-  final int id;
-  final String target;
-  final List<Map<String, String>> videos;
+  final List<String> targetMuscles;
+  final List<String> bodyParts;
+  final List<String> equipments;
+  final List<String> secondaryMuscles;
+  final List<String> instructions;
+  IconData icon;
+  int calories;
   bool isCompleted;
 
   Exercise({
+    required this.exerciseId,
     required this.name,
-    this.duration,
-    this.icon,
-    required this.equipment,
-    this.calories,
-    required this.bodyPart,
     required this.gifUrl,
-    required this.id,
-    required this.target,
-    required this.videos, // Added to match JSON
+    required this.targetMuscles,
+    required this.bodyParts,
+    required this.equipments,
+    required this.instructions,
+    required this.secondaryMuscles,
     this.isCompleted = false,
+    this.icon = Icons.fitness_center,
+    this.calories = 40,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'exerciseId': exerciseId,
       'name': name,
-      'duration': duration,
-      'icon': icon?.codePoint, // Store IconData's codePoint if needed
-      'equipment': equipment,
-      'calories': calories,
-      'bodyPart': bodyPart,
       'gifUrl': gifUrl,
-      'id': id,
-      'target': target,
-      'videos': videos,
+      'targetMuscles': targetMuscles,
+      'bodyParts': bodyParts,
+      'equipments': equipments,
+      'secondaryMuscles': secondaryMuscles,
+      'instructions': instructions,
+      'icon': icon,
+      'calories': calories,
       'isCompleted': isCompleted,
     };
   }
 
+  /// The factory constructor now includes a helper function to estimate
+  /// calories based on the primary body part targeted by the exercise.
   factory Exercise.fromMap(Map<String, dynamic> map) {
-    return Exercise(
-      name: map['name'] as String,
-      duration: map['duration'] as String?, // Nullable
-      icon: map['icon'] != null
-          ? IconData(map['icon'] as int, fontFamily: 'CupertinoIcons')
-          : null, // Handle IconData if provided
-      equipment: map['equipment'] as String,
-      calories: map['calories'] as int?, // Nullable
-      bodyPart: map['bodyPart'] as String,
-      gifUrl: map['gifUrl'] as String,
-      id: map['id'] as int,
-      target: map['target'] as String,
-      videos: (map['videos'] as List<dynamic>)
-          .map((v) => Map<String, String>.from(v))
-          .toList(),
-      isCompleted: map['isCompleted'] as bool? ?? false,
-    );
-  }
+    int estimateCalories(List<String> bodyParts) {
+      if (bodyParts.isEmpty) {
+        return 40;
+      }
 
-  Exercise copyWith({
-    String? name,
-    String? duration,
-    IconData? icon,
-    String? equipment,
-    int? calories,
-    String? bodyPart,
-    String? gifUrl,
-    int? id,
-    String? target,
-    List<Map<String, String>>? videos,
-    bool? isCompleted,
-  }) {
+      String primaryPart = bodyParts.first.toLowerCase();
+      switch (primaryPart) {
+        case 'cardio':
+        case 'back':
+        case 'chest':
+        case 'upper legs':
+          return 60;
+        case 'shoulders':
+        case 'upper arms':
+        case 'waist':
+          return 45;
+        case 'lower legs':
+        case 'lower arms':
+        case 'neck':
+          return 30;
+        default:
+          return 40;
+      }
+    }
+    final bodyPartsList = List<String>.from(map['bodyParts'] as List? ?? []);
     return Exercise(
-      name: name ?? this.name,
-      duration: duration ?? this.duration,
-      icon: icon ?? this.icon,
-      equipment: equipment ?? this.equipment,
-      calories: calories ?? this.calories,
-      bodyPart: bodyPart ?? this.bodyPart,
-      gifUrl: gifUrl ?? this.gifUrl,
-      id: id ?? this.id,
-      target: target ?? this.target,
-      videos: videos ?? this.videos,
-      isCompleted: isCompleted ?? this.isCompleted,
+      exerciseId: map['exerciseId'] as String? ?? '',
+      name: map['name'] as String? ?? 'Unnamed Exercise',
+      gifUrl: map['gifUrl'] as String? ?? '',
+      targetMuscles: List<String>.from(map['targetMuscles'] as List? ?? []),
+      bodyParts: bodyPartsList,
+      equipments: List<String>.from(map['equipments'] as List? ?? []),
+      secondaryMuscles: List<String>.from(map['secondaryMuscles'] as List? ?? []),
+      instructions: List<String>.from(map['instructions'] as List? ?? []),
+      calories: estimateCalories(bodyPartsList),
+      isCompleted: map['isCompleted'] as bool? ?? false,
+      icon: map['icon'] as IconData? ?? Icons.fitness_center,
     );
   }
 }

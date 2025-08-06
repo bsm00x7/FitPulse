@@ -8,7 +8,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../activity/model/activity_model.dart';
-
 class HomeController with ChangeNotifier {
   String? type;
   double? bmi;
@@ -17,11 +16,9 @@ class HomeController with ChangeNotifier {
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
   String? username;
-  final double _Calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0;
+  final double _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0.0;
   double currentWaterIntake = 0; // in ml
-
-
-  double get calories => _Calories;
+  double get calories => _calories;
   double? get targetWaterToday =>
       PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
   List<Map<String, dynamic>> get intakeData {
@@ -215,10 +212,11 @@ class HomeController with ChangeNotifier {
   }
 
   // Refresh water size when it changes
-  void refreshWaterSize() {
+  void refresh() {
     updateIntakeDataAmounts();
     saveDateWater();
     notifyListeners();
+
   }
 
   // Load user details from Firestore
@@ -384,4 +382,6 @@ class HomeController with ChangeNotifier {
     }
 
   }
+
+
 }
