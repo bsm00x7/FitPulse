@@ -1,12 +1,18 @@
+import 'dart:io';
 
+import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:fitness/core/features/profile/widgets/show_model_bottom_sheet.dart';
+import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'controller/controller.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
+
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -23,6 +29,7 @@ class _ProfileState extends State<Profile> {
   static const Color gradientStart = Color(0xFF667EEA);
   static const Color gradientEnd = Color(0xFF764BA2);
 
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -36,10 +43,7 @@ class _ProfileState extends State<Profile> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                surfaceColor,
-                Colors.white,
-              ],
+              colors: [surfaceColor, Colors.white],
             ),
           ),
           child: SingleChildScrollView(
@@ -71,7 +75,7 @@ class _ProfileState extends State<Profile> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: IconButton(
-                                onPressed: (){
+                                onPressed: () {
                                   provider.signOut(context);
                                 },
                                 icon: Icon(
@@ -86,36 +90,101 @@ class _ProfileState extends State<Profile> {
                       // Profile section
                       Row(
                         children: [
-
-                          Container(
-                            padding: EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                colors: [accentColor, successColor],
-                              ),
-                            ),
-                            child: CircleAvatar(
-                              radius: 35,
-                              backgroundColor: Colors.white,
-                              child: SvgPicture.asset(
-                                'assets/profile/user.svg',
-                                height: 32,
-                                colorFilter: ColorFilter.mode(
-                                  primaryColor,
-                                  BlendMode.srcIn,
+                          Consumer<ProfileController>(
+                            builder: (context, provider, child) {
+                              return GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        height: 200,
+                                        width: double.infinity,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 20,
+                                            horizontal: 40,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: provider.pickImageFromGallery,
+                                                child: ListTile(
+                                                  leading: Icon(
+                                                    FontAwesomeIcons.image,
+                                                  ),
+                                                  title: Text(
+                                                    'Pick Image From Gallery',
+                                                  ),
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Colors.grey.withValues(
+                                                  alpha: 0.5,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: provider.pickImageFromCamera,
+                                                child: ListTile(
+                                                  leading: Icon(
+                                                    FontAwesomeIcons.camera,
+                                                  ),
+                                                  title: Text(
+                                                    'Pick Image From Camera',
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [accentColor, successColor],
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                      radius: 35,
+                                      backgroundColor: Colors.white,
+                                      child:provider.imageSource==
+                                          null
+                                          ? SvgPicture.asset(
+                                        'assets/profile/user.svg',
+                                        height: 32,
+                                        colorFilter: ColorFilter.mode(
+                                          primaryColor,
+                                          BlendMode.srcIn,
+                                        ),
+                                      )
+                                          : ClipOval(
+                                        child: Image.file(
+                                          File(provider.imageSource!),
+                                          fit: BoxFit.cover,
+                                          width: 35 * 2,
+                                          height: 35 * 2,
+                                        ),
+                                      )
+                                  ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                           SizedBox(width: 20),
 
                           // User info
                           Expanded(
                             child: Consumer<ProfileController>(
-                              builder: (BuildContext context, value, Widget? child) {
+                              builder:
+                                  (BuildContext context, value, Widget? child) {
                                 return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       value.userName ?? 'user not found',
@@ -127,10 +196,17 @@ class _ProfileState extends State<Profile> {
                                     ),
                                     SizedBox(height: 4),
                                     Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 4,
+                                      ),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.2),
-                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(
+                                          20,
+                                        ),
                                       ),
                                       child: Text(
                                         value.userGoal!,
@@ -167,12 +243,15 @@ class _ProfileState extends State<Profile> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     buildShowModalBottomSheetWidget(
-                                        context: context,
-                                        usernameController: provider.usernameController,
-                                        key: provider.key,
-                                        onPressed: () async {
-                                          provider.updateUserInformation(context: context);
-                                        }
+                                      context: context,
+                                      usernameController:
+                                      provider.usernameController,
+                                      key: provider.key,
+                                      onPressed: () async {
+                                        provider.updateUserInformation(
+                                          context: context,
+                                        );
+                                      },
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -213,10 +292,15 @@ class _ProfileState extends State<Profile> {
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [primaryColor.withValues(alpha: 0.1), primaryColor.withValues(alpha: 0.05)],
+                                colors: [
+                                  primaryColor.withValues(alpha: 0.1),
+                                  primaryColor.withValues(alpha: 0.05),
+                                ],
                               ),
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: primaryColor.withValues(alpha: 0.2)),
+                              border: Border.all(
+                                color: primaryColor.withValues(alpha: 0.2),
+                              ),
                             ),
                             child: Column(
                               children: [
@@ -245,10 +329,15 @@ class _ProfileState extends State<Profile> {
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [successColor.withValues(alpha: 0.1), successColor.withValues(alpha: 0.05)],
+                                colors: [
+                                  successColor.withValues(alpha: 0.1),
+                                  successColor.withValues(alpha: 0.05),
+                                ],
                               ),
                               borderRadius: BorderRadius.circular(16),
-                              border: Border.all(color: successColor.withValues(alpha: 0.2)),
+                              border: Border.all(
+                                color: successColor.withValues(alpha: 0.2),
+                              ),
                             ),
                             child: Column(
                               children: [
@@ -457,8 +546,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _buildEnhancedListTile(
-      String iconPath,
+  Widget _buildEnhancedListTile(String iconPath,
       String title,
       Color iconColor, {
         bool isFirst = false,
@@ -475,28 +563,19 @@ class _ProfileState extends State<Profile> {
         child: SvgPicture.asset(
           iconPath,
           height: 20,
-          colorFilter: ColorFilter.mode(
-            iconColor,
-            BlendMode.srcIn,
-          ),
+          colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
         ),
       ),
       title: Text(
         title,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: Colors.grey[800],
-        ),
+        style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[800]),
       ),
       trailing: Container(
         padding: EdgeInsets.all(4),
         child: SvgPicture.asset(
           'assets/profile/Icon-Arrow.svg',
           height: 16,
-          colorFilter: ColorFilter.mode(
-            Colors.grey[400]!,
-            BlendMode.srcIn,
-          ),
+          colorFilter: ColorFilter.mode(Colors.grey[400]!, BlendMode.srcIn),
         ),
       ),
     );
@@ -505,10 +584,7 @@ class _ProfileState extends State<Profile> {
   Widget _buildDivider() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Divider(
-        height: 1,
-        color: Colors.grey.withValues(alpha: 0.2),
-      ),
+      child: Divider(height: 1, color: Colors.grey.withValues(alpha: 0.2)),
     );
   }
 }

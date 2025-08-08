@@ -9,5 +9,6 @@ class StorageKey {
   static const steps = 'steps';
   static const walkingStepsTrakcer = 'walkingStepTracker';
   static const calories = 'calories';
+  static const image = 'userImage';
 
 }

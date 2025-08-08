@@ -33,6 +33,7 @@ dependencies:
   pedometer: ^4.1.1
   gif: ^2.3.0
   health: ^13.1.1
+  image_picker: ^1.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
