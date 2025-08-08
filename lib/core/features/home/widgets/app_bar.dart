@@ -30,10 +30,10 @@ class AppBarWidget extends StatelessWidget {
           ],
         ),
         // ! Add sheet button[ draggable]
-        InkWell(
+        /*InkWell(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (_)=>Notifications()));
-            
+
           },
           child: Hero(
             tag: 'bell',
@@ -47,7 +47,7 @@ class AppBarWidget extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        ),*/
       ],
     );
   }

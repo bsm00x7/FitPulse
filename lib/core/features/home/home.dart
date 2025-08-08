@@ -52,17 +52,32 @@ class Home extends StatelessWidget {
           ),
           SizedBox(height: 30),
           // ********************* Activity Status ********************
-          // In your widget
-          Consumer<HomeController>(
-            builder: (context, controller, child) {
-              return ActivityStatusWidget(
-                size: MediaQuery.of(context).size,
-                heartRateData: controller.heartRateData,
-                currentHeartRate: controller.currentHeartRate,
-                isLoading: controller.isLoadingHeartRate,
-                onRefresh: () => controller.refreshHeartRateData(),
-              );
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Consumer<HomeController>(
+                builder: (context, provider, child) {
+                  return _buildContainer(
+                    context: context,
+                    theme: theme,
+                    icon: FontAwesomeIcons.fire,
+                    title: 'Step',
+                    counter: provider.stepsCounter.toString(),
+                  );
+                },
+              ),
+              Consumer<HomeController>(
+                builder: (context, provider, child) {
+                  return _buildContainer(
+                    context: context,
+                    theme: theme,
+                    icon: FontAwesomeIcons.map,
+                    title: 'Distance Km',
+                    counter: provider.distance.toStringAsFixed(2),
+                  );
+                },
+              ),
+            ],
           ),
           SizedBox(height: 30),
           Row(
@@ -392,7 +407,7 @@ class Home extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   InkWell(
-                    onLongPress: (){
+                    onLongPress: () {
                       _showCaloriesRestDialog(context, theme);
                     },
                     child: Container(
@@ -473,6 +488,49 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
+  Container _buildContainer({
+    required BuildContext context,
+    required ThemeData theme,
+    required IconData icon,
+    required String title,
+    required String counter,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      height: 150,
+      width: MediaQuery.of(context).size.width * 0.42,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.orange.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: Colors.deepOrangeAccent),
+            ),
+          ),
+          Text(
+            counter,
+            style: theme.textTheme.titleLarge!.copyWith(fontSize: 30),
+          ),
+          Text(
+            title,
+            style: theme.textTheme.titleSmall!.copyWith(fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
   // Enhanced Calories Rest Dialog
   void _showCaloriesRestDialog(BuildContext context, ThemeData theme) {
     showDialog(
@@ -491,10 +549,7 @@ class Home extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Colors.white,
-                  Colors.grey.shade50,
-                ],
+                colors: [Colors.white, Colors.grey.shade50],
               ),
             ),
             child: Column(
@@ -579,10 +634,7 @@ class Home extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
                           gradient: LinearGradient(
-                            colors: [
-                              Color(0xffB4C0FE),
-                              Color(0xff9BB5FF),
-                            ],
+                            colors: [Color(0xffB4C0FE), Color(0xff9BB5FF)],
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -629,7 +681,8 @@ class Home extends StatelessWidget {
   void _resetCalories(BuildContext context) {
     // Reset calories in your provider
     final provider = Provider.of<HomeController>(context, listen: false);
-     provider.resetCalories(); // You need to add this method to your HomeController
+    provider
+        .resetCalories(); // You need to add this method to your HomeController
 
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
@@ -646,9 +699,7 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Color(0xffB4C0FE),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: EdgeInsets.all(16),
         duration: Duration(seconds: 2),
       ),

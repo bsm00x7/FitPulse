@@ -8,7 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import '../../../services/health_service.dart';
+import '../../../../service/health_service.dart';
 import '../activity/model/activity_model.dart';
 class HomeController with ChangeNotifier {
   String? type;
@@ -37,125 +37,15 @@ class HomeController with ChangeNotifier {
       // 100%
     ];
   }
-
-  List<FlSpot> heartRateData = [];
-  double? currentHeartRate;
-  bool isLoadingHeartRate = false;
-
-  final HealthService _healthService = HealthService();
-
-  /// Fetch heart rate data with better error handling and loading states
-  Future<void> fetchHeartRateData() async {
-    isLoadingHeartRate = true;
-    notifyListeners();
-
-    try {
-      // Request permissions first
-      final hasPermission = await _healthService.requestPermissions();
-      if (!hasPermission) {
-        _setDefaultHeartRateData();
-        return;
-      }
-
-      final DateTime now = DateTime.now();
-      final DateTime startOfDay = DateTime(now.year, now.month, now.day);
-
-      // Fetch chart points for the last 24 hours
-      heartRateData = await _healthService.getHeartRateChartPoints(
-        startDate: startOfDay,
-        endDate: now,
-        maxPoints: 15, // Limit points for better performance
-      );
-
-      // Get current/latest heart rate
-      currentHeartRate = await _healthService.getLatestHeartRate();
-
-      // If no current heart rate, try to get average for last hour
-      if (currentHeartRate == null) {
-        currentHeartRate = await _healthService.getAverageHeartRate(
-          startDate: now.subtract(const Duration(hours: 1)),
-          endDate: now,
-        );
-      }
-
-      // Fallback to default if still no data
-      if (heartRateData.isEmpty) {
-        _setDefaultHeartRateData();
-      }
-
-
-    } catch (e) {
-      _setDefaultHeartRateData();
-    } finally {
-      isLoadingHeartRate = false;
-      notifyListeners();
-    }
-  }
-
-  /// Set default heart rate data when real data is unavailable
-  void _setDefaultHeartRateData() {
-    heartRateData = [
-      const FlSpot(0, 70),
-      const FlSpot(2, 72),
-      const FlSpot(4, 75),
-      const FlSpot(6, 73),
-      const FlSpot(8, 71),
-      const FlSpot(10, 74),
-      const FlSpot(12, 76),
-    ];
-    currentHeartRate = 72; // Default current heart rate
-  }
-
-  /// Refresh heart rate data
-  Future<void> refreshHeartRateData() async {
-    await fetchHeartRateData();
-  }
-
-  /// Get formatted current heart rate string
-  String get formattedCurrentHeartRate {
-    if (currentHeartRate == null) return '--';
-    return '${currentHeartRate!.round()} BPM';
-  }
-
-  /// Check if heart rate is in normal range
-  bool get isHeartRateNormal {
-    if (currentHeartRate == null) return true;
-    return currentHeartRate! >= 60 && currentHeartRate! <= 100;
-  }
-
-  /// Get heart rate status color
-  Color getHeartRateStatusColor() {
-    if (currentHeartRate == null) return Colors.grey;
-
-    if (currentHeartRate! < 60) {
-      return Colors.blue; // Low
-    } else if (currentHeartRate! > 100) {
-      return Colors.orange; // High
-    } else {
-      return Colors.green; // Normal
-    }
-  }
-
-  /// Get heart rate status text
-  String getHeartRateStatus() {
-    if (currentHeartRate == null) return 'No data';
-
-    if (currentHeartRate! < 60) {
-      return 'Below normal';
-    } else if (currentHeartRate! > 100) {
-      return 'Above normal';
-    } else {
-      return 'Normal';
-    }
-  }
+  int get stepsCounter =>PreferenceManager().getInt(StorageKey.steps) ?? 0;
+  double get distance => ( stepsCounter!=0 ? (stepsCounter * 0.78 / 1000) : 0 );
 
   // Improved init method
-  @override
+
   Future<void> init() async {
     try {
       // Run these concurrently for better performance
       await Future.wait([
-        fetchHeartRateData(),
         loadIntakeData(),
         initDrinkWater(),
         getUsername(),
@@ -184,24 +74,10 @@ class HomeController with ChangeNotifier {
       notifyListeners();
     } catch (e) {
 
-      // Set defaults in case of error
-      _setDefaultHeartRateData();
+
       notifyListeners();
     }
   }
-
-  /// Periodic refresh method (call this every few minutes if needed)
-  Future<void> performPeriodicRefresh() async {
-    try {
-      await Future.wait([
-        refreshHeartRateData(),
-        // Add other periodic updates here
-      ]);
-    } catch (e) {
-
-    }
-  }
-
 
   // Initialize drink water tracking
   Future<void> initDrinkWater() async {
@@ -399,7 +275,7 @@ class HomeController with ChangeNotifier {
       var uuid = Uuid();
 
       String actionText = amount > 0
-          ? 'Added ${amount.toInt()}ml'
+          ? 'Drink ${amount.toInt()}ml'
           : 'Removed ${(-amount).toInt()}ml';
 
       final newActivity = ActivityModel(
@@ -408,7 +284,6 @@ class HomeController with ChangeNotifier {
         subTitle: 'just now',
         id: uuid.v4(),
       ).toMap();
-
       if (savedData != null && savedData.isNotEmpty) {
         final dynamic decoded = jsonDecode(savedData);
         if (decoded is List) {
@@ -417,7 +292,6 @@ class HomeController with ChangeNotifier {
           activities = [Map<String, dynamic>.from(decoded)];
         }
       }
-
       activities.insert(0, newActivity);
       if (activities.length > 4) {
         activities = activities.sublist(0, 4);

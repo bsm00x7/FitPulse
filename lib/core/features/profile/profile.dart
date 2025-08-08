@@ -71,7 +71,9 @@ class _ProfileState extends State<Profile> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: IconButton(
-                                onPressed: provider.signOut,
+                                onPressed: (){
+                                  provider.signOut(context);
+                                },
                                 icon: Icon(
                                   Icons.logout_rounded,
                                   color: Colors.white,
@@ -81,7 +83,6 @@ class _ProfileState extends State<Profile> {
                           );
                         },
                       ),
-
                       // Profile section
                       Row(
                         children: [

@@ -30,7 +30,7 @@ class HealthService {
         permissions: permissions,
       );
 
-      return hasPermissions ?? false;
+      return hasPermissions;
     } catch (e) {
       return false;
     }

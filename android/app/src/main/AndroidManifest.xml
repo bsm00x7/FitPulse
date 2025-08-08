@@ -1,19 +1,46 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Health Connect Permissions - Place these first -->
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.WRITE_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_DISTANCE" />
+    <uses-permission android:name="android.permission.health.WRITE_DISTANCE" />
+    <uses-permission android:name="android.permission.health.READ_TOTAL_CALORIES_BURNED" />
+    <uses-permission android:name="android.permission.health.WRITE_TOTAL_CALORIES_BURNED" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <uses-permission android:name="android.permission.health.WRITE_HEART_RATE" />
+
+    <!-- Standard Android permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
-    <!-- Check whether Health Connect is installed or not -->
+    <uses-permission android:name="android.permission.BODY_SENSORS_BACKGROUND" />
+
+    <!-- Legacy Google Fit permissions (as fallback) -->
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+
+    <!-- Health Connect Intent Filter -->
+    <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
+    <uses-permission android:name="android.permission.health.WRITE_ACTIVE_CALORIES_BURNED" />
+
+    <!-- Queries for Health Connect -->
     <queries>
         <package android:name="com.google.android.apps.healthdata" />
         <intent>
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
         </intent>
+        <intent>
+            <action android:name="androidx.health.platform.action.REQUEST_PERMISSIONS" />
+        </intent>
     </queries>
-    <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
-    <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
+
     <application
         android:label="fitness"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -23,25 +50,42 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
+
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <!-- Health Connect Intent Filter -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
         </activity>
+
+        <!-- Health Connect metadata -->
+        <meta-data
+            android:name="health_permissions"
+            android:resource="@array/health_permissions" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- Health Connect Provider -->
+        <service android:name="androidx.health.connect.client.impl.platform.HealthConnectPlatformServiceImpl"
+            android:exported="false" />
     </application>
+
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.

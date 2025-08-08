@@ -1,6 +1,6 @@
 
 import 'package:fitness/core/features/workout/subScreen/controller_shared_screen/controller_sub_screen.dart';
-import 'package:fitness/core/features/workout/subScreen/full_body_screen.dart';
+import 'package:fitness/core/features/workout/subScreen/exercice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

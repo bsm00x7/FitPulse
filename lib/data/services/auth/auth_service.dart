@@ -62,8 +62,8 @@ class AuthService with ChangeNotifier {
     return false;
   }
 
-  signOut() {
-    _auth.signOut();
+ Future <void> signOut() async{
+    await _auth.signOut();
     notifyListeners();
   }
 
