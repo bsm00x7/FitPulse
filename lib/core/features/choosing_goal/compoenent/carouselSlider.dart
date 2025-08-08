@@ -6,8 +6,11 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../service/preference_manager.dart';
 import '../../../constant/storage_Key.dart';
 import '../../button_navigation_bar/button_navigation_bar.dart';
+
 class CarouselSliderWidget extends StatefulWidget {
-  const CarouselSliderWidget({super.key});
+  final bool update;
+
+  const CarouselSliderWidget({super.key, this.update = false});
 
   @override
   State<CarouselSliderWidget> createState() => _CarouselSliderWidgetState();
@@ -18,24 +21,26 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
     {
       'title': 'Improve Shape',
       'description':
-          'I have a low amount of body fat and need / want to build more muscle',
+      'I have a low amount of body fat and need / want to build more muscle',
       'image_source': 'assets/goal/Person1.svg',
     },
     {
       'title': 'Lean & Tone',
       'description':
-          'I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way',
+      'I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way',
       'image_source': 'assets/goal/Person2.svg',
     },
     {
       'title': 'Lose',
       'description':
-          'I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass',
+      'I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass',
       'image_source': 'assets/goal/Person3.svg',
     },
   ];
-   String goal = 'Improve Shape' ;
+  String goal = 'Improve Shape';
+
   final CarouselSliderController buttonCarouselController = CarouselSliderController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,11 +111,11 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                       ],
                     ),
                   ),
-                )
+            )
                 .toList(),
             carouselController: buttonCarouselController,
             options: CarouselOptions(
-              onPageChanged: (index, reason) => goal=views[index]['title']!,
+              onPageChanged: (index, reason) => goal = views[index]['title']!,
               autoPlay: false,
               enlargeCenterPage: true,
               viewportFraction: 0.75,
@@ -126,12 +131,16 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               onPressed: () {
-                 PreferenceManager().setString(StorageKey.userGoal, goal);
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                    return ButtonNavigation();
-                  }),(Route<dynamic> route) => false);
+                PreferenceManager().setString(StorageKey.userGoal, goal);
+                if (widget.update == false) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                        return ButtonNavigation();
+                      }), (Route<dynamic> route) => false);
+                }else{
+                  Navigator.pop(context);
+                }
               },
               child: Text(
                 'Confirm',

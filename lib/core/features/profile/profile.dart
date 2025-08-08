@@ -1,24 +1,17 @@
 import 'dart:io';
-
-import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:fitness/core/features/profile/widgets/show_model_bottom_sheet.dart';
-import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'controller/controller.dart';
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
-
   @override
   State<Profile> createState() => _ProfileState();
 }
-
 class _ProfileState extends State<Profile> {
-  // Enhanced color scheme
+// color scheme
   static const Color primaryColor = Color(0xFF6366F1); // Indigo
   static const Color secondaryColor = Color(0xFF8B5CF6); // Purple
   static const Color accentColor = Color(0xFF06B6D4); // Cyan
@@ -247,10 +240,8 @@ class _ProfileState extends State<Profile> {
                                       usernameController:
                                       provider.usernameController,
                                       key: provider.key,
-                                      onPressed: () async {
-                                        provider.updateUserInformation(
-                                          context: context,
-                                        );
+                                      onPressed: (){
+                                        provider.onSubmit(context: context);
                                       },
                                     );
                                   },

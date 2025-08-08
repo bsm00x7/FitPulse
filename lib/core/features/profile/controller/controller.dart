@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+
 
 import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +11,17 @@ import '../../../../data/services/store_user_information.dart';
 import '../../../../service/preference_manager.dart';
 import '../../onboarding/welcome_screen.dart';
 
+
+// !! Refactor save image for saving in diracatory
+
 class ProfileController with ChangeNotifier {
   String? userName;
   double? height;
   double? weight;
   int? brith;
   String? imageSource; // ✅ Declare without reading immediately
-  String? get userGoal =>
-      PreferenceManager().getString(StorageKey.userGoal) ?? 'Unknown';
+  String?  userGoal ;
+
 
   final TextEditingController usernameController = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
@@ -32,7 +35,8 @@ class ProfileController with ChangeNotifier {
 
   void init() {
     getUserInformation();
-    loadImage(); // ✅ Load image from preferences
+    loadImage();
+    loadUserGoal();
   }
 
   void getUserInformation() {
@@ -51,7 +55,7 @@ class ProfileController with ChangeNotifier {
   }
 
   void loadImage() async {
-    imageSource = await PreferenceManager().getString(StorageKey.image);
+    imageSource = PreferenceManager().getString(StorageKey.image);
     notifyListeners(); // ✅ Make sure UI updates on load
   }
 
@@ -94,5 +98,21 @@ class ProfileController with ChangeNotifier {
       await PreferenceManager().setString(StorageKey.image, imageSource!);
       notifyListeners(); // ✅ UI updates immediately
     }
+  }
+
+  onSubmit({required BuildContext context}) {
+    loadUserGoal();
+    if (usernameController.text.trim()!=''){
+      updateUserInformation(
+        context: context,
+      );
+    }else{
+
+      Navigator.pop(context);
+    }
+  }
+
+  void loadUserGoal() {
+    userGoal =PreferenceManager().getString(StorageKey.userGoal) ?? 'Unknown';
   }
 }
