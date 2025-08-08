@@ -11,4 +11,5 @@ class StorageKey {
   static const calories = 'calories';
   static const image = 'userImage';
 
+
 }

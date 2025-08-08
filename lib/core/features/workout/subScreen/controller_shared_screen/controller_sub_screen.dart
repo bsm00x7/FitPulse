@@ -21,9 +21,31 @@ class ControllerSubScreen with ChangeNotifier {
 
   double get progressPercentage =>
       exercises.isEmpty ? 0.0 : completedExercises / exercises.length;
+  void saveHistoryExercise({required Exercise exercise}) {
+    try {
+      if (exercise.name.isEmpty) {
+        throw Exception('Exercise name cannot be empty');
+      }
 
+      final lastHistory = PreferenceManager().getString(StorageKey.lastActivity);
+      final historyList = lastHistory?.split('||') ?? [];
+
+      // Avoid duplicates and limit history size (e.g., max 50 entries)
+      if (!historyList.contains(exercise.name)) {
+        historyList.add(exercise.name);
+        if (historyList.length > 50) {
+          historyList.removeAt(0); // Remove oldest entry
+        }
+        PreferenceManager().setString(StorageKey.lastActivity, historyList.join('||'));
+      }
+    } catch (e) {
+      debugPrint('Error saving exercise history: $e');
+      // Optionally notify the caller or log to analytics
+    }
+  }
   void toggleExercise(int index) {
     exercises[index].isCompleted = !exercises[index].isCompleted;
+    saveHistoryExercise(exercise: exercises[index]);
     final double? last = PreferenceManager().getDouble(StorageKey.calories);
     if (last==0 || last ==null){
       PreferenceManager().setDouble(StorageKey.calories, exercises[index].calories.toDouble());

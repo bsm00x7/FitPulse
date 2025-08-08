@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fitness/core/features/profile/activity_history_screen.dart';
 import 'package:fitness/core/features/profile/widgets/show_model_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -389,22 +390,21 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           _buildEnhancedListTile(
-                            'assets/profile/Icon-Profile.svg',
-                            'Personal Data',
-                            primaryColor,
-                            isFirst: true,
-                          ),
-                          _buildDivider(),
-                          _buildEnhancedListTile(
                             'assets/profile/Icon-Achievement.svg',
                             'Achievement',
                             warningColor,
                           ),
                           _buildDivider(),
-                          _buildEnhancedListTile(
-                            'assets/profile/Icon-Activity.svg',
-                            'Activity History',
-                            accentColor,
+                          InkWell(
+                            onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => ActivityHistoryScreen(),));
+                            },
+                            splashColor: Colors.grey.withValues(alpha: 0.8),
+                            child: _buildEnhancedListTile(
+                              'assets/profile/Icon-Activity.svg',
+                              'Activity History',
+                              accentColor,
+                            ),
                           ),
                           _buildDivider(),
                           _buildEnhancedListTile(
