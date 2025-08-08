@@ -8,8 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../service/health_service.dart';
-import '../activity/model/activity_model.dart';
+import '../../../../data/models/activity_model.dart';
 class HomeController with ChangeNotifier {
   String? type;
   double? bmi;
@@ -37,7 +36,7 @@ class HomeController with ChangeNotifier {
       // 100%
     ];
   }
-  int get stepsCounter =>PreferenceManager().getInt(StorageKey.steps) ?? 0;
+  int get stepsCounter =>PreferenceManager().getInt(StorageKey.walkingStepsTrakcer) ?? 0;
   double get distance => ( stepsCounter!=0 ? (stepsCounter * 0.78 / 1000) : 0 );
 
   // Improved init method

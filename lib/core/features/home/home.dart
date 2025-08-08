@@ -60,7 +60,7 @@ class Home extends StatelessWidget {
                   return _buildContainer(
                     context: context,
                     theme: theme,
-                    icon: FontAwesomeIcons.fire,
+                    icon: FontAwesomeIcons.personRunning,
                     title: 'Step',
                     counter: provider.stepsCounter.toString(),
                   );

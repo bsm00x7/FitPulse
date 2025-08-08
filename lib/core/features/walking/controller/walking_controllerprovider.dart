@@ -4,8 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-// NOTE: Make sure you have a key for the target in your StorageKey file.
-// For example: static const String targetSteps = 'targetSteps';
+
 
 class WalkingControllerProvider with ChangeNotifier {
   // Private variables
@@ -39,7 +38,7 @@ class WalkingControllerProvider with ChangeNotifier {
   }
 
   void _saveSteps() {
-    PreferenceManager().setInt(StorageKey.steps, _stepsWalking);
+    PreferenceManager().setInt(StorageKey.walkingStepsTrakcer, _stepsWalking);
     _saveCalories();
   }
 

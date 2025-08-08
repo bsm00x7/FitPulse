@@ -1,6 +1,5 @@
 
 import 'package:uuid/uuid.dart';
-
 var uuid = Uuid();
 class ActivityModel {
   final String sourceImage;

@@ -7,7 +7,7 @@ import '../../../../widget/header_bar.dart';
 import 'add_new_target.dart';
 import 'controller/ActivityControllerProvider.dart';
 import 'controller/add_new_targets_controller.dart';
-import 'model/activity_model.dart';
+import '../../../../data/models/activity_model.dart';
 
 class Activity extends StatelessWidget {
   const Activity({super.key});
