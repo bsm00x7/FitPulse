@@ -2,7 +2,7 @@ name: fitness
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.8.1
@@ -34,6 +34,8 @@ dependencies:
   gif: ^2.3.0
   health: ^13.1.1
   image_picker: ^1.1.2
+  flutter_launcher_icons: ^0.14.4
+  url_launcher: ^6.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

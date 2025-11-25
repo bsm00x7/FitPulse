@@ -37,10 +37,10 @@ class Activity extends StatelessWidget {
                       height: 180,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                             colors: [
                               theme.colorScheme.primaryContainer,
                               const Color(0xff9AC1FE),
@@ -48,11 +48,18 @@ class Activity extends StatelessWidget {
                             ],
                             stops: [0.0, 0.7, 1.0],
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                              blurRadius: 15,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                            vertical: 14,
-                            horizontal: 14,
+                            vertical: 20,
+                            horizontal: 20,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,36 +71,52 @@ class Activity extends StatelessWidget {
                                   Text(
                                     'Today Target',
                                     style: theme.textTheme.headlineMedium!
-                                        .copyWith(fontSize: 24),
+                                        .copyWith(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 0.5,
+                                        ),
                                   ),
-                                  SizedBox(
+                                  Container(
                                     height: 50,
                                     width: 50,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            theme.colorScheme.onSecondary,
-                                        padding: EdgeInsets.zero,
-                                        shape: const CircleBorder(),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.onSecondary,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.1),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ChangeNotifierProvider(
+                                                  create: (BuildContext context) =>
+                                                      AddTargetControllerProvider(),
+                                                  child: AddNewTarget(),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                          context
+                                              .read<ActivityControllerProvider>()
+                                              .loadLastDataTarget();
+                                        },
+                                        borderRadius: BorderRadius.circular(25),
+                                        child: const Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      onPressed: () async {
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return ChangeNotifierProvider(
-                                                create: (BuildContext context) =>
-                                                    AddTargetControllerProvider(),
-                                                child: AddNewTarget(),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                        context
-                                            .read<ActivityControllerProvider>()
-                                            .loadLastDataTarget();
-                                      },
-                                      child: const Icon(Icons.add),
                                     ),
                                   ),
                                 ],
@@ -159,7 +182,36 @@ class Activity extends StatelessWidget {
                     Consumer<ActivityControllerProvider>(
                       builder: (context, valueProvider, child) {
                         return valueProvider.lastActivity.isEmpty
-                            ? Text('Make Activity')
+                            ? Container(
+                                height: 200,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.fitness_center,
+                                        size: 64,
+                                        color: Colors.grey[300],
+                                      ),
+                                      SizedBox(height: 16),
+                                      Text(
+                                        'No activities yet',
+                                        style: theme.textTheme.titleMedium!.copyWith(
+                                          color: Colors.grey[500],
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Start adding your daily targets',
+                                        style: theme.textTheme.bodySmall!.copyWith(
+                                          color: Colors.grey[400],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
                             : SizedBox(
                                 height: 400,
                                 width: MediaQuery.of(context).size.width,
@@ -174,86 +226,121 @@ class Activity extends StatelessWidget {
                                         final activity = ActivityModel.fromMap(
                                           valueProvider.lastActivity[index],
                                         );
-                                        return DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.withValues(
-                                              alpha: 0.15,
+                                        return Dismissible(
+                                          key: Key(activity.id),
+                                          direction: DismissDirection.endToStart,
+                                          background: Container(
+                                            alignment: Alignment.centerRight,
+                                            padding: EdgeInsets.only(right: 20),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red.shade400,
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
+                                            child: Icon(
+                                              Icons.delete_sweep,
+                                              color: Colors.white,
+                                              size: 32,
                                             ),
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 7,
-                                              horizontal: 7,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  width: 45,
-                                                  height: 45,
-                                                  child: CircleAvatar(
-                                                    child: SvgPicture.asset(
-                                                      activity.sourceImage,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      activity.title,
-                                                      style: theme
-                                                          .textTheme
-                                                          .titleMedium!
-                                                          .copyWith(
-                                                            fontSize: 18,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      valueProvider.convertDate(
-                                                        activity.timestamp,
-                                                      ),
-                                                      style: theme
-                                                          .textTheme
-                                                          .displaySmall!
-                                                          .copyWith(
-                                                            fontSize: 15,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    valueProvider.lastActivity
-                                                        .removeAt(index);
-                                                    valueProvider
-                                                        .saveLastActivity(
-                                                          index,
-                                                        );
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.red,
-                                                  ),
+                                          onDismissed: (direction) {
+                                            valueProvider.lastActivity
+                                                .removeAt(index);
+                                            valueProvider
+                                                .saveLastActivity(index);
+                                          },
+                                          child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                                colors: [
+                                                  Colors.white,
+                                                  Colors.grey.withValues(alpha: 0.08),
+                                                ],
+                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(
+                                                color: Colors.grey.withValues(alpha: 0.15),
+                                                width: 1,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black.withValues(alpha: 0.05),
+                                                  blurRadius: 8,
+                                                  offset: Offset(0, 2),
                                                 ),
                                               ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                vertical: 12,
+                                                horizontal: 12,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Center(
+                                                      child: SvgPicture.asset(
+                                                        activity.sourceImage,
+                                                        width: 24,
+                                                        height: 24,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 12),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          activity.title,
+                                                          style: theme
+                                                              .textTheme
+                                                              .titleMedium!
+                                                              .copyWith(
+                                                                fontSize: 16,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                        ),
+                                                        SizedBox(height: 4),
+                                                        Text(
+                                                          valueProvider.convertDate(
+                                                            activity.timestamp,
+                                                          ),
+                                                          style: theme
+                                                              .textTheme
+                                                              .displaySmall!
+                                                              .copyWith(
+                                                                fontSize: 13,
+                                                                color: Colors.grey[600],
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.chevron_right,
+                                                    color: Colors.grey[400],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         );
                                       },
                                   separatorBuilder:
                                       (BuildContext context, int index) {
-                                        return Divider(
-                                          color: Colors.grey.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                        );
+                                        return SizedBox(height: 12);
                                       },
                                 ),
                               );

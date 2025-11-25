@@ -1,0 +1,65 @@
+Analyzing fitness_app...                                        
+
+   info - The file name 'AppColors.dart' isn't a lower_case_with_underscores identifier - lib\core\color\AppColors.dart:1:1 - file_names
+   info - The file name 'storage_Key.dart' isn't a lower_case_with_underscores identifier - lib\core\constant\storage_Key.dart:1:1 - file_names
+   info - The file name 'carouselSlider.dart' isn't a lower_case_with_underscores identifier - lib\core\features\choosing_goal\compoenent\carouselSlider.dart:1:1 - file_names
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\core\features\complete\complete.dart:90:35 - deprecated_member_use
+   info - The file name 'ActivityControllerProvider.dart' isn't a lower_case_with_underscores identifier - lib\core\features\home\activity\controller\ActivityControllerProvider.dart:1:1 - file_names
+   info - Empty catch block - lib\core\features\home\activity\controller\ActivityControllerProvider.dart:28:19 - empty_catches
+   info - Empty catch block - lib\core\features\home\activity\controller\ActivityControllerProvider.dart:46:17 - empty_catches
+   info - Empty catch block - lib\core\features\home\controller\home_controller.dart:66:21 - empty_catches
+   info - Method invocation or property access on a 'dynamic' target - lib\core\features\home\controller\home_controller.dart:234:19 - avoid_dynamic_calls
+   info - Method invocation or property access on a 'dynamic' target - lib\core\features\home\controller\home_controller.dart:235:19 - avoid_dynamic_calls
+   info - Use a 'SizedBox' to add whitespace to a layout - lib\core\features\home\home.dart:602:30 - sized_box_for_whitespace
+   info - Instances of 'Color' should be created using an 8-digit hexadecimal integer (such as '0xFFFFFFFF') - lib\core\features\home\natification_app_bar.dart:67:41 - use_full_hex_values_for_flutter_colors
+   info - The file name 'boxIcons.dart' isn't a lower_case_with_underscores identifier - lib\core\features\home\widgets\boxIcons.dart:1:1 - file_names
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor or activeTrackColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\core\features\profile\profile.dart:474:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\walking\walking_screen.dart:69:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\walking\walking_screen.dart:99:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\walking\walking_screen.dart:200:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\walking\walking_screen.dart:212:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\walking\walking_screen.dart:330:45 - deprecated_member_use
+   info - Method invocation or property access on a 'dynamic' target - lib\core\features\workout\subScreen\controller_shared_screen\controller_sub_screen.dart:85:38 - avoid_dynamic_calls
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:798:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:799:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:804:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:899:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:900:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:905:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:965:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:966:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:971:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1028:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1029:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1033:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1049:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1061:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1094:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1103:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1127:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1136:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1165:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1168:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1172:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1244:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1245:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1250:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1293:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1294:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1299:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1339:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1340:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1345:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1379:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1382:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1400:38 - deprecated_member_use
+warning - The left operand can't be null, so the right operand is never executed - lib\core\features\workout\subScreen\exercice_screen.dart:1417:58 - dead_null_aware_expression
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1423:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1426:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1571:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1572:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1577:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1651:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\features\workout\subScreen\exercice_screen.dart:1700:28 - deprecated_member_use
+
+61 issues found. (ran in 2.7s)

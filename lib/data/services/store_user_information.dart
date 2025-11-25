@@ -14,7 +14,9 @@ class FirestoreService extends ChangeNotifier {
       notifyListeners(); // Notify UI of data changes
       return data;
     } catch (e) {
-
+      if (kDebugMode) {
+        print('Error in getCollectionData: $e');
+      }
       return [];
     }
   }
@@ -56,7 +58,9 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       await _firestore.collection(collectionPath).add(data);
       notifyListeners(); // Notify UI after adding
     } catch (e) {
-
+      if (kDebugMode) {
+        print('Error in addDocument: $e');
+      }
     }
   }
 
@@ -95,7 +99,9 @@ Future<Map<String, dynamic>?> getUserFromCollection({
        coll.update({'username': newUserName});
       notifyListeners(); // Notify UI after updating
     } catch (e) {
-
+      if (kDebugMode) {
+        print('Error in updateUserName: $e');
+      }
     }
   }
   Future<void> updateDocument(
@@ -107,7 +113,9 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       await _firestore.collection(collectionPath).doc(docId).update(data);
       notifyListeners(); // Notify UI after updating
     } catch (e) {
-
+      if (kDebugMode) {
+        print('Error in updateDocument: $e');
+      }
     }
   }
 
@@ -117,7 +125,9 @@ Future<Map<String, dynamic>?> getUserFromCollection({
       await _firestore.collection(collectionPath).doc(docId).delete();
       notifyListeners(); // Notify UI after deletion
     } catch (e) {
-
+      if (kDebugMode) {
+        print('Error in deleteDocument: $e');
+      }
     }
   }
   Future<String?> getUserName(String docId)async{

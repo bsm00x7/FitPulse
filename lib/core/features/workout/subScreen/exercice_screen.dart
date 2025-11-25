@@ -795,13 +795,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Colors.white.withOpacity(0.9),
-                          Colors.white.withOpacity(0.8),
+                          Colors.white.withValues(alpha: 0.9),
+                          Colors.white.withValues(alpha: 0.8),
                         ],
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 40,
                           offset: const Offset(0, -10),
                         ),
@@ -896,13 +896,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF6C63FF).withOpacity(value),
-                    const Color(0xFF4ECDC4).withOpacity(value),
+                    const Color(0xFF6C63FF).withValues(alpha: value),
+                    const Color(0xFF4ECDC4).withValues(alpha: value),
                   ],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF6C63FF).withOpacity(0.3 * value),
+                    color: const Color(0xFF6C63FF).withValues(alpha: 0.3 * value),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -962,13 +962,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.orange.withOpacity(0.1),
-                              Colors.red.withOpacity(0.1),
+                              Colors.orange.withValues(alpha: 0.1),
+                              Colors.red.withValues(alpha: 0.1),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: Colors.orange.withOpacity(0.3),
+                            color: Colors.orange.withValues(alpha: 0.3),
                           ),
                         ),
                         child: Text(
@@ -1025,12 +1025,12 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF6C63FF).withOpacity(0.1),
-                    const Color(0xFF4ECDC4).withOpacity(0.1),
+                    const Color(0xFF6C63FF).withValues(alpha: 0.1),
+                    const Color(0xFF4ECDC4).withValues(alpha: 0.1),
                   ],
                 ),
                 border: Border.all(
-                  color: const Color(0xFF6C63FF).withOpacity(0.2),
+                  color: const Color(0xFF6C63FF).withValues(alpha: 0.2),
                   width: 2,
                 ),
               ),
@@ -1046,7 +1046,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                       height: 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                       ),
                     ),
                   ),
@@ -1058,7 +1058,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                       height: 40,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: const Color(0xFF4ECDC4).withOpacity(0.3),
+                        color: const Color(0xFF4ECDC4).withValues(alpha: 0.3),
                       ),
                     ),
                   ),
@@ -1066,9 +1066,9 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                   // Exercise GIF with proper error handling
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: widget.exercise.gifUrl != null && widget.exercise.gifUrl!.isNotEmpty
+                    child: widget.exercise.gifUrl.isNotEmpty
                         ? CachedNetworkImage(
-                      imageUrl: widget.exercise.gifUrl!,
+                      imageUrl: widget.exercise.gifUrl,
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.contain,
@@ -1091,7 +1091,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                             Icon(
                               Icons.fitness_center,
                               size: 60,
-                              color: const Color(0xFF6C63FF).withOpacity(0.7),
+                              color: const Color(0xFF6C63FF).withValues(alpha: 0.7),
                             ),
                             const SizedBox(height: 16),
                             Container(
@@ -1100,7 +1100,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                                 vertical: 8,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha: 0.8),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Text(
@@ -1124,7 +1124,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                           Icon(
                             Icons.fitness_center,
                             size: 60,
-                            color: const Color(0xFF6C63FF).withOpacity(0.7),
+                            color: const Color(0xFF6C63FF).withValues(alpha: 0.7),
                           ),
                           const SizedBox(height: 16),
                           Container(
@@ -1133,7 +1133,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                               vertical: 8,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha: 0.8),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Text(
@@ -1162,14 +1162,14 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
       margin: const EdgeInsets.all(24),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha: 0.5),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -1241,13 +1241,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              const Color(0xFF6C63FF).withOpacity(0.1),
-                              const Color(0xFF4ECDC4).withOpacity(0.1),
+                              const Color(0xFF6C63FF).withValues(alpha: 0.1),
+                              const Color(0xFF4ECDC4).withValues(alpha: 0.1),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: const Color(0xFF6C63FF).withOpacity(0.3),
+                            color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
                           ),
                         ),
                         child: Text(
@@ -1290,13 +1290,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.green.withOpacity(0.1),
-                        Colors.teal.withOpacity(0.1),
+                        Colors.green.withValues(alpha: 0.1),
+                        Colors.teal.withValues(alpha: 0.1),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: Colors.green.withOpacity(0.3),
+                      color: Colors.green.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
@@ -1315,8 +1315,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
           const SizedBox(height: 16),
 
           // Secondary Muscles
-          if (widget.exercise.secondaryMuscles != null &&
-              widget.exercise.secondaryMuscles!.isNotEmpty) ...[
+          if (widget.exercise.secondaryMuscles.isNotEmpty) ...[
             Text(
               'Secondary Muscles',
               style: theme.textTheme.titleMedium?.copyWith(
@@ -1328,7 +1327,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: widget.exercise.secondaryMuscles!.map((muscle) {
+              children: widget.exercise.secondaryMuscles.map((muscle) {
                 return Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -1337,13 +1336,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.orange.withOpacity(0.1),
-                        Colors.red.withOpacity(0.1),
+                        Colors.orange.withValues(alpha: 0.1),
+                        Colors.red.withValues(alpha: 0.1),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: Colors.orange.withOpacity(0.3),
+                      color: Colors.orange.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
@@ -1377,10 +1376,10 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: color.withOpacity(0.2),
+                    color: color.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Column(
@@ -1398,7 +1397,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                     Text(
                       label,
                       style: TextStyle(
-                        color: color.withOpacity(0.7),
+                        color: color.withValues(alpha: 0.7),
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                       ),
@@ -1421,10 +1420,10 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
       margin: const EdgeInsets.symmetric(horizontal: 24),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Colors.white.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha: 0.5),
         ),
       ),
       child: Column(
@@ -1569,13 +1568,13 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFF6C63FF).withOpacity(0.1),
-            const Color(0xFF4ECDC4).withOpacity(0.1),
+            const Color(0xFF6C63FF).withValues(alpha: 0.1),
+            const Color(0xFF4ECDC4).withValues(alpha: 0.1),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFF6C63FF).withOpacity(0.2),
+          color: const Color(0xFF6C63FF).withValues(alpha: 0.2),
           width: 2,
         ),
       ),
@@ -1649,7 +1648,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF6C63FF).withOpacity(0.3),
+                    color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -1698,7 +1697,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
                   boxShadow: [
                     BoxShadow(
                       color: (_isStarted ? Colors.grey : const Color(0xFF6C63FF))
-                          .withOpacity(0.4),
+                          .withValues(alpha: 0.4),
                       blurRadius: 25,
                       offset: const Offset(0, 15),
                     ),

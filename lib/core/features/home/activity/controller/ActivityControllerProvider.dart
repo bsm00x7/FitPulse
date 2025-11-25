@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:fitness/core/constant/storage_Key.dart';
+
 import 'package:fitness/service/preference_manager.dart';
+
+import '../../../../constant/storage_key.dart';
 
 class ActivityControllerProvider with ChangeNotifier {
   List<Map<String, dynamic>> lastActivity = [];

@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:fitness/data/models/user_model.dart';
 import 'package:fitness/data/services/auth/auth_service.dart';
 import 'package:fitness/data/services/store_user_information.dart';
 import 'package:fitness/service/preference_manager.dart';
-import 'package:fl_chart/fl_chart.dart';
-
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../data/models/activity_model.dart';
+import '../../../constant/storage_key.dart';
 class HomeController with ChangeNotifier {
   String? type;
   double? bmi;
@@ -19,9 +17,20 @@ class HomeController with ChangeNotifier {
   String? username;
    double _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0.0;
   double currentWaterIntake = 0; // in ml
-  double get calories => _calories;
+  
+  // Sleep tracking
+  int _sleepHours = 8;
+  int _sleepMinutes = 20;
+  
+  double get calories =>_calories;
   double? get targetWaterToday =>
       PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
+      
+  // Sleep getters
+  int get sleepHours => _sleepHours;
+  int get sleepMinutes => _sleepMinutes;
+  String get sleepDisplay => '${_sleepHours}h ${_sleepMinutes}m';
+  
   List<Map<String, dynamic>> get intakeData {
     return [
       {'time': '6am - 8am', 'amount': 0, 'isActive': false, 'value': 0.2},
@@ -49,6 +58,7 @@ class HomeController with ChangeNotifier {
         initDrinkWater(),
         getUsername(),
         getUserDetails(),
+        loadSleepData(),
       ]);
 
       if (intakeDataNew.isEmpty) {
@@ -390,6 +400,21 @@ class HomeController with ChangeNotifier {
   void resetCalories() {
     PreferenceManager().remove(StorageKey.calories);
     _calories =  0.0;
+    notifyListeners();
+  }
+  
+  // Sleep tracking methods
+  Future<void> loadSleepData() async {
+    _sleepHours = PreferenceManager().getInt('sleep_hours') ?? 8;
+    _sleepMinutes = PreferenceManager().getInt('sleep_minutes') ?? 20;
+    notifyListeners();
+  }
+  
+  Future<void> updateSleep(int hours, int minutes) async {
+    _sleepHours = hours.clamp(0, 24);
+    _sleepMinutes = minutes.clamp(0, 59);
+    await PreferenceManager().setInt('sleep_hours', _sleepHours);
+    await PreferenceManager().setInt('sleep_minutes', _sleepMinutes);
     notifyListeners();
   }
 }

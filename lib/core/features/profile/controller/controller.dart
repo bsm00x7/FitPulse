@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 
-import 'package:fitness/core/constant/storage_Key.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,6 +8,7 @@ import '../../../../data/models/user_model.dart';
 import '../../../../data/services/auth/auth_service.dart';
 import '../../../../data/services/store_user_information.dart';
 import '../../../../service/preference_manager.dart';
+import '../../../constant/storage_key.dart';
 import '../../onboarding/welcome_screen.dart';
 
 
@@ -21,6 +21,7 @@ class ProfileController with ChangeNotifier {
   int? brith;
   String? imageSource; // ✅ Declare without reading immediately
   String?  userGoal ;
+  bool _notificationsEnabled = true;
 
 
   final TextEditingController usernameController = TextEditingController();
@@ -28,6 +29,9 @@ class ProfileController with ChangeNotifier {
   XFile? image;
 
   final picker = ImagePicker();
+  
+  // Notification getter
+  bool get notificationsEnabled => _notificationsEnabled;
 
   ProfileController() {
     init();
@@ -37,6 +41,7 @@ class ProfileController with ChangeNotifier {
     getUserInformation();
     loadImage();
     loadUserGoal();
+    loadNotificationSettings();
   }
 
   void getUserInformation() {
@@ -114,5 +119,18 @@ class ProfileController with ChangeNotifier {
 
   void loadUserGoal() {
     userGoal =PreferenceManager().getString(StorageKey.userGoal) ?? 'Unknown';
+  }
+  
+  // Load notification settings
+  void loadNotificationSettings() {
+    _notificationsEnabled = PreferenceManager().getbool('notifications_enabled') ?? true;
+    notifyListeners();
+  }
+  
+  // Toggle notifications
+  Future<void> toggleNotifications(bool value) async {
+    _notificationsEnabled = value;
+    await PreferenceManager().setBool('notifications_enabled', value);
+    notifyListeners();
   }
 }

@@ -1,10 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/home_controller.dart';
-import '../natification_app_bar.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({super.key, required this.theme});

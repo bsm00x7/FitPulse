@@ -1,16 +1,21 @@
 import 'dart:io';
-import 'package:fitness/core/features/profile/activity_history_screen.dart';
+import 'package:fitness/core/features/profile/screens/achievement_screen.dart';
+import 'package:fitness/core/features/profile/screens/workout_progress_screen.dart';
+import 'package:fitness/core/features/profile/screens/settings_screen.dart';
+import 'package:fitness/core/features/profile/screens/contact_us_screen.dart';
 import 'package:fitness/core/features/profile/widgets/show_model_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'controller/controller.dart';
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
   @override
   State<Profile> createState() => _ProfileState();
 }
+
 class _ProfileState extends State<Profile> {
 // color scheme
   static const Color primaryColor = Color(0xFF6366F1); // Indigo
@@ -389,15 +394,21 @@ class _ProfileState extends State<Profile> {
                       ),
                       child: Column(
                         children: [
-                          _buildEnhancedListTile(
-                            'assets/profile/Icon-Achievement.svg',
-                            'Achievement',
-                            warningColor,
+                          InkWell(
+                            onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => AchievementScreen(),));
+                            },
+                            splashColor: Colors.grey.withValues(alpha: 0.8),
+                            child: _buildEnhancedListTile(
+                              'assets/profile/Icon-Achievement.svg',
+                              'Achievement',
+                              warningColor,
+                            ),
                           ),
                           _buildDivider(),
                           InkWell(
                             onTap: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context) => ActivityHistoryScreen(),));
+
                             },
                             splashColor: Colors.grey.withValues(alpha: 0.8),
                             child: _buildEnhancedListTile(
@@ -407,11 +418,17 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           _buildDivider(),
-                          _buildEnhancedListTile(
-                            'assets/profile/Icon-Workout.svg',
-                            'Workout Progress',
-                            successColor,
-                            isLast: true,
+                          InkWell(
+                            onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => WorkoutProgressScreen(),));
+                            },
+                            splashColor: Colors.grey.withValues(alpha: 0.8),
+                            child: _buildEnhancedListTile(
+                              'assets/profile/Icon-Workout.svg',
+                              'Workout Progress',
+                              successColor,
+                              isLast: true,
+                            ),
                           ),
                         ],
                       ),
@@ -468,13 +485,19 @@ class _ProfileState extends State<Profile> {
                             color: Colors.grey[800],
                           ),
                         ),
-                        trailing: Switch.adaptive(
-                          value: true,
-                          onChanged: (value) {},
-                          activeColor: successColor,
-                          activeTrackColor: successColor.withValues(alpha: 0.3),
-                          inactiveThumbColor: Colors.grey[400],
-                          inactiveTrackColor: Colors.grey[300],
+                        trailing: Consumer<ProfileController>(
+                          builder: (context, provider, child) {
+                            return Switch.adaptive(
+                              value: provider.notificationsEnabled,
+                              onChanged: (value) {
+                                provider.toggleNotifications(value);
+                              },
+                              activeColor: successColor,
+                              activeTrackColor: successColor.withValues(alpha: 0.3),
+                              inactiveThumbColor: Colors.grey[400],
+                              inactiveTrackColor: Colors.grey[300],
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -509,18 +532,30 @@ class _ProfileState extends State<Profile> {
                       ),
                       child: Column(
                         children: [
-                          _buildEnhancedListTile(
-                            'assets/profile/Message.svg',
-                            'Contact Us',
-                            accentColor,
-                            isFirst: true,
+                          InkWell(
+                            onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen(),));
+                            },
+                            splashColor: Colors.grey.withValues(alpha: 0.8),
+                            child: _buildEnhancedListTile(
+                              'assets/profile/Message.svg',
+                              'Contact Us',
+                              accentColor,
+                              isFirst: true,
+                            ),
                           ),
                           _buildDivider(),
-                          _buildEnhancedListTile(
-                            'assets/profile/Setting.svg',
-                            'Settings',
-                            Colors.grey[600]!,
-                            isLast: true,
+                          InkWell(
+                            onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen(),));
+                            },
+                            splashColor: Colors.grey.withValues(alpha: 0.8),
+                            child: _buildEnhancedListTile(
+                              'assets/profile/Setting.svg',
+                              'Settings',
+                              Colors.grey[600]!,
+                              isLast: true,
+                            ),
                           ),
                         ],
                       ),

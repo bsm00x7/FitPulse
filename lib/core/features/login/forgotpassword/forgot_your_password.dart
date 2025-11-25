@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../widget/TextFormField.dart';
+import '../../../../widget/text_form_field.dart';
 import '../controller/login_page_controller.dart';
 
 class ForgotYourPassword extends StatelessWidget {

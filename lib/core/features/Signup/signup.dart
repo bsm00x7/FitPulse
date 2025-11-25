@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../widget/TextFormField.dart';
+import '../../../widget/text_form_field.dart';
 import '../login/login.dart';
 import 'controller/signup_controller.dart';
 class Signup extends StatelessWidget {

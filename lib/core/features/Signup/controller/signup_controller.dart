@@ -1,9 +1,10 @@
 
-import 'package:fitness/core/constant/storage_Key.dart';
+
 import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/services/auth/auth_service.dart';
+import '../../../constant/storage_key.dart';
 class SignupController extends ChangeNotifier {
   bool isPasswordVisible = true;
   bool isChecked = false;

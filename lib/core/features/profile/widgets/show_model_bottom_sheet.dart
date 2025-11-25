@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../widget/TextFormField.dart';
+import '../../../../widget/text_form_field.dart';
 import '../../choosing_goal/compoenent/CarouselSlider.dart';
 
 Future<dynamic> buildShowModalBottomSheetWidget({

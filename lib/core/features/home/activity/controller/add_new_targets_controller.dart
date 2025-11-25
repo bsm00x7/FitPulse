@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 
 import '../../../../../service/preference_manager.dart';
-import '../../../../constant/storage_Key.dart';
+
+import '../../../../constant/storage_key.dart';
 
 
 class AddTargetControllerProvider with ChangeNotifier {
@@ -48,6 +49,6 @@ class AddTargetControllerProvider with ChangeNotifier {
   Future<void> save() async {
     await PreferenceManager().setDouble(StorageKey.waterSize, waterSize);
     await PreferenceManager().setInt(StorageKey.steps, steps);
-    notifyListeners(); // Notify listeners after saving to ensure UI updates
+    notifyListeners();
   }
 }

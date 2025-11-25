@@ -1,5 +1,4 @@
 import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
-import 'package:fitness/core/features/home/widgets/activity_status_widget.dart';
 import 'package:fitness/core/features/home/widgets/app_bar.dart';
 import 'package:fitness/core/features/home/widgets/bmi_widget.dart';
 import 'package:fitness/core/features/home/widgets/target_today.dart';
@@ -365,47 +364,92 @@ class Home extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 2),
+              InkWell(
+                onTap: () {
+                  _showSleepEditDialog(context, theme);
+                },
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white,
+                        Color(0xffB4C0FE).withValues(alpha: 0.1),
                       ],
-
-                      borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 4,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xffB4C0FE).withValues(alpha: 0.15),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            'Sleep',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xff1D1617),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            '8h 20m',
-                            style: theme.textTheme.titleMedium!.copyWith(
-                              fontSize: 20,
-                              color: theme.colorScheme.onSecondary,
-                            ),
-                          ),
-                          SvgPicture.asset('assets/home/Sleep-Graph.svg'),
-                        ],
-                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Color(0xffB4C0FE).withValues(alpha: 0.2),
+                      width: 1.5,
                     ),
                   ),
-                  SizedBox(height: 15),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 8,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xffB4C0FE).withValues(alpha: 0.2),
+                                Color(0xffB4C0FE).withValues(alpha: 0.1),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            Icons.hotel,
+                            color: Color(0xffB4C0FE),
+                            size: 24,
+                          ),
+                        ),
+                        Text(
+                          'Sleep',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xff1D1617),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Consumer<HomeController>(
+                          builder: (context, provider, child) {
+                            return Text(
+                              provider.sleepDisplay,
+                              style: theme.textTheme.titleMedium!.copyWith(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffB4C0FE),
+                              ),
+                            );
+                          },
+                        ),
+                        SvgPicture.asset(
+                          'assets/home/Sleep-Graph.svg',
+                          height: 30,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
                   InkWell(
                     onLongPress: () {
                       _showCaloriesRestDialog(context, theme);
@@ -414,64 +458,105 @@ class Home extends StatelessWidget {
                       height: 150,
                       width: 150,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white,
+                            Colors.orange.withValues(alpha: 0.08),
+                          ],
+                        ),
                         boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 2),
+                          BoxShadow(
+                            color: Colors.orange.withValues(alpha: 0.15),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
                         ],
-
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                          color: Colors.orange.withValues(alpha: 0.2),
+                          width: 1.5,
+                        ),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 4,
+                          vertical: 8,
+                          horizontal: 8,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Calories',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Color(0xff1D1617),
-                                fontWeight: FontWeight.w600,
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.orange.withValues(alpha: 0.2),
+                                    Colors.orange.withValues(alpha: 0.1),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(
+                                Icons.restaurant,
+                                color: Colors.orange,
+                                size: 24,
                               ),
                             ),
                             Text(
-                              '1000 kCal',
-                              style: theme.textTheme.titleMedium!.copyWith(
-                                fontSize: 20,
-                                color: theme.colorScheme.onSecondary,
+                              'Calories',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xff1D1617),
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             Consumer<HomeController>(
                               builder: (context, provider, child) {
-                                return Expanded(
-                                  child: DashedCircularProgressBar.aspectRatio(
-                                    aspectRatio: 1.6,
-                                    progress: provider.calories,
-                                    maxProgress: 1000,
-                                    corners: StrokeCap.round,
-                                    foregroundColor: Color(0xffB4C0FE),
-                                    backgroundColor: Color(0xffF7F8F8),
-                                    foregroundStrokeWidth: 12,
-                                    backgroundStrokeWidth: 12,
-                                    animation: true,
-                                    child: Center(
-                                      child: ValueListenableBuilder(
-                                        valueListenable: valueNotifier,
-                                        builder: (_, double value, __) => Text(
-                                          '${1000 - provider.calories.toInt()}',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 18,
+                                return Text(
+                                  '${provider.calories.toInt()} kCal',
+                                  style: theme.textTheme.titleMedium!.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange,
+                                  ),
+                                );
+                              },
+                            ),
+                            Consumer<HomeController>(
+                              builder: (context, provider, child) {
+                                final remaining = (1000 - provider.calories.toInt()).clamp(0, 1000);
+                                return Column(
+                                  children: [
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: CircularProgressIndicator(
+                                            value: provider.calories / 1000,
+                                            backgroundColor: Color(0xffF7F8F8),
+                                            valueColor: AlwaysStoppedAnimation<Color>(
+                                              Colors.orange,
+                                            ),
+                                            strokeWidth: 5,
                                           ),
                                         ),
-                                      ),
+                                        Text(
+                                          '$remaining',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.orange,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                  ],
                                 );
                               },
                             ),
@@ -489,45 +574,96 @@ class Home extends StatelessWidget {
     );
   }
 
-  Container _buildContainer({
+  TweenAnimationBuilder<double> _buildContainer({
     required BuildContext context,
     required ThemeData theme,
     required IconData icon,
     required String title,
     required String counter,
   }) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      height: 150,
-      width: MediaQuery.of(context).size.width * 0.42,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            height: 40,
-            width: 40,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.orange.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8),
+    final colorScheme = title == 'Step' 
+        ? [Colors.deepOrange.withValues(alpha: 0.15), Colors.orange.withValues(alpha: 0.05)]
+        : [Colors.blue.withValues(alpha: 0.15), Colors.lightBlue.withValues(alpha: 0.05)];
+    final iconColor = title == 'Step' ? Colors.deepOrange : Colors.blue;
+    
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.95, end: 1.0),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOut,
+      builder: (context, scale, child) {
+        return Transform.scale(
+          scale: scale,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            height: 150,
+            width: MediaQuery.of(context).size.width * 0.42,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.white, ...colorScheme],
               ),
-              child: Icon(icon, color: Colors.deepOrangeAccent),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: iconColor.withValues(alpha: 0.15),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: iconColor.withValues(alpha: 0.1),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        iconColor.withValues(alpha: 0.2),
+                        iconColor.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon, 
+                    color: iconColor,
+                    size: 26,
+                  ),
+                ),
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: double.tryParse(counter.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0),
+                  duration: const Duration(milliseconds: 800),
+                  builder: (context, value, child) {
+                    return Text(
+                      title == 'Distance Km' ? value.toStringAsFixed(2) : value.toInt().toString(),
+                      style: theme.textTheme.titleLarge!.copyWith(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
+                      ),
+                    );
+                  },
+                ),
+                Text(
+                  title,
+                  style: theme.textTheme.titleSmall!.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
             ),
           ),
-          Text(
-            counter,
-            style: theme.textTheme.titleLarge!.copyWith(fontSize: 30),
-          ),
-          Text(
-            title,
-            style: theme.textTheme.titleSmall!.copyWith(fontSize: 16),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -600,7 +736,7 @@ class Home extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                         height: 48,
                         child: OutlinedButton(
                           onPressed: () {
@@ -703,6 +839,316 @@ class Home extends StatelessWidget {
         margin: EdgeInsets.all(16),
         duration: Duration(seconds: 2),
       ),
+    );
+  }
+  
+  // Sleep Edit Dialog
+  void _showSleepEditDialog(BuildContext context, ThemeData theme) {
+    final provider = Provider.of<HomeController>(context, listen: false);
+    int selectedHours = provider.sleepHours;
+    int selectedMinutes = provider.sleepMinutes;
+    
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              elevation: 8,
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white,
+                      Color(0xffB4C0FE).withValues(alpha: 0.05),
+                    ],
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Icon Header
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xffB4C0FE), Color(0xff9BB5FF)],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xffB4C0FE).withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.hotel,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Title
+                    Text(
+                      'Edit Sleep Duration',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff1D1617),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Adjust your sleep time',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // Hours and Minutes Pickers
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Hours
+                        Column(
+                          children: [
+                            Text(
+                              'Hours',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xff1D1617),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xffF7F8F8),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Color(0xffB4C0FE).withValues(alpha: 0.3),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (selectedHours < 24) selectedHours++;
+                                      });
+                                    },
+                                    icon: Icon(Icons.arrow_drop_up, size: 32),
+                                    color: Color(0xffB4C0FE),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      '$selectedHours',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff1D1617),
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (selectedHours > 0) selectedHours--;
+                                      });
+                                    },
+                                    icon: Icon(Icons.arrow_drop_down, size: 32),
+                                    color: Color(0xffB4C0FE),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        
+                        // Minutes
+                        Column(
+                          children: [
+                            Text(
+                              'Minutes',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xff1D1617),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xffF7F8F8),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Color(0xffB4C0FE).withValues(alpha: 0.3),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (selectedMinutes < 59) selectedMinutes++;
+                                      });
+                                    },
+                                    icon: Icon(Icons.arrow_drop_up, size: 32),
+                                    color: Color(0xffB4C0FE),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      '$selectedMinutes',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff1D1617),
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (selectedMinutes > 0) selectedMinutes--;
+                                      });
+                                    },
+                                    icon: Icon(Icons.arrow_drop_down, size: 32),
+                                    color: Color(0xffB4C0FE),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // Action Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 48,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                side: BorderSide(
+                                  color: Colors.grey.shade300,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        
+                        Expanded(
+                          child: Container(
+                            height: 48,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              gradient: LinearGradient(
+                                colors: [Color(0xffB4C0FE), Color(0xff9BB5FF)],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xffB4C0FE).withValues(alpha: 0.3),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                provider.updateSleep(selectedHours, selectedMinutes);
+                                Navigator.of(context).pop();
+                                
+                                // Show success message
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Icon(Icons.check_circle, color: Colors.white, size: 20),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          'Sleep duration updated!',
+                                          style: TextStyle(fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                    backgroundColor: Color(0xffB4C0FE),
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    margin: EdgeInsets.all(16),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                              ),
+                              child: Text(
+                                'Save',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
