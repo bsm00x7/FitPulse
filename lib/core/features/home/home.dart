@@ -1,7 +1,7 @@
-import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:fitness/core/features/home/widgets/app_bar.dart';
 import 'package:fitness/core/features/home/widgets/bmi_widget.dart';
 import 'package:fitness/core/features/home/widgets/target_today.dart';
+import 'package:fitness/core/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,561 +16,524 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final ValueNotifier<double> valueNotifier = ValueNotifier(0);
     final size = MediaQuery.of(context).size;
     final controller = context.read<HomeController>();
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final spacing = ResponsiveUtils.getSpacing(context, 30);
+    
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // * APP BAR  WELCOME , Name User And Notification
-          AppBarWidget(theme: theme),
-          SizedBox(height: 30),
-          BmiWidget(size: size, theme: theme),
-          SizedBox(height: 30),
-          TodayTargetWidget(
-            size: size,
-            theme: theme,
-            onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Activity();
-                  },
-                ),
-              );
-              // Add this line to refresh the water size when returning from Activity screen
-              context.read<HomeController>().refresh();
-            },
-          ),
-          SizedBox(height: 30),
-          Text(
-            'Activity Status',
-            style: theme.textTheme.titleMedium!.copyWith(fontSize: 16),
-          ),
-          SizedBox(height: 30),
-          // ********************* Activity Status ********************
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Padding(
+        padding: ResponsiveUtils.getHorizontalPadding(context),
+        child: ResponsiveUtils.constrainedContainer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Consumer<HomeController>(
-                builder: (context, provider, child) {
-                  return _buildContainer(
-                    context: context,
-                    theme: theme,
-                    icon: FontAwesomeIcons.personRunning,
-                    title: 'Step',
-                    counter: provider.stepsCounter.toString(),
-                  );
-                },
-              ),
-              Consumer<HomeController>(
-                builder: (context, provider, child) {
-                  return _buildContainer(
-                    context: context,
-                    theme: theme,
-                    icon: FontAwesomeIcons.map,
-                    title: 'Distance Km',
-                    counter: provider.distance.toStringAsFixed(2),
-                  );
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Container(
-                          height: 400,
-                          width: size.width,
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Water Intake',
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-
-                              // Current water display
-                              Consumer<HomeController>(
-                                builder: (context, controller, child) {
-                                  return Text(
-                                    '${controller.currentWaterIntake.toInt()} ml',
-                                    style: theme.textTheme.headlineMedium
-                                        ?.copyWith(
-                                          color: Colors.lightBlue,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  );
-                                },
-                              ),
-
-                              const SizedBox(height: 20),
-
-                              // Water glass icon
-                              Icon(
-                                FontAwesomeIcons.glassWater,
-                                size: 60,
-                                color: Colors.lightBlue,
-                              ),
-
-                              const SizedBox(height: 30),
-
-                              // Control buttons row
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  // 250ml section
-                                  Column(
-                                    children: [
-                                      Text(
-                                        '250 ml',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              controller.decrementWater(250);
-                                            },
-                                            icon: Icon(
-                                              FontAwesomeIcons.circleMinus,
-                                            ),
-                                            color: Colors.red,
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              controller.incrementWater(250);
-                                            },
-                                            icon: Icon(
-                                              FontAwesomeIcons.circlePlus,
-                                            ),
-                                            color: Colors.green,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-
-                                  // 500ml section
-                                  Column(
-                                    children: [
-                                      Text(
-                                        '500 ml',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              controller.decrementWater(500);
-                                            },
-                                            icon: Icon(
-                                              FontAwesomeIcons.circleMinus,
-                                            ),
-                                            color: Colors.red,
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              controller.incrementWater(500);
-                                            },
-                                            icon: Icon(
-                                              FontAwesomeIcons.circlePlus,
-                                            ),
-                                            color: Colors.green,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 20),
-
-                              // Close button
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(120, 40),
-                                ),
-                                child: Text('Close'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Container(
-                  height: 315,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(color: Colors.black12, blurRadius: 2),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Consumer<HomeController>(
-                      builder: (BuildContext context, value, Widget? child) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SimpleAnimationProgressBar(
-                              height: size.height * 0.3,
-                              width: size.width * 0.07,
-                              backgroundColor: Color(0xffF7F8F8),
-                              foregroundColor: Color(0xffB4C0FE),
-                              ratio: value.startWater ?? 0.0,
-                              direction: Axis.vertical,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              duration: const Duration(seconds: 3),
-                              borderRadius: BorderRadius.circular(17),
-                              gradientColor: const LinearGradient(
-                                colors: [Color(0xffB4C0FE), Color(0xffB4C0FE)],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Water Intake',
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Selector<HomeController, double?>(
-                                  selector: (context, provider) =>
-                                      provider.targetWaterToday,
-                                  builder: (context, targetValue, child) {
-                                    return Text(
-                                      '$targetValue Liters',
-                                      style: theme.textTheme.titleMedium!
-                                          .copyWith(
-                                            color: theme
-                                                .colorScheme
-                                                .primaryContainer,
-                                            fontSize: 21,
-                                          ),
-                                    );
-                                  },
-                                ),
-
-                                // Show current progress
-                                Text(
-                                  'Real time updates',
-                                  style: theme.textTheme.titleSmall!.copyWith(
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: value.intakeDataNew.map((obj) {
-                                      final isActive = obj['isActive'];
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 6.0,
-                                        ),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: 10,
-                                              height: 10,
-                                              decoration: BoxDecoration(
-                                                color: isActive
-                                                    ? Colors.purple
-                                                    : Colors.grey,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              margin: const EdgeInsets.only(
-                                                right: 8.0,
-                                                top: 2.0,
-                                              ),
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "${obj["time"] ?? 'N/A'}",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.grey[600],
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "${obj["amount"] ?? 0}ml",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: isActive
-                                                        ? Colors.purple
-                                                        : Colors.black,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
+              // * APP BAR  WELCOME , Name User And Notification
+              AppBarWidget(theme: theme),
+              SizedBox(height: spacing * 0.8),
+              BmiWidget(size: size, theme: theme),
+              SizedBox(height: spacing * 0.8),
+              TodayTargetWidget(
+                size: size,
+                theme: theme,
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return Activity();
                       },
                     ),
-                  ),
+                  );
+                  // Add this line to refresh the water size when returning from Activity screen
+                  context.read<HomeController>().refresh();
+                },
+              ),
+              SizedBox(height: spacing),
+              Text(
+                'Activity Status',
+                style: theme.textTheme.titleMedium!.copyWith(
+                  fontSize: ResponsiveUtils.getFontSize(context, 16),
                 ),
               ),
-              Column(
+              SizedBox(height: spacing * 0.8),
+              // ********************* Activity Status ********************
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-              InkWell(
-                onTap: () {
-                  _showSleepEditDialog(context, theme);
-                },
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.white,
-                        Color(0xffB4C0FE).withValues(alpha: 0.1),
-                      ],
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xffB4C0FE).withValues(alpha: 0.15),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: Color(0xffB4C0FE).withValues(alpha: 0.2),
-                      width: 1.5,
+                  Consumer<HomeController>(
+                    builder: (context, provider, child) {
+                      return _buildContainer(
+                        context: context,
+                        theme: theme,
+                        icon: FontAwesomeIcons.personRunning,
+                        title: 'Step',
+                        counter: provider.stepsCounter.toString(),
+                      );
+                    },
+                  ),
+                  Consumer<HomeController>(
+                    builder: (context, provider, child) {
+                      return _buildContainer(
+                        context: context,
+                        theme: theme,
+                        icon: FontAwesomeIcons.map,
+                        title: 'Distance Km',
+                        counter: provider.distance.toStringAsFixed(2),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: spacing),
+              _buildWaterAndHealthSection(context, theme, size, controller, isMobile, spacing),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWaterAndHealthSection(BuildContext context, ThemeData theme, Size size, HomeController controller, bool isMobile, double spacing) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Water Intake Widget
+        _buildWaterIntakeWidget(context, theme, size, controller, isMobile),
+        SizedBox(width: spacing * 0.5),
+        // Sleep and Calories Column
+        Expanded(
+          child: Column(
+            children: [
+              _buildSleepWidget(context, theme, isMobile),
+              SizedBox(height: ResponsiveUtils.getSpacing(context, 15)),
+              _buildCaloriesWidget(context, theme, isMobile),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWaterIntakeWidget(BuildContext context, ThemeData theme, Size size, HomeController controller, bool isMobile) {
+    return Flexible(
+      flex: isMobile ? 1 : 2,
+      child: InkWell(
+        onTap: () => _showWaterDialog(context, theme, size, controller),
+        child: Container(
+          height: ResponsiveUtils.getContainerHeight(context, 315),
+          constraints: BoxConstraints(
+            maxWidth: isMobile ? 170 : 220,
+            minWidth: 140,
+          ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            ResponsiveUtils.getBorderRadius(context, 14),
+          ),
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 2),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Consumer<HomeController>(
+            builder: (BuildContext context, value, Widget? child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SimpleAnimationProgressBar(
+                    height: size.height * 0.3,
+                    width: ResponsiveUtils.getSpacing(context, 30),
+                    backgroundColor: Color(0xffF7F8F8),
+                    foregroundColor: Color(0xffB4C0FE),
+                    ratio: value.startWater ?? 0.0,
+                    direction: Axis.vertical,
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    duration: const Duration(seconds: 3),
+                    borderRadius: BorderRadius.circular(17),
+                    gradientColor: const LinearGradient(
+                      colors: [Color(0xffB4C0FE), Color(0xffB4C0FE)],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 8,
-                    ),
+                  Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xffB4C0FE).withValues(alpha: 0.2),
-                                Color(0xffB4C0FE).withValues(alpha: 0.1),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(
-                            Icons.hotel,
-                            color: Color(0xffB4C0FE),
-                            size: 24,
-                          ),
-                        ),
                         Text(
-                          'Sleep',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xff1D1617),
-                            fontWeight: FontWeight.w700,
+                          'Water Intake',
+                          style: theme.textTheme.titleMedium!.copyWith(
+                            fontSize: ResponsiveUtils.getFontSize(context, 18),
                           ),
                         ),
-                        Consumer<HomeController>(
-                          builder: (context, provider, child) {
+                        Selector<HomeController, double?>(
+                          selector: (context, provider) => provider.targetWaterToday,
+                          builder: (context, targetValue, child) {
                             return Text(
-                              provider.sleepDisplay,
+                              '$targetValue Liters',
                               style: theme.textTheme.titleMedium!.copyWith(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xffB4C0FE),
+                                color: theme.colorScheme.primaryContainer,
+                                fontSize: ResponsiveUtils.getFontSize(context, 21),
                               ),
                             );
                           },
                         ),
-                        SvgPicture.asset(
-                          'assets/home/Sleep-Graph.svg',
-                          height: 30,
+                        Text(
+                          'Real time updates',
+                          style: theme.textTheme.titleSmall!.copyWith(
+                            fontSize: 13,
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: value.intakeDataNew.length,
+                            itemBuilder: (context, index) {
+                              final obj = value.intakeDataNew[index];
+                              final isActive = obj['isActive'];
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 6.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: isActive ? Colors.purple : Colors.grey,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      margin: const EdgeInsets.only(right: 8.0, top: 2.0),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${obj["time"] ?? 'N/A'}",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                          Text(
+                                            "${obj["amount"] ?? 0}ml",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: isActive ? Colors.purple : Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+      ),
+    );
+  }
+
+  Widget _buildSleepWidget(BuildContext context, ThemeData theme, bool isMobile) {
+    return InkWell(
+      onTap: () => _showSleepEditDialog(context, theme),
+      child: Container(
+        height: ResponsiveUtils.getContainerHeight(context, 150),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white,
+              Color(0xffB4C0FE).withValues(alpha: 0.1),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xffB4C0FE).withValues(alpha: 0.15),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(
+            ResponsiveUtils.getBorderRadius(context, 18),
+          ),
+          border: Border.all(
+            color: Color(0xffB4C0FE).withValues(alpha: 0.2),
+            width: 1.5,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xffB4C0FE).withValues(alpha: 0.2),
+                      Color(0xffB4C0FE).withValues(alpha: 0.1),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.hotel,
+                  color: Color(0xffB4C0FE),
+                  size: ResponsiveUtils.getIconSize(context, 24),
                 ),
               ),
-              SizedBox(height: 15),
-                  InkWell(
-                    onLongPress: () {
-                      _showCaloriesRestDialog(context, theme);
-                    },
-                    child: Container(
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white,
-                            Colors.orange.withValues(alpha: 0.08),
-                          ],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.orange.withValues(alpha: 0.15),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: Colors.orange.withValues(alpha: 0.2),
-                          width: 1.5,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 8,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.orange.withValues(alpha: 0.2),
-                                    Colors.orange.withValues(alpha: 0.1),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Icon(
-                                Icons.restaurant,
-                                color: Colors.orange,
-                                size: 24,
-                              ),
-                            ),
-                            Text(
-                              'Calories',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xff1D1617),
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Consumer<HomeController>(
-                              builder: (context, provider, child) {
-                                return Text(
-                                  '${provider.calories.toInt()} kCal',
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.orange,
-                                  ),
-                                );
-                              },
-                            ),
-                            Consumer<HomeController>(
-                              builder: (context, provider, child) {
-                                final remaining = (1000 - provider.calories.toInt()).clamp(0, 1000);
-                                return Column(
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: CircularProgressIndicator(
-                                            value: provider.calories / 1000,
-                                            backgroundColor: Color(0xffF7F8F8),
-                                            valueColor: AlwaysStoppedAnimation<Color>(
-                                              Colors.orange,
-                                            ),
-                                            strokeWidth: 5,
-                                          ),
-                                        ),
-                                        Text(
-                                          '$remaining',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.orange,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+              Text(
+                'Sleep',
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getFontSize(context, 16),
+                  color: Color(0xff1D1617),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Consumer<HomeController>(
+                builder: (context, provider, child) {
+                  return Text(
+                    provider.sleepDisplay,
+                    style: theme.textTheme.titleMedium!.copyWith(
+                      fontSize: ResponsiveUtils.getFontSize(context, 22),
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xffB4C0FE),
                     ),
-                  ),
-                ],
+                  );
+                },
+              ),
+              SvgPicture.asset(
+                'assets/home/Sleep-Graph.svg',
+                height: 30,
               ),
             ],
           ),
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildCaloriesWidget(BuildContext context, ThemeData theme, bool isMobile) {
+    return InkWell(
+      onLongPress: () => _showCaloriesRestDialog(context, theme),
+      child: Container(
+        height: ResponsiveUtils.getContainerHeight(context, 150),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white,
+              Colors.orange.withValues(alpha: 0.08),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.orange.withValues(alpha: 0.15),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(
+            ResponsiveUtils.getBorderRadius(context, 18),
+          ),
+          border: Border.all(
+            color: Colors.orange.withValues(alpha: 0.2),
+            width: 1.5,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.orange.withValues(alpha: 0.2),
+                      Colors.orange.withValues(alpha: 0.1),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.restaurant,
+                  color: Colors.orange,
+                  size: ResponsiveUtils.getIconSize(context, 24),
+                ),
+              ),
+              Text(
+                'Calories',
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getFontSize(context, 16),
+                  color: Color(0xff1D1617),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Consumer<HomeController>(
+                builder: (context, provider, child) {
+                  return Text(
+                    '${provider.calories.toInt()} kCal',
+                    style: theme.textTheme.titleMedium!.copyWith(
+                      fontSize: ResponsiveUtils.getFontSize(context, 18),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                    ),
+                  );
+                },
+              ),
+              Consumer<HomeController>(
+                builder: (context, provider, child) {
+                  final remaining = (1000 - provider.calories.toInt()).clamp(0, 1000);
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator(
+                          value: provider.calories / 1000,
+                          backgroundColor: Color(0xffF7F8F8),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                          strokeWidth: 5,
+                        ),
+                      ),
+                      Text(
+                        '$remaining',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showWaterDialog(BuildContext context, ThemeData theme, Size size, HomeController controller) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: ResponsiveUtils.isMobile(context) ? size.width * 0.9 : 500,
+            ),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Water Intake',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Consumer<HomeController>(
+                  builder: (context, controller, child) {
+                    return Text(
+                      '${controller.currentWaterIntake.toInt()} ml',
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: Colors.lightBlue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                Icon(
+                  FontAwesomeIcons.glassWater,
+                  size: 60,
+                  color: Colors.lightBlue,
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildWaterControl(controller, 250),
+                    _buildWaterControl(controller, 500),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(120, 40),
+                  ),
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildWaterControl(HomeController controller, int amount) {
+    return Column(
+      children: [
+        Text(
+          '$amount ml',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            IconButton(
+              onPressed: () => controller.decrementWater(amount.toDouble()),
+              icon: Icon(FontAwesomeIcons.circleMinus),
+              color: Colors.red,
+            ),
+            IconButton(
+              onPressed: () => controller.incrementWater(amount.toDouble()),
+              icon: Icon(FontAwesomeIcons.circlePlus),
+              color: Colors.green,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -594,9 +557,9 @@ class Home extends StatelessWidget {
         return Transform.scale(
           scale: scale,
           child: Container(
-            padding: EdgeInsets.all(16),
-            height: 150,
-            width: MediaQuery.of(context).size.width * 0.42,
+            padding: EdgeInsets.all(ResponsiveUtils.getSpacing(context, 10)),
+            height: ResponsiveUtils.getContainerHeight(context, 150),
+            width: ResponsiveUtils.getCardWidth(context),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -644,7 +607,7 @@ class Home extends StatelessWidget {
                     return Text(
                       title == 'Distance Km' ? value.toStringAsFixed(2) : value.toInt().toString(),
                       style: theme.textTheme.titleLarge!.copyWith(
-                        fontSize: 32,
+                        fontSize: ResponsiveUtils.getFontSize(context, 32),
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
                       ),
@@ -654,7 +617,7 @@ class Home extends StatelessWidget {
                 Text(
                   title,
                   style: theme.textTheme.titleSmall!.copyWith(
-                    fontSize: 14,
+                    fontSize: ResponsiveUtils.getFontSize(context, 14),
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[600],
                   ),
@@ -924,125 +887,29 @@ class Home extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         // Hours
-                        Column(
-                          children: [
-                            Text(
-                              'Hours',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff1D1617),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffF7F8F8),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Color(0xffB4C0FE).withValues(alpha: 0.3),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (selectedHours < 24) selectedHours++;
-                                      });
-                                    },
-                                    icon: Icon(Icons.arrow_drop_up, size: 32),
-                                    color: Color(0xffB4C0FE),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      '$selectedHours',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff1D1617),
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (selectedHours > 0) selectedHours--;
-                                      });
-                                    },
-                                    icon: Icon(Icons.arrow_drop_down, size: 32),
-                                    color: Color(0xffB4C0FE),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        _buildTimePicker(
+                          label: 'Hours',
+                          value: selectedHours,
+                          max: 24,
+                          onIncrement: () => setState(() {
+                            if (selectedHours < 24) selectedHours++;
+                          }),
+                          onDecrement: () => setState(() {
+                            if (selectedHours > 0) selectedHours--;
+                          }),
                         ),
                         
                         // Minutes
-                        Column(
-                          children: [
-                            Text(
-                              'Minutes',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff1D1617),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffF7F8F8),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Color(0xffB4C0FE).withValues(alpha: 0.3),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (selectedMinutes < 59) selectedMinutes++;
-                                      });
-                                    },
-                                    icon: Icon(Icons.arrow_drop_up, size: 32),
-                                    color: Color(0xffB4C0FE),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      '$selectedMinutes',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff1D1617),
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (selectedMinutes > 0) selectedMinutes--;
-                                      });
-                                    },
-                                    icon: Icon(Icons.arrow_drop_down, size: 32),
-                                    color: Color(0xffB4C0FE),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        _buildTimePicker(
+                          label: 'Minutes',
+                          value: selectedMinutes,
+                          max: 59,
+                          onIncrement: () => setState(() {
+                            if (selectedMinutes < 59) selectedMinutes++;
+                          }),
+                          onDecrement: () => setState(() {
+                            if (selectedMinutes > 0) selectedMinutes--;
+                          }),
                         ),
                       ],
                     ),
@@ -1149,6 +1016,66 @@ class Home extends StatelessWidget {
           },
         );
       },
+    );
+  }
+
+  Widget _buildTimePicker({
+    required String label,
+    required int value,
+    required int max,
+    required VoidCallback onIncrement,
+    required VoidCallback onDecrement,
+  }) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xff1D1617),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          decoration: BoxDecoration(
+            color: Color(0xffF7F8F8),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Color(0xffB4C0FE).withValues(alpha: 0.3),
+            ),
+          ),
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: onIncrement,
+                icon: Icon(Icons.arrow_drop_up, size: 32),
+                color: Color(0xffB4C0FE),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '$value',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff1D1617),
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: onDecrement,
+                icon: Icon(Icons.arrow_drop_down, size: 32),
+                color: Color(0xffB4C0FE),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

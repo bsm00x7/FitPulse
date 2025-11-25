@@ -391,7 +391,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Future<void> _launchEmail() async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
-      path: 'support@fitnessapp.com',
+      path: 'devbassemx@gmail.com',
       query: 'subject=Support Request',
     );
     
@@ -405,7 +405,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   }
   
   Future<void> _launchPhone() async {
-    final Uri phoneUri = Uri(scheme: 'tel', path: '+1234567890');
+    final Uri phoneUri = Uri(scheme: 'tel', path: '+216 20492801');
     
     if (await canLaunchUrl(phoneUri)) {
       await launchUrl(phoneUri);
