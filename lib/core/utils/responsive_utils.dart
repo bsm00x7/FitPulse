@@ -147,11 +147,11 @@ class ResponsiveUtils {
     
     switch (deviceType) {
       case DeviceType.mobile:
-        return (width - 60) / 2; // Account for padding and gap
+        return (width - 60) / 2;
       case DeviceType.tablet:
-        return (width - 103) / 3; // More spacing on tablets
+        return (width - 103) / 3;
       case DeviceType.desktop:
-        return (width - 150) / 4; // Even more spacing on desktop
+        return (width - 150) / 4;
     }
   }
 
