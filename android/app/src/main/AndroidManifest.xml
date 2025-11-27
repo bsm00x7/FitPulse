@@ -13,8 +13,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
     <!-- permissions of walking -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    
+    <!-- AdMob advertising identifier permission (required for Play Store) -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    
     <application
         android:label="fitness"
         android:icon="@mipmap/launcher_icon"
@@ -43,6 +48,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        
+        <!-- Google AdMob App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3890360716260111~2101330014"/>
     </application>
 
     <!-- Queries for text processing (required for Flutter) -->

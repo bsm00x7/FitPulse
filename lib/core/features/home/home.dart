@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
+import 'package:fitness/widgets/native_ad_widget.dart';
 import 'activity/activity.dart';
 import 'controller/home_controller.dart';
 
@@ -86,6 +87,8 @@ class Home extends StatelessWidget {
                 ],
               ),
               SizedBox(height: spacing),
+              // Native Ad Widget
+              const NativeAdWidget(),
               _buildWaterAndHealthSection(context, theme, size, controller, isMobile, spacing),
             ],
           ),

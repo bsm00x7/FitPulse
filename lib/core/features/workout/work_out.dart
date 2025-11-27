@@ -4,7 +4,8 @@ import 'package:fitness/core/features/workout/subScreen/exercice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
+import 'package:fitness/services/coin_service.dart';
+import 'package:fitness/widgets/insufficient_coins_dialog.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -165,30 +166,63 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     );
   }
 
-  void _navigateToWorkout(BuildContext context , {required String level , required String partOf}) {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-        ChangeNotifierProvider(create: (BuildContext context) =>ControllerSubScreen(),
-        child: FullBodyScreen(level: level, partOf: partOf,)),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
-          const end = Offset.zero;
-          const curve = Curves.easeInOutCubic;
-          var tween = Tween(begin: begin, end: end).chain(
-            CurveTween(curve: curve),
-          );
-
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 300),
-      ),
-    );
+  Future<void> _navigateToWorkout(BuildContext context, {required String level, required String partOf}) async {
+    final coinService = Provider.of<CoinService>(context, listen: false);
+    
+    // Check if user has enough coins
+    if (!coinService.canAffordExercise()) {
+      // Show insufficient coins dialog
+      final result = await showInsufficientCoinsDialog(
+        context,
+        currentCoins: coinService.coins,
+        requiredCoins: coinService.exerciseCost,
+      );
+      
+      // If user watched ad and earned coins, check again
+      if (result == true && coinService.canAffordExercise()) {
+        await _proceedWithWorkout(context, coinService, level, partOf);
+      }
+    } else {
+      await _proceedWithWorkout(context, coinService, level, partOf);
+    }
   }
+  Future<void> _proceedWithWorkout(
+    BuildContext context,
+    CoinService coinService,
+    String level,
+    String partOf,
+  ) async {
+    // Deduct coins
+    final success = await coinService.purchaseExercise();
+    
+    if (success && mounted) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+          ChangeNotifierProvider(
+            create: (BuildContext context) => ControllerSubScreen(),
+            child: FullBodyScreen(level: level, partOf: partOf),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.easeInOutCubic;
+            var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve),
+            );
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 300),
+        ),
+      );
+    }
+  }
+
 
   Widget _buildWorkoutCard({
     required ThemeData theme,

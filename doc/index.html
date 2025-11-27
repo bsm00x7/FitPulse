@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Fitness Tracker App v1.0.1+4 - Comprehensive health and wellness companion with AdMob integration">
+    <title>Fitness Tracker App - Documentation v1.0.1+4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #B4C0FE;
+            --primary-dark: #9BB5FF;
+            --secondary: #FF6B9D;
+            --success: #42D77D;
+            --warning: #FFB800;
+            --text-dark: #1D1617;
+            --text-gray: #7B6F72;
+            --bg-light: #F7F8F8;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+        }
+
+        .title-section h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Developer Profile */
+        .developer-profile {
+            background: linear-gradient(135deg, rgba(180, 192, 254, 0.1), rgba(155, 181, 255, 0.05));
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 2px solid rgba(180, 192, 254, 0.2);
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-info h2 {
+            font-size: 1.75rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-role {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .github {
+            background: #333;
+        }
+
+        .linkedin {
+            background: #0077B5;
+        }
+
+        .facebook {
+            background: #1877F2;
+        }
+
+        .youtube {
+            background: #FF0000;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-item {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge-new {
+            background: rgba(66, 215, 125, 0.15);
+            color: var(--success);
+        }
+
+        .badge-updated {
+            background: rgba(255, 184, 0, 0.15);
+            color: var(--warning);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-light);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(180, 192, 254, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-top">
+                <div class="logo">🏃</div>
+                <div class="title-section">
+                    <h1>Fitness Tracker <span class="version-badge">v1.0.1+4</span></h1>
+                    <p>Your Personal Health & Wellness Companion</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Developer Profile -->
+        <div class="developer-profile">
+            <div class="profile-header">
+                <img src="profile-photo.jpg" alt="Bassem Naser" class="profile-photo"
+                    onerror="this.style.display='none'">
+                <div class="profile-info">
+                    <h2>Bassem Naser</h2>
+                    <div class="profile-role">Software Engineer | Flutter Developer</div>
+                    <div class="profile-email">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:bassemnaser124@gmail.com"
+                            style="color: var(--text-gray); text-decoration: none;">bassemnaser124@gmail.com</a>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/bsm00x7" target="_blank" class="social-btn github" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/bassem-naser-462249265/" target="_blank" class="social-btn linkedin" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://www.facebook.com/bassem.nasr07" target="_blank" class="social-btn facebook" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@B9XY" target="_blank" class="social-btn youtube" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Information -->
+        <div class="card">
+            <h2>📱 Application Overview</h2>
+            <p>A comprehensive Flutter-based mobile application designed to help users monitor daily fitness goals,
+                track activities, and visualize their progress with a beautiful, intuitive interface.</p>
+
+            <table style="margin-top: 2rem;">
+                <tr>
+                    <th>Property</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Platform</strong></td>
+                    <td>iOS & Android (Flutter Cross-Platform)</td>
+                </tr>
+                <tr>
+                    <td><strong>Current Version</strong></td>
+                    <td>1.0.1+4</td>
+                </tr>
+                <tr>
+                    <td><strong>Framework</strong></td>
+                    <td>Flutter 3.x</td>
+                </tr>
+                <tr>
+                    <td><strong>Language</strong></td>
+                    <td>Dart 3.8.1</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimum SDK</strong></td>
+                    <td>Android 21+ / iOS 12+</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Features -->
+        <div class="card">
+            <h2>✨ Core Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>📊 Activity Tracking</h3>
+                    <ul>
+                        <li>Real-time step counting</li>
+                        <li>Distance tracking in kilometers</li>
+                        <li>Water intake monitoring</li>
+                        <li>Sleep tracking with quality ratings</li>
+                        <li>Calorie consumption tracking</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3>🎯 Goal Management</h3>
+                    <ul>
+                        <li>Personalized daily step goals</li>
+                        <li>Custom hydration targets</li>
+                        <li>Workout streak tracking</li>
+                        <li>Achievement system with badges</li>
+                        <li>Progress milestones</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3>📈 Data Visualization</h3>
+                    <ul>
+                        <li>Interactive bar charts</li>
+                        <li>Circular progress indicators</li>
+                        <li>Line graphs for trend analysis</li>
+                        <li>Real-time updating dashboards</li>
+                        <li>BMI calculator and tracking</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3>💪 Workout Features</h3>
+                    <ul>
+                        <li>Exercise library with animations</li>
+                        <li>Custom workout routines</li>
+                        <li>Set and rep tracking</li>
+                        <li>Rest timer between sets</li>
+                        <li>Workout history logging</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3>👤 Profile & Settings</h3>
+                    <ul>
+                        <li>User profile management</li>
+                        <li>Achievement showcase</li>
+                        <li>Activity history viewer</li>
+                        <li>Personal statistics dashboard</li>
+                        <li>Theme customization</li>
+                    </ul>
+                </div>
+                <div class="feature-item">
+                    <h3>💰 Ad Integration <span class="badge badge-new">NEW</span></h3>
+                    <ul>
+                        <li>Google AdMob integration</li>
+                        <li>Native advanced ads</li>
+                        <li>Non-intrusive ad placement</li>
+                        <li>Revenue optimization</li>
+                        <li>Auto test/production switching</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version History -->
+        <div class="card">
+            <h2>📋 Version History</h2>
+
+            <div style="margin-top: 1.5rem;">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">
+                    <span class="badge badge-new">LATEST</span> Version 1.0.1+4 - AdMob Integration
+                </h3>
+                <p style="margin-bottom: 1rem;"><strong>Release Date:</strong> November 2025</p>
+                <h4 style="margin-bottom: 0.5rem;">✨ New Features:</h4>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li><strong>Google AdMob Integration</strong> - Native advanced ads with optimal placement</li>
+                    <li><strong>Automatic Test/Production Mode</strong> - Smart ad unit switching based on build type
+                    </li>
+                    <li><strong>Enhanced Ad Service</strong> - Memory-efficient ad management with proper cleanup</li>
+                    <li><strong>Ad Performance Tracking</strong> - Detailed logging in debug mode, silent in production
+                    </li>
+                </ul>
+
+                <h4 style="margin-bottom: 0.5rem;">🎯 Ad Placements:</h4>
+                <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                    <li>Home Screen - After activity status section</li>
+                    <li>Activity History - Every 5 activity items</li>
+                    <li>Profile Screen - After achievements section</li>
+                </ul>
+
+                <h4 style="margin-bottom: 0.5rem;">🔧 Technical Details:</h4>
+                <ul style="margin-left: 2rem;">
+                    <li>AdMob SDK v6.0.0</li>
+                    <li>Template Type: Advanced Native (Medium)</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--bg-light);">
+                <h3 style="color: var(--text-gray); margin-bottom: 1rem;">Version 1.0.0 - Initial Release</h3>
+                <p style="margin-bottom: 1rem;"><strong>Release Date:</strong> November 2025</p>
+                <ul style="margin-left: 2rem;">
+                    <li>Initial app launch</li>
+                    <li>Core fitness tracking features</li>
+                    <li>User authentication with Firebase</li>
+                    <li>Activity monitoring and goal setting</li>
+                    <li>Profile management</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="card">
+            <h2>🛠️ Technology Stack</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>📱 Flutter 3.x</h3>
+                    <p>Cross-platform UI framework</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🎯 Dart 3.8.1</h3>
+                    <p>Primary programming language</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🔥 Firebase</h3>
+                    <p>Authentication & Cloud Storage</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🔄 Provider</h3>
+                    <p>State management solution</p>
+                </div>
+                <div class="feature-item">
+                    <h3>📊 FL Chart</h3>
+                    <p>Data visualization</p>
+                </div>
+                <div class="feature-item">
+                    <h3>💰 Google AdMob</h3>
+                    <p>Ad monetization platform</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: #2d3748; color: white; text-align: center; padding: 2rem; margin-top: 4rem;">
+        <p>&copy; 2025 Fitness Tracker App. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.8;">Built with Bassem Naser , using Flutter</p>
+    </footer>
+</body>
+
+</html>

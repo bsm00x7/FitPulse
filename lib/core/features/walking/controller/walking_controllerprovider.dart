@@ -26,6 +26,7 @@ class WalkingControllerProvider with ChangeNotifier {
 
   // Constructor
   WalkingControllerProvider() {
+    _checkDailyReset(); // Check if we need to reset for new day
     _loadWeeklyHistory();
     _loadStreak();
     initPlatformState();
@@ -70,6 +71,26 @@ class WalkingControllerProvider with ChangeNotifier {
     }
     
     return chartData;
+  }
+  
+  // Check if we need to reset steps for a new day
+  void _checkDailyReset() {
+    final today = _getDateKey(DateTime.now());
+    final lastResetDate = PreferenceManager().getString('last_reset_date') ?? '';
+    
+    if (lastResetDate != today) {
+      // New day! Reset steps to 0
+      _stepsWalking = 0;
+      PreferenceManager().setInt(StorageKey.walkingStepsTrakcer, 0);
+      PreferenceManager().setString('last_reset_date', today);
+      
+      if (kDebugMode) {
+        print('✅ Daily reset: Steps reset to 0 for new day: $today');
+      }
+    } else {
+      // Same day, load existing steps
+      _stepsWalking = PreferenceManager().getInt(StorageKey.walkingStepsTrakcer) ?? 0;
+    }
   }
 
   void _saveSteps() {

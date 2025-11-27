@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:fitness/widgets/native_ad_widget.dart';
 
 import 'controller/activity_history_controller.dart';
 
@@ -49,47 +50,57 @@ class ActivityHistoryScreen extends StatelessWidget {
                               ),),
                             ],
                           ),
-                        ): ListView.separated(
-                          itemCount: provider.nameActivity.length,
+                        ): ListView.builder(
+                          itemCount: provider.nameActivity.length + (provider.nameActivity.length ~/ 5),
                           itemBuilder: (context, index) {
-                            return Container(
-                              height: 60,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xFF8B5CF6).withValues(alpha: 0.3),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 5,
-                                  horizontal: 15,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(FontAwesomeIcons.dumbbell),
-                                    SizedBox(width: 40),
-                                    SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.width *
-                                          0.67,
-                                      child: Text(
-                                        provider.nameActivity[index],
-                                        style: theme.textTheme.titleMedium!
-                                            .copyWith(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
+                            // Show ad every 5 items
+                            if ((index + 1) % 6 == 0) {
+                              return const NativeAdWidget();
+                            }
+                            
+                            // Adjust index for actual activity items
+                            final activityIndex = index - (index ~/ 6);
+                            
+                            return Column(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF8B5CF6).withValues(alpha: 0.3),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 15,
                                     ),
-                                  ],
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.dumbbell),
+                                        SizedBox(width: 40),
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                              0.67,
+                                          child: Text(
+                                            provider.nameActivity[activityIndex],
+                                            style: theme.textTheme.titleMedium!
+                                                .copyWith(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(height: 20),
+                              ],
                             );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(height: 20);
                           },
                         );
                       },

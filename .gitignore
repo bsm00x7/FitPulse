@@ -32,16 +32,134 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-android/app/google-services.json
+devtools_options.yaml
+setstevite*
+*.setstevite
+
 # Symbolication related
 app.*.symbols
 
 # Obfuscation related
 app.*.map.json
-/android/key.properties
+
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# ========================================
+# SENSITIVE FILES - NEVER COMMIT THESE!
+# ========================================
+
+# Environment & Configuration Files
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+*.env
+config.json
+secrets.json
+credentials.json
+local.properties
+
+# API Keys & Secrets
+**/api_keys.dart
+**/secrets.dart
+**/config/secrets.*
+**/config/api_keys.*
+api-keys.txt
+secrets.txt
+.secrets/
+.api-keys/
+
+# Firebase Configuration
+firebase.json
+.firebaserc
+firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/GoogleService-Info.plist
+lib/firebase_options.dart
+google-services.json
+GoogleService-Info.plist
+firebase-debug.log
+firestore-debug.log
+
+# Android Keystore & Signing
+/android/key.properties
 /android/app/upload-keystore.jks
-/android/app/google-services.json
+/android/app/*.jks
+/android/app/*.keystore
+/android/*.jks
+/android/*.keystore
+*.jks
+*.keystore
+key.properties
+keystore.properties
+signing.properties
+
+# iOS Certificates & Provisioning
+ios/Runner/GoogleService-Info.plist
+*.mobileprovision
+*.p12
+*.cer
+*.certSigningRequest
+ios/Pods/
+Pods/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+*.realm
+*.db-shm
+*.db-wal
+
+# AWS & Cloud Credentials
+.aws/
+aws-credentials.json
+gcp-credentials.json
+azure-credentials.json
+*.pem
+
+# SSH Keys
+*.key
+id_rsa
+id_rsa.pub
+*.ppk
+
+# Certificates
+*.crt
+*.cert
+*.ca-bundle
+
+# Personal Data & Test Data
+user_data.json
+test_credentials.txt
+private_notes.txt
+personal_info.txt
+
+# Backup Files
+*.backup
+*.bak
+*.tmp
+*~
+
+# OS Generated Files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Other Sensitive Files
+.password
+password.txt
+passwords.txt
+token.txt
+tokens.txt
+*.token

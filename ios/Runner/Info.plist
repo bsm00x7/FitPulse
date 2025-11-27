@@ -1,69 +1,72 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
+\u003c?xml version="1.0" encoding="UTF-8"?\u003e
+\u003c!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"\u003e
+\u003cplist version="1.0"\u003e
+\u003cdict\u003e
 
-<key>NSCameraUsageDescription</key>
-<string>We need access to your camera to capture photos.</string>
-<key>NSPhotoLibraryUsageDescription</key>
-<string>We need access to your gallery to pick images.</string>
-<string>We will sync your data with the Apple Health app to give you better insights</string>
-<key>NSHealthUpdateUsageDescription</key>
-<string>We will sync your data with the Apple Health app to give you better insights</string>
-<key>NSHealthShareUsageDescription</key>
-<string>This app needs access to health data to show your heart rate.</string>
-    <key>NSMotionUsageDescription</key>
-    <string>This application tracks your steps</string>
-    <key>UIBackgroundModes</key>
-    <array>
-        <string>processing</string>
-    </array>
-	<key>CFBundleDevelopmentRegion</key>
-	<key>NSHealthShareUsageDescription</key>
-    <string>We will sync your data with the Apple Health app to give you better insights</string>
-    <key>NSHealthUpdateUsageDescription</key>
-    <string>We will sync your data with the Apple Health app to give you better insights</string>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>Fitness</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>fitness</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-</dict>
-</plist>
+\u003ckey\u003eNSCameraUsageDescription\u003c/key\u003e
+\u003cstring\u003eWe need access to your camera to capture photos.\u003c/string\u003e
+\u003ckey\u003eNSPhotoLibraryUsageDescription\u003c/key\u003e
+\u003cstring\u003eWe need access to your gallery to pick images.\u003c/string\u003e
+\u003ckey\u003eNSHealthShareUsageDescription\u003c/key\u003e
+\u003cstring\u003eWe will sync your data with the Apple Health app to give you better insights\u003c/string\u003e
+\u003ckey\u003eNSHealthUpdateUsageDescription\u003c/key\u003e
+\u003cstring\u003eWe will sync your data with the Apple Health app to give you better insights\u003c/string\u003e
+    \u003ckey\u003eNSMotionUsageDescription\u003c/key\u003e
+    \u003cstring\u003eThis application tracks your steps\u003c/string\u003e
+    \u003ckey\u003eUIBackgroundModes\u003c/key\u003e
+    \u003carray\u003e
+        \u003cstring\u003eprocessing\u003c/string\u003e
+    \u003c/array\u003e
+	\u003ckey\u003eCFBundleDevelopmentRegion\u003c/key\u003e
+	\u003cstring\u003e$(DEVELOPMENT_LANGUAGE)\u003c/string\u003e
+	\u003ckey\u003eCFBundleDisplayName\u003c/key\u003e
+	\u003cstring\u003eFitness\u003c/string\u003e
+	\u003ckey\u003eCFBundleExecutable\u003c/key\u003e
+	\u003cstring\u003e$(EXECUTABLE_NAME)\u003c/string\u003e
+	\u003ckey\u003eCFBundleIdentifier\u003c/key\u003e
+	\u003cstring\u003e$(PRODUCT_BUNDLE_IDENTIFIER)\u003c/string\u003e
+	\u003ckey\u003eCFBundleInfoDictionaryVersion\u003c/key\u003e
+	\u003cstring\u003e6.0\u003c/string\u003e
+	\u003ckey\u003eCFBundleName\u003c/key\u003e
+	\u003cstring\u003efitness\u003c/string\u003e
+	\u003ckey\u003eCFBundlePackageType\u003c/key\u003e
+	\u003cstring\u003eAPPL\u003c/string\u003e
+	\u003ckey\u003eCFBundleShortVersionString\u003c/key\u003e
+	\u003cstring\u003e$(FLUTTER_BUILD_NAME)\u003c/string\u003e
+	\u003ckey\u003eCFBundleSignature\u003c/key\u003e
+	\u003cstring\u003e????\u003c/string\u003e
+	\u003ckey\u003eCFBundleVersion\u003c/key\u003e
+	\u003cstring\u003e$(FLUTTER_BUILD_NUMBER)\u003c/string\u003e
+	\u003ckey\u003eLSRequiresIPhoneOS\u003c/key\u003e
+	\u003ctrue/\u003e
+	\u003ckey\u003eUILaunchStoryboardName\u003c/key\u003e
+	\u003cstring\u003eLaunchScreen\u003c/string\u003e
+	\u003ckey\u003eUIMainStoryboardFile\u003c/key\u003e
+	\u003cstring\u003eMain\u003c/string\u003e
+	\u003ckey\u003eUISupportedInterfaceOrientations\u003c/key\u003e
+	\u003carray\u003e
+		\u003cstring\u003eUIInterfaceOrientationPortrait\u003c/string\u003e
+		\u003cstring\u003eUIInterfaceOrientationLandscapeLeft\u003c/string\u003e
+		\u003cstring\u003eUIInterfaceOrientationLandscapeRight\u003c/string\u003e
+	\u003c/array\u003e
+	\u003ckey\u003eUISupportedInterfaceOrientations~ipad\u003c/key\u003e
+	\u003carray\u003e
+		\u003cstring\u003eUIInterfaceOrientationPortrait\u003c/string\u003e
+		\u003cstring\u003eUIInterfaceOrientationPortraitUpsideDown\u003c/string\u003e
+		\u003cstring\u003eUIInterfaceOrientationLandscapeLeft\u003c/string\u003e
+		\u003cstring\u003eUIInterfaceOrientationLandscapeRight\u003c/string\u003e
+	\u003c/array\u003e
+	\u003ckey\u003eCADisableMinimumFrameDurationOnPhone\u003c/key\u003e
+	\u003ctrue/\u003e
+	\u003ckey\u003eUIApplicationSupportsIndirectInputEvents\u003c/key\u003e
+	\u003ctrue/\u003e
+	
+	\u003c!-- Google AdMob App ID --\u003e
+	\u003ckey\u003eGADApplicationIdentifier\u003c/key\u003e
+	\u003cstring\u003eca-app-pub-3890360716260111~2101330014\u003c/string\u003e
+	
+	\u003c!-- App Tracking Transparency Description --\u003e
+	\u003ckey\u003eNSUserTrackingUsageDescription\u003c/key\u003e
+	\u003cstring\u003eThis allows us to show you personalized ads to support the app.\u003c/string\u003e
+\u003c/dict\u003e
+\u003c/plist\u003e

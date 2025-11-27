@@ -4,6 +4,7 @@ import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'core/features/button_navigation_bar/button_navigation_bar.dart';
 import 'core/features/home/controller/home_controller.dart';
 import 'core/features/onboarding/controller/navigator_controller.dart';
@@ -11,7 +12,9 @@ import 'core/features/onboarding/welcome_screen.dart';
 import 'core/features/workout/subScreen/controller_shared_screen/controller_sub_screen.dart';
 import 'data/services/auth/auth_service.dart';
 import 'data/services/store_user_information.dart';
+import 'services/coin_service.dart';
 import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize PreferenceManager
@@ -20,6 +23,10 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+  // Initialize Google Mobile Ads SDK
+  await MobileAds.instance.initialize();
+  // Initialize Coin Service
+  await CoinService().initialize();
   runApp(const MyApp());
 }
 
@@ -34,7 +41,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigatorController()),
         ChangeNotifierProvider<AuthService>(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => FirestoreService()),
-        ChangeNotifierProvider(create: (_) => HomeController())
+        ChangeNotifierProvider(create: (_) => HomeController()),
+        ChangeNotifierProvider(create: (_) => CoinService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
