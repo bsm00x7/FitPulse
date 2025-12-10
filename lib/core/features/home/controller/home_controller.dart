@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:fitness/data/models/user_model.dart';
 import 'package:fitness/data/services/auth/auth_service.dart';
 import 'package:fitness/data/services/store_user_information.dart';
-import 'package:fitness/service/preference_manager.dart';
+
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../data/models/activity_model.dart';
+import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
 class HomeController with ChangeNotifier {
   String? type;

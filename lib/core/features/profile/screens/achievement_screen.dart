@@ -5,8 +5,6 @@ class AchievementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    
     return Scaffold(
       backgroundColor: Color(0xffF7F8F8),
       appBar: AppBar(

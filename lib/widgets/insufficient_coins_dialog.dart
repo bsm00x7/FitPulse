@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fitness/services/coin_service.dart';
-import 'package:fitness/services/ad_mob_service.dart';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import '../services_ads_storage_local/ad_mob_service.dart';
+import '../services_ads_storage_local/coin_service.dart';
 
 /// Dialog shown when user doesn't have enough coins to start an exercise
 /// Offers option to watch a rewarded ad to earn coins

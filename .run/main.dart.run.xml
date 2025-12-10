@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" editBeforeRun="true">
-    <option name="envs">
-      <entry key="JAVA_HOME" value="C:\tools\jdk-21.0.9" />
-    </option>
-    <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
-    <method v="2" />
-  </configuration>
-</component>

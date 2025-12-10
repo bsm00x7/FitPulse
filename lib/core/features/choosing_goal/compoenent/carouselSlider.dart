@@ -2,9 +2,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../../../service/preference_manager.dart';
-
+import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
 import '../../button_navigation_bar/button_navigation_bar.dart';
 

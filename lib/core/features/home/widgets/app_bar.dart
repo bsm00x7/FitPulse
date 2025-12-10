@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fitness/services/coin_service.dart';
 
+import '../../../../services_ads_storage_local/coin_service.dart';
 import '../controller/home_controller.dart';
 
 class AppBarWidget extends StatelessWidget {

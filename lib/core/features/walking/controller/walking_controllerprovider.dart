@@ -1,11 +1,11 @@
 
 import 'dart:convert';
-import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
 
 

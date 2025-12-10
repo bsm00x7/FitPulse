@@ -6,6 +6,7 @@ import '../home/home.dart';
 import '../profile/profile.dart';
 import '../walking/walking_screen.dart';
 import '../workout/work_out.dart';
+import '../nutrition/nutrition_screen.dart';
 class ButtonNavigation extends StatefulWidget {
   const ButtonNavigation({super.key});
   @override
@@ -15,6 +16,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
   final List<Widget> pages = [
     Home(),
     WorkoutScreen(),
+    NutritionScreen(),
     WalkingScreen(),
     Profile()
   ];
@@ -36,10 +38,13 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
         child: pages[_currentIndex],
       )),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedLabelStyle : TextStyle(
-          fontSize: 14,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle : const TextStyle(
+          fontSize: 12,
           fontWeight: FontWeight.w600
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
         ),
         currentIndex: _currentIndex,
         onTap: (int value) {
@@ -48,44 +53,37 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
           });
         },
         selectedItemColor: theme.colorScheme.onSecondary,
+        unselectedItemColor: theme.colorScheme.onSurface.withOpacity(0.6),
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/button_navigation/Home.svg',
-              colorFilter: ColorFilter.mode(
-                _currentIndex == 0 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                BlendMode.srcIn,
-              ),
+              height: 24,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/button_navigation/Activity.svg',
-              colorFilter: ColorFilter.mode(
-                _currentIndex == 1 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                BlendMode.srcIn,
-              ),
+              height: 24,
             ),
             label: 'Work Out',
           ),
           BottomNavigationBarItem(
+            icon: const Icon(Icons.restaurant, size: 24),
+            label: 'Nutrition',
+          ),
+          BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/button_navigation/walking.svg' ,height: 28,
-              colorFilter: ColorFilter.mode(
-                _currentIndex == 2 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                BlendMode.srcIn,
-              ),
+              'assets/button_navigation/walking.svg',
+              height: 28,
             ),
             label: 'Walking',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/button_navigation/Profile.svg',
-              colorFilter: ColorFilter.mode(
-                _currentIndex == 3 ? theme.colorScheme.onSecondary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                BlendMode.srcIn,
-              ),
+              height: 24,
             ),
             label: 'Profile',
           ),

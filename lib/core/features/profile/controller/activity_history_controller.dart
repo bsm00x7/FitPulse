@@ -1,6 +1,7 @@
 import 'package:fitness/core/constant/storage_key.dart';
-import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../../services_ads_storage_local/preference_manager.dart';
 
 class ActivityHistoryController extends ChangeNotifier {
   final List<String> nameActivity = [];

@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../../data/services/auth/auth_service.dart';
 import '../../../../data/services/store_user_information.dart';
-import '../../../../service/preference_manager.dart';
+import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
 import '../../onboarding/welcome_screen.dart';
 

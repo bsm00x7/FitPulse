@@ -8,7 +8,6 @@ class AdMobService {
   static final AdMobService _instance = AdMobService._internal();
   factory AdMobService() => _instance;
   AdMobService._internal();
-
   // Production Ad Unit IDs
   static const String _productionAppId = 'ca-app-pub-3890360716260111~2101330014';
   
@@ -89,7 +88,6 @@ class AdMobService {
         onAdLoaded: (ad) {
           final nativeAd = ad as NativeAd;
           _loadedAds.add(nativeAd);
-          
           if (kDebugMode) {
             print('✅ Native Ad loaded successfully (Total active ads: ${_loadedAds.length})');
           }
@@ -188,7 +186,7 @@ class AdMobService {
     _loadedAds.clear();
   }
 
-  /// Load a Rewarded Video Ad
+  /// Load a Rewarded Ad
   /// [onAdLoaded] callback when ad loads successfully
   /// [onAdFailedToLoad] callback when ad fails to load
   /// [onUserEarnedReward] callback when user earns reward by watching the ad
@@ -263,7 +261,7 @@ class AdMobService {
     );
   }
 
-  /// Show the loaded rewarded video ad
+  /// Show the loaded rewarded ad
   /// [onUserEarnedReward] callback when user completes watching and earns reward
   Future<void> showRewardedAd({
     required Function(AdWithoutView ad, RewardItem reward) onUserEarnedReward,

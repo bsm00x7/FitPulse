@@ -1,9 +1,6 @@
-
-
-import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../data/services/auth/auth_service.dart';
+import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
 class SignupController extends ChangeNotifier {
   bool isPasswordVisible = true;

@@ -1414,7 +1414,7 @@ class _ExerciseDetailsBottomSheetState extends State<ExerciseDetailsBottomSheet>
   }
 
   Widget _buildInstructions(ThemeData theme) {
-    final instructions = widget.exercise.instructions ?? [];
+    final instructions = widget.exercise.instructions;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),

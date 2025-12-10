@@ -2,15 +2,18 @@
 
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/features/complete/complete.dart';
-
-
+import '../../../core/features/button_navigation_bar/button_navigation_bar.dart';
+import '../../../services_ads_storage_local/preference_manager.dart';
+import '../../../core/constant/storage_key.dart';
+import '../store_user_information.dart';
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   // Getters
   String? getUser() {
     return _auth.currentUser?.uid;
@@ -20,6 +23,9 @@ class AuthService with ChangeNotifier {
     return _auth.authStateChanges();
   }
 
+
+
+  // Email/Password Login
   Future<bool> loginAuth({
     required String email,
     required String password,
@@ -54,19 +60,20 @@ class AuthService with ChangeNotifier {
         context,
       ).showSnackBar(SnackBar(content: Text(errorMessage)));
     } catch (e) {
-      // Optional: handle other exceptions (e.g., network issues)
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed. Please try again.')),
+        const SnackBar(content: Text('Login failed. Please try again.')),
       );
     }
     return false;
   }
 
- Future <void> signOut() async{
+  // Sign Out
+  Future<void> signOut() async {
     await _auth.signOut();
     notifyListeners();
   }
 
+  // Register
   register({
     required String username,
     required String lastname,
@@ -75,7 +82,7 @@ class AuthService with ChangeNotifier {
     required BuildContext context,
   }) async {
     try {
-      // Carate New user
+      // Create New user
       UserCredential user = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -83,7 +90,7 @@ class AuthService with ChangeNotifier {
       if (user.user != null) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Complete()),
+          MaterialPageRoute(builder: (context) => const Complete()),
           (Route<dynamic> route) => false,
         );
       }

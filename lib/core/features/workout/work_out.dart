@@ -4,8 +4,9 @@ import 'package:fitness/core/features/workout/subScreen/exercice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:fitness/services/coin_service.dart';
 import 'package:fitness/widgets/insufficient_coins_dialog.dart';
+
+import '../../../services_ads_storage_local/coin_service.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});

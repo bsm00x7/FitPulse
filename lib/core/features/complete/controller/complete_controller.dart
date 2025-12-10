@@ -6,7 +6,7 @@ import 'package:intl/intl.dart'; // Added for DateFormat
 import 'package:provider/provider.dart'; // Added for Provider
 import '../../../../data/services/auth/auth_service.dart';
 import '../../../../data/services/store_user_information.dart';
-import '../../../../service/preference_manager.dart';
+import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
 import '../../choosing_goal/choosing_goal.dart';
 

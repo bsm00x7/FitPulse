@@ -64,6 +64,29 @@ Future<Map<String, dynamic>?> getUserFromCollection({
     }
   }
 
+  // Save basic user info for Google Sign-In
+  Future<void> saveBasicUserInfo(
+    String userId,
+    String email,
+    String username,
+    String lastName,
+  ) async {
+    try {
+      await _firestore.collection('users').doc(userId).set({
+        'email': email,
+        'username': username,
+        'lastname': lastName,
+        'createdAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true)); // Use merge to avoid overwriting existing data
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error in saveBasicUserInfo: $e');
+      }
+      rethrow;
+    }
+  }
+
   // SaveUser Details:
   Future<void> saveUserDetails(
     String userId,
@@ -140,5 +163,174 @@ Future<Map<String, dynamic>?> getUserFromCollection({
   rethrow;
   }
   return null;
+  }
+
+  // ============= NUTRITION TRACKING METHODS =============
+  
+  // Save a meal
+  Future<void> saveMeal(Map<String, dynamic> mealData) async {
+    try {
+      await _firestore.collection('meals').doc(mealData['id']).set(mealData);
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error saving meal: $e');
+      }
+      rethrow;
+    }
+  }
+
+  // Get meals for a specific date
+  Future<List<Map<String, dynamic>>> getMealsForDate(String userId, DateTime date) async {
+    try {
+      final startOfDay = DateTime(date.year, date.month, date.day);
+      final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+
+      final snapshot = await _firestore
+          .collection('meals')
+          .where('userId', isEqualTo: userId)
+          .where('timestamp', isGreaterThanOrEqualTo: startOfDay.toIso8601String())
+          .where('timestamp', isLessThanOrEqualTo: endOfDay.toIso8601String())
+          .get();
+
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting meals for date: $e');
+      }
+      return [];
+    }
+  }
+
+  // Delete a meal
+  Future<void> deleteMeal(String mealId) async {
+    try {
+      await _firestore.collection('meals').doc(mealId).delete();
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error deleting meal: $e');
+      }
+    }
+  }
+
+  // Save water intake
+  Future<void> saveWaterIntake(Map<String, dynamic> waterIntakeData) async {
+    try {
+      await _firestore
+          .collection('water_intake')
+          .doc(waterIntakeData['id'])
+          .set(waterIntakeData);
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error saving water intake: $e');
+      }
+      rethrow;
+    }
+  }
+
+  // Get water intake for a specific date
+  Future<List<Map<String, dynamic>>> getWaterIntakeForDate(
+    String userId,
+    String date, // Format: YYYY-MM-DD
+  ) async {
+    try {
+      final snapshot = await _firestore
+          .collection('water_intake')
+          .where('userId', isEqualTo: userId)
+          .where('date', isEqualTo: date)
+          .get();
+
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting water intake: $e');
+      }
+      return [];
+    }
+  }
+
+  // Save meal plan
+  Future<void> saveMealPlan(Map<String, dynamic> mealPlanData) async {
+    try {
+      await _firestore
+          .collection('meal_plans')
+          .doc(mealPlanData['id'])
+          .set(mealPlanData);
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error saving meal plan: $e');
+      }
+      rethrow;
+    }
+  }
+
+  // Get meal plan for a specific week
+  Future<Map<String, dynamic>?> getMealPlan(String userId, DateTime weekStart) async {
+    try {
+      final snapshot = await _firestore
+          .collection('meal_plans')
+          .where('userId', isEqualTo: userId)
+          .where('weekStartDate', isEqualTo: weekStart.toIso8601String())
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.first.data();
+      }
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting meal plan: $e');
+      }
+      return null;
+    }
+  }
+
+  // Save recipe
+  Future<void> saveRecipe(Map<String, dynamic> recipeData) async {
+    try {
+      await _firestore
+          .collection('recipes')
+          .doc(recipeData['id'])
+          .set(recipeData);
+      notifyListeners();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error saving recipe: $e');
+      }
+      rethrow;
+    }
+  }
+
+  // Get all recipes
+  Future<List<Map<String, dynamic>>> getRecipes() async {
+    try {
+      final snapshot = await _firestore.collection('recipes').get();
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting recipes: $e');
+      }
+      return [];
+    }
+  }
+
+  // Get recipes by tag
+  Future<List<Map<String, dynamic>>> getRecipesByTag(String tag) async {
+    try {
+      final snapshot = await _firestore
+          .collection('recipes')
+          .where('tags', arrayContains: tag)
+          .get();
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting recipes by tag: $e');
+      }
+      return [];
+    }
   }
 }

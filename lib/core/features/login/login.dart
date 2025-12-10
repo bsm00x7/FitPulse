@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../data/services/auth/auth_service.dart';
 import '../../../widget/text_form_field.dart';
 import '../Signup/signup.dart';
 import 'controller/login_page_controller.dart';
@@ -123,56 +124,6 @@ class Login extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              const Expanded(
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Color(0xFFDDDADA),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                ),
-                                child: Text(
-                                  'Or',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              const Expanded(
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Color(0xFFDDDADA),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _buildSocialButton(
-                                context,
-                                asset: 'assets/login/google-logo.svg',
-                                onPressed: () {
-                                  // Implement Google login
-                                },
-                              ),
-                              const SizedBox(width: 20),
-                              _buildSocialButton(
-                                context,
-                                asset: 'assets/login/facebook 1.svg',
-                                onPressed: () {
-                                  // Implement Facebook login
-                                },
-                              ),
-                            ],
                           ),
                           const SizedBox(height: 20),
                           TextButton(

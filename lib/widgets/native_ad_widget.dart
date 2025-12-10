@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:fitness/services/ad_mob_service.dart';
+
+import '../services_ads_storage_local/ad_mob_service.dart';
 
 /// Native Ad Widget that can be embedded in any screen
 /// Auto-refreshes every 10 seconds to maximize ad revenue

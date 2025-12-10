@@ -1,11 +1,9 @@
 import 'dart:convert';
-
-
-import 'package:fitness/service/preference_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../../data/models/exercise_model.dart';
+import '../../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../../constant/storage_key.dart';
 
 class ControllerSubScreen with ChangeNotifier {

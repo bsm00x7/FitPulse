@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/core/theme/light_theme.dart';
-import 'package:fitness/service/preference_manager.dart';
+import 'package:fitness/services_ads_storage_local/coin_service.dart';
+import 'package:fitness/services_ads_storage_local/preference_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,9 +11,9 @@ import 'core/features/home/controller/home_controller.dart';
 import 'core/features/onboarding/controller/navigator_controller.dart';
 import 'core/features/onboarding/welcome_screen.dart';
 import 'core/features/workout/subScreen/controller_shared_screen/controller_sub_screen.dart';
+import 'core/features/nutrition/controller/nutrition_controller.dart';
 import 'data/services/auth/auth_service.dart';
 import 'data/services/store_user_information.dart';
-import 'services/coin_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -23,6 +24,10 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+  
+  // Configure Firebase Auth to suppress warnings
+  FirebaseAuth.instance.setLanguageCode('en');
+  
   // Initialize Google Mobile Ads SDK
   await MobileAds.instance.initialize();
   // Initialize Coin Service
@@ -43,6 +48,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FirestoreService()),
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (_) => CoinService()),
+        ChangeNotifierProvider(create: (_) => NutritionController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

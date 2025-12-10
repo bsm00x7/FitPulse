@@ -9,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:fitness/widgets/rewarded_ad_manager.dart';
-import 'package:fitness/services/coin_service.dart';
+import '../../../services_ads_storage_local/coin_service.dart';
 import 'controller/controller.dart';
 
 class Profile extends StatefulWidget {
@@ -485,13 +485,13 @@ class _ProfileState extends State<Profile> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            warningColor.withOpacity(0.1),
-                            warningColor.withOpacity(0.05),
+                            warningColor.withValues(alpha: 0.1),
+                            warningColor.withValues(alpha: 0.05),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: warningColor.withOpacity(0.3),
+                          color: warningColor.withValues(alpha: 0.3),
                           width: 1.5,
                         ),
                       ),
@@ -502,7 +502,7 @@ class _ProfileState extends State<Profile> {
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: warningColor.withOpacity(0.2),
+                                  color: warningColor.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Icon(

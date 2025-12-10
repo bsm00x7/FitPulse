@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:fitness/services/ad_mob_service.dart';
+
+import '../services_ads_storage_local/ad_mob_service.dart';
 
 /// Rewarded Video Ad Manager
 /// Manages loading, showing, and handling rewards from rewarded video ads
@@ -140,7 +141,7 @@ class _RewardedAdManagerState extends State<RewardedAdManager> {
               boxShadow: _adMobService.isRewardedAdReady
                   ? [
                       BoxShadow(
-                        color: const Color(0xFF92A3FD).withOpacity(0.3),
+                        color: const Color(0xFF92A3FD).withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),

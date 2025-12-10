@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+
 import '../../../widget/text_form_field.dart';
 import '../login/login.dart';
 import 'controller/signup_controller.dart';
@@ -132,55 +133,7 @@ class Signup extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          const Expanded(
-                            child: Divider(
-                              thickness: 1.1,
-                              color: Color(0xFFDDDADA),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              'Or',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          const Expanded(
-                            child: Divider(
 
-                              thickness: 1.1,
-                              color: Color(0xFFDDDADA),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildSocialButton(
-                            context,
-                            asset: 'assets/login/google-logo.svg',
-                            onPressed: () {
-                              // Implement Google login
-                            },
-                          ),
-                          const SizedBox(width: 20),
-                          _buildSocialButton(
-                            context,
-                            asset: 'assets/login/facebook 1.svg',
-                            onPressed: () {
-                              // Implement Facebook login
-                            },
-                          ),
-                        ],
-                      ),
                       TextButton(
                         onPressed: () =>
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>Login())),
