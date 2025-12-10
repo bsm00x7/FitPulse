@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../data/models/meal_model.dart';
 import '../../../data/services/nutrition_service.dart';
 import 'controller/nutrition_controller.dart';
+import 'add_meal_screen.dart';
 
 class BarcodeScannerScreen extends StatefulWidget {
   const BarcodeScannerScreen({super.key});
@@ -101,12 +102,8 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
         await cameraController.stop();
         _showFoodDetails(foodProduct);
       } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Product not found in database')),
-        );
-        setState(() {
-          _isProcessing = false;
-        });
+        await cameraController.stop();
+        _showProductNotFoundDialog(barcode);
       }
     } catch (e) {
       if (mounted) {
@@ -118,6 +115,57 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
         });
       }
     }
+  }
+
+  void _showProductNotFoundDialog(String barcode) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Product Not Found'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Barcode: $barcode'),
+            const SizedBox(height: 12),
+            const Text(
+              'This product is not in the Open Food Facts database.',
+              style: TextStyle(fontSize: 14),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'You can add it manually instead.',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              cameraController.start();
+              setState(() {
+                _isProcessing = false;
+              });
+            },
+            child: const Text('Scan Again'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              Navigator.pop(context); // Close scanner
+              // Navigate to add meal screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AddMealScreen()),
+              );
+            },
+            icon: const Icon(Icons.edit),
+            label: const Text('Add Manually'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showFoodDetails(FoodProduct food) {

@@ -255,7 +255,7 @@ class Home extends StatelessWidget {
     return InkWell(
       onTap: () => _showSleepEditDialog(context, theme),
       child: Container(
-        height: ResponsiveUtils.getContainerHeight(context, 150),
+        height: ResponsiveUtils.getContainerHeight(context, 160),
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -340,7 +340,7 @@ class Home extends StatelessWidget {
     return InkWell(
       onLongPress: () => _showCaloriesRestDialog(context, theme),
       child: Container(
-        height: ResponsiveUtils.getContainerHeight(context, 150),
+        height: ResponsiveUtils.getContainerHeight(context, 170),
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -417,7 +417,7 @@ class Home extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       SizedBox(
-                        height: 40,
+                        height: 45,
                         width: 40,
                         child: CircularProgressIndicator(
                           value: provider.calories / 1000,
@@ -792,7 +792,7 @@ class Home extends StatelessWidget {
         content: Row(
           children: [
             Icon(Icons.refresh, color: Colors.white, size: 20),
-            SizedBox(width: 8),
+            SizedBox(width: 5),
             Text(
               'Calories reset successfully!',
               style: TextStyle(fontWeight: FontWeight.w500),

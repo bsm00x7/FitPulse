@@ -1,4 +1,3 @@
-
 import 'package:fitness/core/features/workout/subScreen/controller_shared_screen/controller_sub_screen.dart';
 import 'package:fitness/core/features/workout/subScreen/exercice_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +23,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   @override
   void initState() {
     super.initState();
-    // Animation Controller Timer
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    // Entry Animation
+
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -68,14 +66,13 @@ class _WorkoutScreenState extends State<WorkoutScreen>
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // Header Section
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                         Text(
                           'Choose Your',
                           style: theme.textTheme.headlineMedium?.copyWith(
@@ -103,7 +100,6 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                   ),
                 ),
 
-                // Workout Cards
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   sliver: SliverList(
@@ -155,7 +151,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         onPressed: () => _navigateToWorkout(context, level: 'Intermediate', partOf: 'Upper Body Workout'),
                         delay: 600,
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
                     ]),
                   ),
                 ),
@@ -169,17 +165,14 @@ class _WorkoutScreenState extends State<WorkoutScreen>
 
   Future<void> _navigateToWorkout(BuildContext context, {required String level, required String partOf}) async {
     final coinService = Provider.of<CoinService>(context, listen: false);
-    
-    // Check if user has enough coins
+
     if (!coinService.canAffordExercise()) {
-      // Show insufficient coins dialog
       final result = await showInsufficientCoinsDialog(
         context,
         currentCoins: coinService.coins,
         requiredCoins: coinService.exerciseCost,
       );
-      
-      // If user watched ad and earned coins, check again
+
       if (result == true && coinService.canAffordExercise()) {
         await _proceedWithWorkout(context, coinService, level, partOf);
       }
@@ -187,24 +180,24 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       await _proceedWithWorkout(context, coinService, level, partOf);
     }
   }
+
   Future<void> _proceedWithWorkout(
-    BuildContext context,
-    CoinService coinService,
-    String level,
-    String partOf,
-  ) async {
-    // Deduct coins
+      BuildContext context,
+      CoinService coinService,
+      String level,
+      String partOf,
+      ) async {
     final success = await coinService.purchaseExercise();
-    
+
     if (success && mounted) {
       Navigator.push(
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-          ChangeNotifierProvider(
-            create: (BuildContext context) => ControllerSubScreen(),
-            child: FullBodyScreen(level: level, partOf: partOf),
-          ),
+              ChangeNotifierProvider(
+                create: (BuildContext context) => ControllerSubScreen(),
+                child: FullBodyScreen(level: level, partOf: partOf),
+              ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(1.0, 0.0);
             const end = Offset.zero;
@@ -223,7 +216,6 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       );
     }
   }
-
 
   Widget _buildWorkoutCard({
     required ThemeData theme,
@@ -339,9 +331,12 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    // Get screen width for responsive sizing
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 360;
+
     return GestureDetector(
       onTapDown: (_) {
         setState(() => _isPressed = true);
@@ -362,18 +357,15 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
           return Transform.scale(
             scale: _isPressed ? 0.98 : _scaleAnimation.value,
             child: Container(
-              height: 180,
-              constraints: const BoxConstraints(
-                maxHeight: 180,
-                minHeight: 180,
-              ),
+              // Remove fixed height constraint, let content determine height
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
                     widget.color,
-                    widget.color.withValues(alpha:0.8),
+                    widget.color.withValues(alpha: 0.8),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),
@@ -385,224 +377,217 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                   ),
                 ],
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  clipBehavior: Clip.hardEdge,
-                  children: [
-                    Positioned(
-                      right: -20,
-                      top: -20,
-                      child: Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha:0.1),
-                        ),
+              child: Stack(
+                children: [
+                  // Background decorative circles
+                  Positioned(
+                    right: -20,
+                    top: -20,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.1),
                       ),
                     ),
-                    Positioned(
-                      right: 40,
-                      bottom: -30,
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha:0.05),
-                        ),
+                  ),
+                  Positioned(
+                    right: 40,
+                    bottom: -30,
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.05),
                       ),
                     ),
+                  ),
 
-
-                    Container(
-                      constraints: const BoxConstraints.expand(),
-                      padding: const EdgeInsets.all(24.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min, // Prevent overflow
-                              children: [
-                                // Difficulty badge
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha:0.2),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        _getDifficultyIcon(widget.difficulty),
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        widget.difficulty,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-
-                                // Title - with overflow handling
-                                Flexible(
-                                  child: Text(
-                                    widget.title,
-                                    style: widget.theme.textTheme.headlineSmall
-                                        ?.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.2,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-
-                                // Subtitle - with overflow handling
-                                Text(
-                                  widget.subTitle,
-                                  style: widget.theme.textTheme.bodyMedium
-                                      ?.copyWith(
-                                    color: Colors.white.withValues(alpha:0.9),
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-
-                                // Calories
-                                Text(
-                                  widget.calories,
-                                  style: widget.theme.textTheme.bodySmall
-                                      ?.copyWith(
-                                    color: Colors.white.withValues(alpha:0.8),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                const Spacer(),
-
-                                // Start button - with proper constraints
-                                Container(
-                                  height: 40,
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 160,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(25),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withValues(alpha:0.1),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(25),
-                                      onTap: widget.onPressed,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                'Start Workout',
-                                                style: TextStyle(
-                                                  color: widget.color,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Icon(
-                                              Icons.play_arrow_rounded,
-                                              color: widget.color,
-                                              size: 20,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // Icon section - with proper constraints
-                          Expanded(
-                            child: Container(
-                              constraints: const BoxConstraints(
-                                maxWidth: 120,
-                                maxHeight: 120,
+                  // Main content
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Left content section
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Difficulty badge
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isSmallScreen ? 8 : 12,
+                                vertical: isSmallScreen ? 4 : 6,
                               ),
-                              child: Stack(
-                                alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white.withValues(alpha:0.15),
+                                  Text(
+                                    _getDifficultyIcon(widget.difficulty),
+                                    style: TextStyle(
+                                      fontSize: isSmallScreen ? 10 : 12,
                                     ),
                                   ),
-                                  Container(
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white.withValues(alpha:0.2),
-                                    ),
-                                  ),
-                                  // SVG with explicit size constraints
-                                  SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: SvgPicture.asset(
-                                      widget.iconPath,
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.contain, // Ensure proper fitting
-                                      colorFilter: const ColorFilter.mode(
-                                        Colors.white,
-                                        BlendMode.srcIn,
-                                      ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    widget.difficulty,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: isSmallScreen ? 10 : 12,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: isSmallScreen ? 8 : 12),
+
+                            // Title
+                            Text(
+                              widget.title,
+                              style: widget.theme.textTheme.headlineSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                height: 1.2,
+                                fontSize: isSmallScreen ? 18 : 22,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: isSmallScreen ? 4 : 8),
+
+                            // Subtitle
+                            Text(
+                              widget.subTitle,
+                              style: widget.theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.white.withValues(alpha: 0.9),
+                                fontSize: isSmallScreen ? 12 : 14,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+
+                            // Calories
+                            Text(
+                              widget.calories,
+                              style: widget.theme.textTheme.bodySmall?.copyWith(
+                                color: Colors.white.withValues(alpha: 0.8),
+                                fontWeight: FontWeight.w500,
+                                fontSize: isSmallScreen ? 11 : 13,
+                              ),
+                            ),
+                            SizedBox(height: isSmallScreen ? 12 : 16),
+
+                            // Start button
+                            Container(
+                              height: isSmallScreen ? 36 : 40,
+                              constraints: BoxConstraints(
+                                maxWidth: isSmallScreen ? 130 : 160,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.1),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(25),
+                                  onTap: widget.onPressed,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: isSmallScreen ? 12 : 16,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            'Start Workout',
+                                            style: TextStyle(
+                                              color: widget.color,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: isSmallScreen ? 12 : 14,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Icon(
+                                          Icons.play_arrow_rounded,
+                                          color: widget.color,
+                                          size: isSmallScreen ? 18 : 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+
+                      const SizedBox(width: 12),
+
+                      // Right icon section
+                      Container(
+                        width: isSmallScreen ? 70 : 90,
+                        height: isSmallScreen ? 70 : 90,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: isSmallScreen ? 60 : 80,
+                              height: isSmallScreen ? 60 : 80,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withValues(alpha: 0.15),
+                              ),
+                            ),
+                            Container(
+                              width: isSmallScreen ? 45 : 60,
+                              height: isSmallScreen ? 45 : 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            SizedBox(
+                              width: isSmallScreen ? 35 : 45,
+                              height: isSmallScreen ? 35 : 45,
+                              child: SvgPicture.asset(
+                                widget.iconPath,
+                                width: isSmallScreen ? 35 : 45,
+                                height: isSmallScreen ? 35 : 45,
+                                fit: BoxFit.contain,
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.white,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );

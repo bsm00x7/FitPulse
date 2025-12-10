@@ -48,9 +48,6 @@ class AdMobService {
   RewardedAd? _rewardedAd;
   bool _isRewardedAdReady = false;
   bool get isRewardedAdReady => _isRewardedAdReady;
-
-  /// Initialize Mobile Ads SDK
-  /// Call this once at app startup
   Future<void> initialize() async {
     if (_isInitialized) {
       if (kDebugMode) {
