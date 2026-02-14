@@ -1,10 +1,9 @@
-import 'recipe_model.dart';
-
 class MealPlan {
   final String id;
   final String userId;
   final DateTime weekStartDate;
-  final Map<String, Map<String, PlannedMeal>> meals; // {day: {mealType: PlannedMeal}}
+  final Map<String, Map<String, PlannedMeal>>
+  meals; // {day: {mealType: PlannedMeal}}
   final List<GroceryItem> groceryList;
 
   MealPlan({
@@ -21,10 +20,12 @@ class MealPlan {
       'id': id,
       'userId': userId,
       'weekStartDate': weekStartDate.toIso8601String(),
-      'meals': meals.map((day, mealTypes) => MapEntry(
-            day,
-            mealTypes.map((type, meal) => MapEntry(type, meal.toMap())),
-          )),
+      'meals': meals.map(
+        (day, mealTypes) => MapEntry(
+          day,
+          mealTypes.map((type, meal) => MapEntry(type, meal.toMap())),
+        ),
+      ),
       'groceryList': groceryList.map((item) => item.toMap()).toList(),
     };
   }
@@ -61,7 +62,8 @@ class MealPlan {
 class PlannedMeal {
   final String recipeId;
   final String recipeName;
-  final String mealTime; // e.g., "breakfast", "lunch", "dinner", "pre-workout", "post-workout"
+  final String
+  mealTime; // e.g., "breakfast", "lunch", "dinner", "pre-workout", "post-workout"
   final String? notes;
 
   PlannedMeal({

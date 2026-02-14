@@ -1,9 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../data/services/auth/auth_service.dart';
 import '../../../widget/text_form_field.dart';
 import '../Signup/signup.dart';
 import 'controller/login_page_controller.dart';
@@ -105,15 +102,13 @@ class Login extends StatelessWidget {
                           ),
                           const SizedBox(height: 40),
                           ElevatedButton(
-                            onPressed:(){
+                            onPressed: () {
                               controller.loginUser(context);
-                            } ,
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/login/LoginDor.svg',
-                                ),
+                                SvgPicture.asset('assets/login/LoginDor.svg'),
                                 const SizedBox(width: 8),
                                 Text(
                                   'Login',
@@ -130,8 +125,10 @@ class Login extends StatelessWidget {
                             onPressed: () => Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (BuildContext context) =>Signup(),
-                              ), (Route<dynamic> route) => false),
+                                builder: (BuildContext context) => Signup(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            ),
 
                             child: Text.rich(
                               TextSpan(
