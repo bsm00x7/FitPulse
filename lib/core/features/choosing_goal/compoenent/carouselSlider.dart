@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,26 +19,26 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
     {
       'title': 'Improve Shape',
       'description':
-      'I have a low amount of body fat and need / want to build more muscle',
+          'I have a low amount of body fat and need / want to build more muscle',
       'image_source': 'assets/goal/Person1.svg',
     },
     {
       'title': 'Lean & Tone',
       'description':
-      'I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way',
+          'I’m “skinny fat”. look thin but have no shape. I want to add learn muscle in the right way',
       'image_source': 'assets/goal/Person2.svg',
     },
     {
       'title': 'Lose',
       'description':
-      'I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass',
+          'I have over 20 lbs to lose. I want to drop all this fat and gain muscle mass',
       'image_source': 'assets/goal/Person3.svg',
     },
   ];
   String goal = 'Improve Shape';
 
-  final CarouselSliderController buttonCarouselController = CarouselSliderController();
-
+  final CarouselSliderController buttonCarouselController =
+      CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +63,9 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
           ),
           SizedBox(height: 50),
           CarouselSlider(
-
             items: views
                 .map(
-                  (e) =>
-                  Container(
+                  (e) => Container(
                     margin: const EdgeInsets.all(4.0),
                     height: 800,
                     width: 400,
@@ -110,7 +107,7 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                       ],
                     ),
                   ),
-            )
+                )
                 .toList(),
             carouselController: buttonCarouselController,
             options: CarouselOptions(
@@ -133,11 +130,15 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                 PreferenceManager().setString(StorageKey.userGoal, goal);
                 if (widget.update == false) {
                   Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) {
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
                         return ButtonNavigation();
-                      }), (Route<dynamic> route) => false);
-                }else{
+                      },
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                } else {
                   Navigator.pop(context);
                 }
               },

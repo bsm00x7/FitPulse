@@ -3,13 +3,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../../core/features/complete/complete.dart';
-import '../../../core/features/button_navigation_bar/button_navigation_bar.dart';
-import '../../../services_ads_storage_local/preference_manager.dart';
-import '../../../core/constant/storage_key.dart';
-import '../store_user_information.dart';
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -22,8 +16,6 @@ class AuthService with ChangeNotifier {
   Stream<User?> authStateChanges() {
     return _auth.authStateChanges();
   }
-
-
 
   // Email/Password Login
   Future<bool> loginAuth({

@@ -3,7 +3,7 @@ import 'package:fitness/core/features/home/activity/widgets/bar_chart_progress.d
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import '../../../../widget/header_bar.dart';
+import '../../../../widgets/header_bar.dart';
 import 'add_new_target.dart';
 import 'controller/ActivityControllerProvider.dart';
 import 'controller/add_new_targets_controller.dart';
@@ -50,7 +50,8 @@ class Activity extends StatelessWidget {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                              color: theme.colorScheme.primaryContainer
+                                  .withValues(alpha: 0.3),
                               blurRadius: 15,
                               offset: const Offset(0, 8),
                             ),
@@ -85,7 +86,9 @@ class Activity extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withValues(alpha: 0.1),
+                                          color: Colors.black.withValues(
+                                            alpha: 0.1,
+                                          ),
                                           blurRadius: 8,
                                           offset: const Offset(0, 4),
                                         ),
@@ -108,7 +111,9 @@ class Activity extends StatelessWidget {
                                             ),
                                           );
                                           context
-                                              .read<ActivityControllerProvider>()
+                                              .read<
+                                                ActivityControllerProvider
+                                              >()
                                               .loadLastDataTarget();
                                         },
                                         borderRadius: BorderRadius.circular(25),
@@ -182,7 +187,7 @@ class Activity extends StatelessWidget {
                     Consumer<ActivityControllerProvider>(
                       builder: (context, valueProvider, child) {
                         return valueProvider.lastActivity.isEmpty
-                            ? Container(
+                            ? SizedBox(
                                 height: 200,
                                 child: Center(
                                   child: Column(
@@ -196,17 +201,17 @@ class Activity extends StatelessWidget {
                                       SizedBox(height: 16),
                                       Text(
                                         'No activities yet',
-                                        style: theme.textTheme.titleMedium!.copyWith(
-                                          color: Colors.grey[500],
-                                          fontSize: 16,
-                                        ),
+                                        style: theme.textTheme.titleMedium!
+                                            .copyWith(
+                                              color: Colors.grey[500],
+                                              fontSize: 16,
+                                            ),
                                       ),
                                       SizedBox(height: 8),
                                       Text(
                                         'Start adding your daily targets',
-                                        style: theme.textTheme.bodySmall!.copyWith(
-                                          color: Colors.grey[400],
-                                        ),
+                                        style: theme.textTheme.bodySmall!
+                                            .copyWith(color: Colors.grey[400]),
                                       ),
                                     ],
                                   ),
@@ -228,13 +233,15 @@ class Activity extends StatelessWidget {
                                         );
                                         return Dismissible(
                                           key: Key(activity.id),
-                                          direction: DismissDirection.endToStart,
+                                          direction:
+                                              DismissDirection.endToStart,
                                           background: Container(
                                             alignment: Alignment.centerRight,
                                             padding: EdgeInsets.only(right: 20),
                                             decoration: BoxDecoration(
                                               color: Colors.red.shade400,
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
                                             child: Icon(
                                               Icons.delete_sweep,
@@ -243,10 +250,12 @@ class Activity extends StatelessWidget {
                                             ),
                                           ),
                                           onDismissed: (direction) {
-                                            valueProvider.lastActivity
-                                                .removeAt(index);
-                                            valueProvider
-                                                .saveLastActivity(index);
+                                            valueProvider.lastActivity.removeAt(
+                                              index,
+                                            );
+                                            valueProvider.saveLastActivity(
+                                              index,
+                                            );
                                           },
                                           child: DecoratedBox(
                                             decoration: BoxDecoration(
@@ -255,27 +264,34 @@ class Activity extends StatelessWidget {
                                                 end: Alignment.bottomRight,
                                                 colors: [
                                                   Colors.white,
-                                                  Colors.grey.withValues(alpha: 0.08),
+                                                  Colors.grey.withValues(
+                                                    alpha: 0.08,
+                                                  ),
                                                 ],
                                               ),
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                               border: Border.all(
-                                                color: Colors.grey.withValues(alpha: 0.15),
+                                                color: Colors.grey.withValues(
+                                                  alpha: 0.15,
+                                                ),
                                                 width: 1,
                                               ),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.black.withValues(alpha: 0.05),
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.05),
                                                   blurRadius: 8,
                                                   offset: Offset(0, 2),
                                                 ),
                                               ],
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                vertical: 12,
-                                                horizontal: 12,
-                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 12,
+                                                    horizontal: 12,
+                                                  ),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -285,7 +301,12 @@ class Activity extends StatelessWidget {
                                                     width: 50,
                                                     height: 50,
                                                     decoration: BoxDecoration(
-                                                      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
+                                                      color: theme
+                                                          .colorScheme
+                                                          .primaryContainer
+                                                          .withValues(
+                                                            alpha: 0.1,
+                                                          ),
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: Center(
@@ -300,7 +321,8 @@ class Activity extends StatelessWidget {
                                                   Expanded(
                                                     child: Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                           activity.title,
@@ -309,20 +331,25 @@ class Activity extends StatelessWidget {
                                                               .titleMedium!
                                                               .copyWith(
                                                                 fontSize: 16,
-                                                                fontWeight: FontWeight.w600,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
                                                               ),
                                                         ),
                                                         SizedBox(height: 4),
                                                         Text(
-                                                          valueProvider.convertDate(
-                                                            activity.timestamp,
-                                                          ),
+                                                          valueProvider
+                                                              .convertDate(
+                                                                activity
+                                                                    .timestamp,
+                                                              ),
                                                           style: theme
                                                               .textTheme
                                                               .displaySmall!
                                                               .copyWith(
                                                                 fontSize: 13,
-                                                                color: Colors.grey[600],
+                                                                color: Colors
+                                                                    .grey[600],
                                                               ),
                                                         ),
                                                       ],

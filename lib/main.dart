@@ -18,19 +18,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Initialize PreferenceManager
   await PreferenceManager().init();
-  // Initialize Firebase
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  
-  // Configure Firebase Auth to suppress warnings
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseAuth.instance.setLanguageCode('en');
-  
-  // Initialize Google Mobile Ads SDK
   await MobileAds.instance.initialize();
-  // Initialize Coin Service
   await CoinService().initialize();
   runApp(const MyApp());
 }
@@ -62,7 +53,9 @@ class MyApp extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             // If user is logged in, show ButtonNavigation; otherwise, show WelcomeScreen
-            return snapshot.hasData ? const ButtonNavigation() : const WelcomeScreen();
+            return snapshot.hasData
+                ? const ButtonNavigation()
+                : const WelcomeScreen();
           },
         ),
       ),

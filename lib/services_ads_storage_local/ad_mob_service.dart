@@ -2,47 +2,52 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-/// AdMob Service to manage ads throughout the app
-/// Singleton pattern ensures consistent ad management across the app
 class AdMobService {
   static final AdMobService _instance = AdMobService._internal();
   factory AdMobService() => _instance;
   AdMobService._internal();
   // Production Ad Unit IDs
-  static const String _productionAppId = 'ca-app-pub-3890360716260111~2101330014';
-  
+  static const String _productionAppId =
+      'ca-app-pub-3890360716260111~2101330014';
   // Native Advanced Ad Units (2 available - rotating for better fill rate)
-  static const String _productionNativeAdUnitId1 = 'ca-app-pub-3890360716260111/5242977604'; // Ads Natif
-  static const String _productionNativeAdUnitId2 = 'ca-app-pub-3890360716260111/6939457217'; // fitn
-  
+  static const String _productionNativeAdUnitId1 =
+      'ca-app-pub-3890360716260111/5242977604'; // Ads Natif
+  static const String _productionNativeAdUnitId2 =
+      'ca-app-pub-3890360716260111/6939457217'; // fitn
+
   // Rewarded Interstitial Ad Unit
-  static const String _productionRewardedAdUnitId = 'ca-app-pub-3890360716260111/4485217096'; // adsrewoersvidoe
-  
+  static const String _productionRewardedAdUnitId =
+      'ca-app-pub-3890360716260111/4485217096'; // adsrewoersvidoe
+
   // Test Ad Unit IDs (for development only)
-  static const String _testNativeAdUnitId = 'ca-app-pub-3940256099942544/2247696110';
-  static const String _testRewardedAdUnitId = 'ca-app-pub-3940256099942544/5224354917';
-  
+  static const String _testNativeAdUnitId =
+      'ca-app-pub-3940256099942544/2247696110';
+  static const String _testRewardedAdUnitId =
+      'ca-app-pub-3940256099942544/5224354917';
+
   // Track which native ad unit to use (alternate for better fill rate)
   static int _nativeAdIndex = 0;
-  
+
   // Use production IDs by default, test IDs in debug mode
   static String get nativeAdUnitId {
     if (kDebugMode) {
       return _testNativeAdUnitId;
     }
-    
+
     // Alternate between two native ad units for better fill rate
     _nativeAdIndex = (_nativeAdIndex + 1) % 2;
-    return _nativeAdIndex == 0 ? _productionNativeAdUnitId1 : _productionNativeAdUnitId2;
+    return _nativeAdIndex == 0
+        ? _productionNativeAdUnitId1
+        : _productionNativeAdUnitId2;
   }
-  
+
   static String get rewardedAdUnitId {
     return kDebugMode ? _testRewardedAdUnitId : _productionRewardedAdUnitId;
   }
 
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
-  
+
   // Track loaded ads for proper cleanup
   final List<NativeAd> _loadedAds = [];
   RewardedAd? _rewardedAd;
@@ -55,11 +60,11 @@ class AdMobService {
       }
       return;
     }
-    
+
     try {
       await MobileAds.instance.initialize();
       _isInitialized = true;
-      
+
       if (kDebugMode) {
         print('✅ AdMob SDK initialized successfully');
         print('📱 Using ${kDebugMode ? "TEST" : "PRODUCTION"} ad units');
@@ -86,9 +91,11 @@ class AdMobService {
           final nativeAd = ad as NativeAd;
           _loadedAds.add(nativeAd);
           if (kDebugMode) {
-            print('✅ Native Ad loaded successfully (Total active ads: ${_loadedAds.length})');
+            print(
+              '✅ Native Ad loaded successfully (Total active ads: ${_loadedAds.length})',
+            );
           }
-          
+
           onAdLoaded(nativeAd);
         },
         onAdFailedToLoad: (ad, error) {
@@ -98,7 +105,7 @@ class AdMobService {
             print('   Message: ${error.message}');
             print('   Domain: ${error.domain}');
           }
-          
+
           ad.dispose();
           onAdFailedToLoad(ad as NativeAd, error);
         },
@@ -154,10 +161,10 @@ class AdMobService {
         ),
       ),
     );
-    
+
     // Load the ad
     ad.load();
-    
+
     return ad;
   }
 
@@ -165,7 +172,7 @@ class AdMobService {
   void disposeAd(NativeAd ad) {
     ad.dispose();
     _loadedAds.remove(ad);
-    
+
     if (kDebugMode) {
       print('🗑️ Ad disposed (Remaining active ads: ${_loadedAds.length})');
     }
@@ -176,7 +183,7 @@ class AdMobService {
     if (kDebugMode) {
       print('🗑️ Disposing all ads (${_loadedAds.length} active ads)');
     }
-    
+
     for (var ad in _loadedAds) {
       ad.dispose();
     }
@@ -199,7 +206,7 @@ class AdMobService {
         onAdLoaded: (ad) {
           _rewardedAd = ad;
           _isRewardedAdReady = true;
-          
+
           // Set up full screen content callback
           _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
             onAdShowedFullScreenContent: (ad) {
@@ -235,11 +242,11 @@ class AdMobService {
               }
             },
           );
-          
+
           if (kDebugMode) {
             print('✅ Rewarded Ad loaded successfully');
           }
-          
+
           onAdLoaded?.call();
         },
         onAdFailedToLoad: (error) {
@@ -249,7 +256,7 @@ class AdMobService {
             print('   Message: ${error.message}');
             print('   Domain: ${error.domain}');
           }
-          
+
           _rewardedAd = null;
           _isRewardedAdReady = false;
           onAdFailedToLoad?.call(error);
@@ -287,15 +294,16 @@ class AdMobService {
     _rewardedAd?.dispose();
     _rewardedAd = null;
     _isRewardedAdReady = false;
-    
+
     if (kDebugMode) {
       print('🗑️ Rewarded Ad disposed');
     }
   }
 
   /// Get the current environment (production or test)
-  String get currentEnvironment => kDebugMode ? 'TEST (Debug Mode)' : 'PRODUCTION (Release Mode)';
-  
+  String get currentEnvironment =>
+      kDebugMode ? 'TEST (Debug Mode)' : 'PRODUCTION (Release Mode)';
+
   /// Check if test ads are being used
   bool get isUsingTestAds => kDebugMode;
 }

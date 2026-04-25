@@ -69,17 +69,17 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
             right: 0,
             child: Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Text(
                   'Point the camera at a barcode',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             ),
@@ -107,9 +107,9 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
         setState(() {
           _isProcessing = false;
         });
@@ -192,16 +192,30 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  
+
                   // Nutrition Info
-                  _buildNutritionRow('Calories', '${(food.calories * servingMultiplier).toInt()} kcal'),
-                  _buildNutritionRow('Protein', '${(food.protein * servingMultiplier).toInt()}g'),
-                  _buildNutritionRow('Carbs', '${(food.carbs * servingMultiplier).toInt()}g'),
-                  _buildNutritionRow('Fats', '${(food.fats * servingMultiplier).toInt()}g'),
+                  _buildNutritionRow(
+                    'Calories',
+                    '${(food.calories * servingMultiplier).toInt()} kcal',
+                  ),
+                  _buildNutritionRow(
+                    'Protein',
+                    '${(food.protein * servingMultiplier).toInt()}g',
+                  ),
+                  _buildNutritionRow(
+                    'Carbs',
+                    '${(food.carbs * servingMultiplier).toInt()}g',
+                  ),
+                  _buildNutritionRow(
+                    'Fats',
+                    '${(food.fats * servingMultiplier).toInt()}g',
+                  ),
                   const SizedBox(height: 20),
 
                   // Serving size slider
-                  Text('Serving Size: ${(food.servingSize * servingMultiplier).toInt()}g'),
+                  Text(
+                    'Serving Size: ${(food.servingSize * servingMultiplier).toInt()}g',
+                  ),
                   Slider(
                     value: servingMultiplier,
                     min: 0.5,
@@ -218,7 +232,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
 
                   // Meal Type Dropdown
                   DropdownButtonFormField<MealType>(
-                    value: selectedMealType,
+                    initialValue: selectedMealType,
                     decoration: const InputDecoration(
                       labelText: 'Meal Type',
                       border: OutlineInputBorder(),
@@ -226,7 +240,9 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
                     items: MealType.values.map((type) {
                       return DropdownMenuItem(
                         value: type,
-                        child: Text(type.toString().split('.').last.toUpperCase()),
+                        child: Text(
+                          type.toString().split('.').last.toUpperCase(),
+                        ),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -244,7 +260,11 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                        await _addMeal(food, selectedMealType, servingMultiplier);
+                        await _addMeal(
+                          food,
+                          selectedMealType,
+                          servingMultiplier,
+                        );
                         if (mounted) {
                           Navigator.pop(dialogContext);
                           Navigator.pop(context);
@@ -275,13 +295,20 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(fontSize: 16)),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
   }
 
-  Future<void> _addMeal(FoodProduct food, MealType mealType, double servingMultiplier) async {
+  Future<void> _addMeal(
+    FoodProduct food,
+    MealType mealType,
+    double servingMultiplier,
+  ) async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) return;
 
@@ -311,9 +338,9 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding meal: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error adding meal: $e')));
       }
     }
   }

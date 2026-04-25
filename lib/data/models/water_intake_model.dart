@@ -26,10 +26,14 @@ class WaterIntake {
 
   // Create from Firestore Map
   factory WaterIntake.fromMap(Map<String, dynamic> map) {
+    double convert(String value) {
+      return double.parse(value);
+    }
+
     return WaterIntake(
       id: map['id'] ?? '',
       userId: map['userId'] ?? '',
-      amount: (map['amount'] ?? 0).toDouble(),
+      amount: convert(map['amount'] ?? 0),
       timestamp: DateTime.parse(map['timestamp']),
       date: map['date'] ?? '',
     );

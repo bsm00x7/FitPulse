@@ -55,16 +55,20 @@ class Recipe {
 
   // Create from Firestore Map
   factory Recipe.fromMap(Map<String, dynamic> map) {
+    double convert(String value) {
+      return double.parse(value);
+    }
+
     return Recipe(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       ingredients: List<String>.from(map['ingredients'] ?? []),
       instructions: List<String>.from(map['instructions'] ?? []),
-      calories: (map['calories'] ?? 0).toDouble(),
-      protein: (map['protein'] ?? 0).toDouble(),
-      carbs: (map['carbs'] ?? 0).toDouble(),
-      fats: (map['fats'] ?? 0).toDouble(),
+      calories: convert(map['calories'] ?? 0),
+      protein: convert(map['protein'] ?? 0),
+      carbs: convert(map['carbs'] ?? 0),
+      fats: convert(map['fats'] ?? 0),
       prepTime: map['prepTime'] ?? 0,
       cookTime: map['cookTime'] ?? 0,
       servings: map['servings'] ?? 1,

@@ -7,18 +7,20 @@ import '../profile/profile.dart';
 import '../walking/walking_screen.dart';
 import '../workout/work_out.dart';
 import '../nutrition/nutrition_screen.dart';
+
 class ButtonNavigation extends StatefulWidget {
   const ButtonNavigation({super.key});
   @override
   State<ButtonNavigation> createState() => _ButtonNavigationState();
 }
+
 class _ButtonNavigationState extends State<ButtonNavigation> {
   final List<Widget> pages = [
     Home(),
     WorkoutScreen(),
     NutritionScreen(),
     WalkingScreen(),
-    Profile()
+    Profile(),
   ];
   int _currentIndex = 0;
   @override
@@ -29,23 +31,24 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
       Provider.of<HomeController>(context, listen: false).init();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: SafeArea(child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-        child: pages[_currentIndex],
-      )),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: pages[_currentIndex],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedLabelStyle : const TextStyle(
+        selectedLabelStyle: const TextStyle(
           fontSize: 12,
-          fontWeight: FontWeight.w600
+          fontWeight: FontWeight.w600,
         ),
-        unselectedLabelStyle: const TextStyle(
-          fontSize: 10,
-        ),
+        unselectedLabelStyle: const TextStyle(fontSize: 10),
         currentIndex: _currentIndex,
         onTap: (int value) {
           setState(() {
@@ -53,7 +56,7 @@ class _ButtonNavigationState extends State<ButtonNavigation> {
           });
         },
         selectedItemColor: theme.colorScheme.onSecondary,
-        unselectedItemColor: theme.colorScheme.onSurface.withOpacity(0.6),
+        unselectedItemColor: theme.colorScheme.onSurface.withValues(alpha: .6),
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(

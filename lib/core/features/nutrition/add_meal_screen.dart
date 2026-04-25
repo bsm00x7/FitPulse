@@ -19,7 +19,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
   final _carbsController = TextEditingController();
   final _fatsController = TextEditingController();
   final _servingSizeController = TextEditingController(text: '100');
-  
+
   MealType _selectedMealType = MealType.breakfast;
 
   @override
@@ -35,12 +35,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Meal'),
-      ),
+      appBar: AppBar(title: const Text('Add Meal')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -69,7 +65,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
                   // Meal Type
                   DropdownButtonFormField<MealType>(
-                    value: _selectedMealType,
+                    initialValue: _selectedMealType,
                     decoration: const InputDecoration(
                       labelText: 'Meal Type',
                       border: OutlineInputBorder(),
@@ -78,7 +74,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     items: MealType.values.map((type) {
                       return DropdownMenuItem(
                         value: type,
-                        child: Text(type.toString().split('.').last.toUpperCase()),
+                        child: Text(
+                          type.toString().split('.').last.toUpperCase(),
+                        ),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -252,9 +250,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding meal: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error adding meal: $e')));
       }
     }
   }

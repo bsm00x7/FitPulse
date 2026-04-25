@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-
-import '../../../widget/text_form_field.dart';
+import '../../../widgets/text_form_field.dart';
 import '../login/login.dart';
 import 'controller/signup_controller.dart';
+
 class Signup extends StatelessWidget {
   const Signup({super.key});
 
@@ -99,22 +98,27 @@ class Signup extends StatelessWidget {
                       Row(
                         children: [
                           Consumer<SignupController>(
-                            builder: (BuildContext context, checked, Widget? child)=> Checkbox(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              side: BorderSide(
-                                color: Color(0xffADA4A5),
-                                width: 1.2,
-                              ),
-                              value: checked.isChecked,
-                              activeColor: Colors.red,
-                              onChanged: (value) {
-                                if (value!=null){
-                                  checked.changeCheckbox(value);
-                                }
-                               },
-                            ),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  checked,
+                                  Widget? child,
+                                ) => Checkbox(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  side: BorderSide(
+                                    color: Color(0xffADA4A5),
+                                    width: 1.2,
+                                  ),
+                                  value: checked.isChecked,
+                                  activeColor: Colors.red,
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      checked.changeCheckbox(value);
+                                    }
+                                  },
+                                ),
                           ),
                           Text(
                             'By continuing you accept our Privacy Policy and \nTerm of Use',
@@ -125,7 +129,11 @@ class Signup extends StatelessWidget {
                       ),
                       const SizedBox(height: 50),
                       ElevatedButton(
-                        onPressed: (){ context.read<SignupController>().register( context: context);},
+                        onPressed: () {
+                          context.read<SignupController>().register(
+                            context: context,
+                          );
+                        },
                         child: Text(
                           'Register',
                           style: theme.textTheme.headlineSmall!.copyWith(
@@ -135,8 +143,10 @@ class Signup extends StatelessWidget {
                       ),
 
                       TextButton(
-                        onPressed: () =>
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Login())),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        ),
                         child: Text.rich(
                           TextSpan(
                             children: [
@@ -149,8 +159,7 @@ class Signup extends StatelessWidget {
                               ),
                               TextSpan(
                                 text: 'Login',
-                                style: theme.textTheme.headlineSmall
-                                    ?.copyWith(
+                                style: theme.textTheme.headlineSmall?.copyWith(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -167,26 +176,6 @@ class Signup extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-  Widget _buildSocialButton(
-      BuildContext context, {
-        required String asset,
-        required VoidCallback onPressed,
-      }) {
-    final theme = Theme.of(context);
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: const BorderSide(color: Color(0xFFDDDADA), width: 1.6),
-        ),
-        minimumSize: const Size(60, 60),
-        backgroundColor: theme.colorScheme.surface,
-      ),
-      onPressed: onPressed,
-      child: SvgPicture.asset(asset, width: 24, height: 24),
     );
   }
 }

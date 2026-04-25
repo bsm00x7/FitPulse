@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../widget/text_form_field.dart';
+import '../../../widgets/text_form_field.dart';
 import 'controller/complete_controller.dart';
 class Complete extends StatelessWidget {
   const Complete({super.key});

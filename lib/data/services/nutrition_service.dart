@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
@@ -15,12 +17,12 @@ class NutritionService {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        
+
         if (data['status'] == 1 && data['product'] != null) {
           return FoodProduct.fromOpenFoodFactsJson(data['product']);
         }
       }
-      
+
       return null;
     } catch (e) {
       if (kDebugMode) {
@@ -33,17 +35,19 @@ class NutritionService {
   // Search food by name
   Future<List<FoodProduct>> searchFoodByName(String query) async {
     try {
-      final url = Uri.parse('$_baseUrl/search').replace(queryParameters: {
-        'search_terms': query,
-        'page_size': '20',
-        'json': '1',
-      });
-      
+      final url = Uri.parse('$_baseUrl/search').replace(
+        queryParameters: {
+          'search_terms': query,
+          'page_size': '20',
+          'json': '1',
+        },
+      );
+
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        
+
         if (data['products'] != null) {
           final products = (data['products'] as List)
               .map((product) => FoodProduct.fromOpenFoodFactsJson(product))
@@ -51,7 +55,7 @@ class NutritionService {
           return products;
         }
       }
-      
+
       return [];
     } catch (e) {
       if (kDebugMode) {
@@ -118,43 +122,44 @@ class FoodProduct {
   // Parse from Open Food Facts API response
   factory FoodProduct.fromOpenFoodFactsJson(Map<String, dynamic> json) {
     final nutriments = json['nutriments'] ?? {};
-    
-    // Get calories (in kcal per 100g)
-    final double calories = (nutriments['energy-kcal_100g'] ?? 
-                             nutriments['energy-kcal'] ?? 
-                             0).toDouble();
-    
+
+    double convert(String value) {
+      return double.parse(value);
+    }
+
+    final double calories = convert(
+      nutriments['energy-kcal_100g'] ?? nutriments['energy-kcal'] ?? 0,
+    );
+
     // Get macros (per 100g)
-    final double protein = (nutriments['proteins_100g'] ?? 
-                           nutriments['proteins'] ?? 
-                           0).toDouble();
-    
-    final double carbs = (nutriments['carbohydrates_100g'] ?? 
-                         nutriments['carbohydrates'] ?? 
-                         0).toDouble();
-    
-    final double fats = (nutriments['fat_100g'] ?? 
-                        nutriments['fat'] ?? 
-                        0).toDouble();
-    
-    final double fiber = (nutriments['fiber_100g'] ?? 
-                         nutriments['fiber'] ?? 
-                         0).toDouble();
-    
+    final double protein = convert(
+      nutriments['proteins_100g'] ?? nutriments['proteins'] ?? 0,
+    );
+
+    final double carbs = convert(
+      nutriments['carbohydrates_100g'] ?? nutriments['carbohydrates'] ?? 0,
+    );
+
+    final double fats = convert(
+      nutriments['fat_100g'] ?? nutriments['fat'] ?? 0,
+    );
+
+    final double fiber = convert(
+      nutriments['fiber_100g'] ?? nutriments['fiber'] ?? 0,
+    );
+
     // Get serving size (default to 100g if not specified)
-    final double servingSize = (json['serving_quantity'] ?? 100).toDouble();
-    
+    final double servingSize = convert(json['serving_quantity'] ?? 100);
+
     // Get product name
-    final String name = json['product_name'] ?? 
-                       json['product_name_en'] ?? 
-                       'Unknown Product';
-    
+    final String name =
+        json['product_name'] ?? json['product_name_en'] ?? 'Unknown Product';
+
     // Get barcode
     final String barcode = json['code'] ?? '';
-    
+
     // Get image URL
-    final String? imageUrl = json['image_url'] ?? 
-                            json['image_front_url'];
+    final String? imageUrl = json['image_url'] ?? json['image_front_url'];
 
     return FoodProduct(
       name: name,

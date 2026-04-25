@@ -1,9 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../data/services/auth/auth_service.dart';
 import '../../../widget/text_form_field.dart';
 import '../Signup/signup.dart';
 import 'controller/login_page_controller.dart';
@@ -105,15 +102,13 @@ class Login extends StatelessWidget {
                           ),
                           const SizedBox(height: 40),
                           ElevatedButton(
-                            onPressed:(){
+                            onPressed: () {
                               controller.loginUser(context);
-                            } ,
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/login/LoginDor.svg',
-                                ),
+                                SvgPicture.asset('assets/login/LoginDor.svg'),
                                 const SizedBox(width: 8),
                                 Text(
                                   'Login',
@@ -130,8 +125,10 @@ class Login extends StatelessWidget {
                             onPressed: () => Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (BuildContext context) =>Signup(),
-                              ), (Route<dynamic> route) => false),
+                                builder: (BuildContext context) => Signup(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            ),
 
                             child: Text.rich(
                               TextSpan(
@@ -165,27 +162,6 @@ class Login extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSocialButton(
-    BuildContext context, {
-    required String asset,
-    required VoidCallback onPressed,
-  }) {
-    final theme = Theme.of(context);
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: const BorderSide(color: Color(0xFFDDDADA), width: 1.6),
-        ),
-        minimumSize: const Size(60, 60),
-        backgroundColor: theme.colorScheme.surface,
-      ),
-      onPressed: onPressed,
-      child: SvgPicture.asset(asset, width: 24, height: 24),
     );
   }
 }

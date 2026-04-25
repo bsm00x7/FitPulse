@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../../../data/models/meal_model.dart';
 import 'controller/nutrition_controller.dart';
 import 'add_meal_screen.dart';
@@ -25,7 +24,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Consumer<NutritionController>(
       builder: (context, controller, _) {
         if (controller.isLoading) {
@@ -35,7 +34,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:[ 
+            children: [
               // Header
               Text(
                 'Nutrition Tracker',
@@ -45,23 +44,23 @@ class _NutritionScreenState extends State<NutritionScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Daily Calorie Progress
               _buildCalorieCard(context, controller),
               const SizedBox(height: 20),
-              
+
               // Macro Breakdown
               _buildMacrosCard(context, controller),
               const SizedBox(height: 20),
-              
+
               // Water Intake
               _buildWaterCard(context, controller),
               const SizedBox(height: 20),
-              
+
               // Quick Actions
               _buildQuickActions(context),
               const SizedBox(height: 20),
-              
+
               // Meals List
               _buildMealsList(context, controller),
             ],
@@ -71,7 +70,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
     );
   }
 
-  Widget _buildCalorieCard(BuildContext context, NutritionController controller) {
+  Widget _buildCalorieCard(
+    BuildContext context,
+    NutritionController controller,
+  ) {
     final theme = Theme.of(context);
     final consumed = controller.totalCalories;
     final goal = controller.dailyCalorieGoal;
@@ -84,7 +86,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -146,7 +148,10 @@ class _NutritionScreenState extends State<NutritionScreen> {
     );
   }
 
-  Widget _buildMacrosCard(BuildContext context, NutritionController controller) {
+  Widget _buildMacrosCard(
+    BuildContext context,
+    NutritionController controller,
+  ) {
     final theme = Theme.of(context);
 
     return Container(
@@ -156,7 +161,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -172,7 +177,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          
+
           // Protein
           _buildMacroRow(
             'Protein',
@@ -182,7 +187,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
             Colors.blue,
           ),
           const SizedBox(height: 12),
-          
+
           // Carbs
           _buildMacroRow(
             'Carbs',
@@ -192,7 +197,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
             Colors.orange,
           ),
           const SizedBox(height: 12),
-          
+
           // Fats
           _buildMacroRow(
             'Fats',
@@ -206,7 +211,13 @@ class _NutritionScreenState extends State<NutritionScreen> {
     );
   }
 
-  Widget _buildMacroRow(String name, double consumed, double goal, double progress, Color color) {
+  Widget _buildMacroRow(
+    String name,
+    double consumed,
+    double goal,
+    double progress,
+    Color color,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -359,7 +370,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
                 Colors.orange,
                 () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const BarcodeScannerScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const BarcodeScannerScreen(),
+                  ),
                 ),
               ),
             ),
@@ -369,7 +382,13 @@ class _NutritionScreenState extends State<NutritionScreen> {
     );
   }
 
-  Widget _buildActionCard(BuildContext context, String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildActionCard(
+    BuildContext context,
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -385,10 +404,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
             const SizedBox(height: 8),
             Text(
               title,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(color: color, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ],
@@ -410,7 +426,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
           ),
         ),
         const SizedBox(height: 12),
-        
+
         if (controller.meals.isEmpty)
           Center(
             child: Padding(
@@ -418,9 +434,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
               child: Text(
                 'No meals logged yet.\nTap "Add Meal" to get started!',
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: Colors.grey,
-                ),
+                style: theme.textTheme.bodyLarge?.copyWith(color: Colors.grey),
               ),
             ),
           )
@@ -442,7 +456,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets. only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,

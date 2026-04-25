@@ -28,21 +28,17 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOutCubic,
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
     _animationController.forward();
   }
@@ -112,7 +108,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '320 kcal',
                         color: const Color(0xFF6C63FF),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context, level: 'Intermediate', partOf: 'Full Body Workout'),
+                        onPressed: () => _navigateToWorkout(
+                          context,
+                          level: 'Intermediate',
+                          partOf: 'Full Body Workout',
+                        ),
                         delay: 0,
                       ),
                       const SizedBox(height: 20),
@@ -124,7 +124,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '280 kcal',
                         color: const Color(0xFF4ECDC4),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context, level: 'Beginner', partOf: 'Lower Body Workout'),
+                        onPressed: () => _navigateToWorkout(
+                          context,
+                          level: 'Beginner',
+                          partOf: 'Lower Body Workout',
+                        ),
                         delay: 200,
                       ),
                       const SizedBox(height: 20),
@@ -136,7 +140,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '240 kcal',
                         color: const Color(0xFFFF6B9D),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context, level: 'Advanced', partOf: 'AB Workout'),
+                        onPressed: () => _navigateToWorkout(
+                          context,
+                          level: 'Advanced',
+                          partOf: 'AB Workout',
+                        ),
                         delay: 400,
                       ),
                       const SizedBox(height: 20),
@@ -148,7 +156,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                         calories: '300 kcal',
                         color: const Color(0xFFFFA726),
                         iconPath: 'assets/home/Vector.svg',
-                        onPressed: () => _navigateToWorkout(context, level: 'Intermediate', partOf: 'Upper Body Workout'),
+                        onPressed: () => _navigateToWorkout(
+                          context,
+                          level: 'Intermediate',
+                          partOf: 'Upper Body Workout',
+                        ),
                         delay: 600,
                       ),
                       const SizedBox(height: 30),
@@ -163,7 +175,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     );
   }
 
-  Future<void> _navigateToWorkout(BuildContext context, {required String level, required String partOf}) async {
+  Future<void> _navigateToWorkout(
+    BuildContext context, {
+    required String level,
+    required String partOf,
+  }) async {
     final coinService = Provider.of<CoinService>(context, listen: false);
 
     if (!coinService.canAffordExercise()) {
@@ -182,11 +198,11 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   }
 
   Future<void> _proceedWithWorkout(
-      BuildContext context,
-      CoinService coinService,
-      String level,
-      String partOf,
-      ) async {
+    BuildContext context,
+    CoinService coinService,
+    String level,
+    String partOf,
+  ) async {
     final success = await coinService.purchaseExercise();
 
     if (success && mounted) {
@@ -202,9 +218,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>
             const begin = Offset(1.0, 0.0);
             const end = Offset.zero;
             const curve = Curves.easeInOutCubic;
-            var tween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve),
-            );
+            var tween = Tween(
+              begin: begin,
+              end: end,
+            ).chain(CurveTween(curve: curve));
 
             return SlideTransition(
               position: animation.drive(tween),
@@ -235,10 +252,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       builder: (context, value, child) {
         return Transform.translate(
           offset: Offset(0, 50 * (1 - value)),
-          child: Opacity(
-            opacity: value,
-            child: child,
-          ),
+          child: Opacity(opacity: value, child: child),
         );
       },
       child: _EnhancedWorkoutCard(
@@ -295,21 +309,13 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.02,
-    ).animate(CurvedAnimation(
-      parent: _hoverController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(
+      CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
+    );
 
-    _elevationAnimation = Tween<double>(
-      begin: 4.0,
-      end: 12.0,
-    ).animate(CurvedAnimation(
-      parent: _hoverController,
-      curve: Curves.easeInOut,
-    ));
+    _elevationAnimation = Tween<double>(begin: 4.0, end: 12.0).animate(
+      CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -363,10 +369,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    widget.color,
-                    widget.color.withValues(alpha: 0.8),
-                  ],
+                  colors: [widget.color, widget.color.withValues(alpha: 0.8)],
                 ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
@@ -452,12 +455,13 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                             // Title
                             Text(
                               widget.title,
-                              style: widget.theme.textTheme.headlineSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                height: 1.2,
-                                fontSize: isSmallScreen ? 18 : 22,
-                              ),
+                              style: widget.theme.textTheme.headlineSmall
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.2,
+                                    fontSize: isSmallScreen ? 18 : 22,
+                                  ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -466,10 +470,11 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                             // Subtitle
                             Text(
                               widget.subTitle,
-                              style: widget.theme.textTheme.bodyMedium?.copyWith(
-                                color: Colors.white.withValues(alpha: 0.9),
-                                fontSize: isSmallScreen ? 12 : 14,
-                              ),
+                              style: widget.theme.textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    fontSize: isSmallScreen ? 12 : 14,
+                                  ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -514,7 +519,8 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Flexible(
                                           child: Text(
@@ -546,7 +552,7 @@ class _EnhancedWorkoutCardState extends State<_EnhancedWorkoutCard>
                       const SizedBox(width: 12),
 
                       // Right icon section
-                      Container(
+                      SizedBox(
                         width: isSmallScreen ? 70 : 90,
                         height: isSmallScreen ? 70 : 90,
                         child: Stack(

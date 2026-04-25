@@ -19,7 +19,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   Timer? _refreshTimer;
   static const Duration _refreshInterval = Duration(seconds: 60);
 
- @override
+  @override
   void initState() {
     super.initState();
     _loadAd();
@@ -30,7 +30,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
     // Dispose old ad before loading new one
     _nativeAd?.dispose();
     _isAdLoaded = false;
-    
+
     _nativeAd = AdMobService().loadNativeAd(
       onAdLoaded: (ad) {
         if (mounted) {
@@ -77,7 +77,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: .08),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
