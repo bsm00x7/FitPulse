@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../data/models/activity_model.dart';
 import '../../../../services_ads_storage_local/preference_manager.dart';
 import '../../../constant/storage_key.dart';
+
 class HomeController with ChangeNotifier {
   String? type;
   double? bmi;
@@ -16,22 +17,22 @@ class HomeController with ChangeNotifier {
   List<Map<String, dynamic>> intakeDataNew = [];
   double? startWater = 0;
   String? username;
-   double _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0.0;
+  double _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0.0;
   double currentWaterIntake = 0; // in ml
-  
+
   // Sleep tracking
   int _sleepHours = 8;
   int _sleepMinutes = 20;
-  
-  double get calories =>_calories;
+
+  double get calories => _calories;
   double? get targetWaterToday =>
       PreferenceManager().getDouble(StorageKey.waterSize) ?? 4.0;
-      
+
   // Sleep getters
   int get sleepHours => _sleepHours;
   int get sleepMinutes => _sleepMinutes;
   String get sleepDisplay => '${_sleepHours}h ${_sleepMinutes}m';
-  
+
   List<Map<String, dynamic>> get intakeData {
     return [
       {'time': '6am - 8am', 'amount': 0, 'isActive': false, 'value': 0.2},
@@ -46,8 +47,10 @@ class HomeController with ChangeNotifier {
       // 100%
     ];
   }
-  int get stepsCounter =>PreferenceManager().getInt(StorageKey.walkingStepsTrakcer) ?? 0;
-  double get distance => ( stepsCounter!=0 ? (stepsCounter * 0.78 / 1000) : 0 );
+
+  int get stepsCounter =>
+      PreferenceManager().getInt(StorageKey.walkingStepsTrakcer) ?? 0;
+  double get distance => (stepsCounter != 0 ? (stepsCounter * 0.78 / 1000) : 0);
 
   // Improved init method
 
@@ -76,15 +79,11 @@ class HomeController with ChangeNotifier {
           weight = user.weight;
           height = user.height;
           calculateBmi();
-        } catch (e) {
-
-        }
+        } catch (e) {}
       }
 
       notifyListeners();
     } catch (e) {
-
-
       notifyListeners();
     }
   }
@@ -109,7 +108,6 @@ class HomeController with ChangeNotifier {
           shouldReset = true;
         }
       } catch (e) {
-
         shouldReset = true;
       }
     }
@@ -171,7 +169,6 @@ class HomeController with ChangeNotifier {
           notifyListeners();
         }
       } catch (e) {
-
         intakeDataNew = List.from(
           intakeData.map((e) => Map<String, dynamic>.from(e)),
         );
@@ -230,7 +227,10 @@ class HomeController with ChangeNotifier {
     updateIntakeDataAmounts();
     saveDateWater();
     notifyListeners();
+  }
 
+  double convert(String value) {
+    return double.parse(value);
   }
 
   // Load user details from Firestore
@@ -244,8 +244,8 @@ class HomeController with ChangeNotifier {
           firstName: userData['username'],
           lastName: userData['lastname'],
           birthday: userData['birth'].toString(),
-          height: userData['height'].toDouble(),
-          weight: userData['weight'].toDouble(),
+          height: convert(userData['height']),
+          weight: convert(userData['weight']),
           gender: userData['gender'],
         );
         await PreferenceManager().setString('user', jsonEncode(user.toJson()));
@@ -313,7 +313,6 @@ class HomeController with ChangeNotifier {
       );
       notifyListeners();
     } catch (e) {
-
       await PreferenceManager().remove(StorageKey.lastActivity);
     }
   }
@@ -328,9 +327,6 @@ class HomeController with ChangeNotifier {
   String get currentWaterLiters {
     return (currentWaterIntake / 1000).toStringAsFixed(2);
   }
-
-
-
 
   void incrementWater(double amount) {
     currentWaterIntake += amount;
@@ -392,25 +388,26 @@ class HomeController with ChangeNotifier {
     } else {
       startWater = 0.0;
     }
-
   }
-  void refrechCaloris(){
+
+  void refrechCaloris() {
     _calories = PreferenceManager().getDouble(StorageKey.calories) ?? 0;
     notifyListeners();
   }
+
   void resetCalories() {
     PreferenceManager().remove(StorageKey.calories);
-    _calories =  0.0;
+    _calories = 0.0;
     notifyListeners();
   }
-  
+
   // Sleep tracking methods
   Future<void> loadSleepData() async {
     _sleepHours = PreferenceManager().getInt('sleep_hours') ?? 8;
     _sleepMinutes = PreferenceManager().getInt('sleep_minutes') ?? 20;
     notifyListeners();
   }
-  
+
   Future<void> updateSleep(int hours, int minutes) async {
     _sleepHours = hours.clamp(0, 24);
     _sleepMinutes = minutes.clamp(0, 59);

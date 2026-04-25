@@ -18,7 +18,8 @@ class InsufficientCoinsDialog extends StatefulWidget {
   });
 
   @override
-  State<InsufficientCoinsDialog> createState() => _InsufficientCoinsDialogState();
+  State<InsufficientCoinsDialog> createState() =>
+      _InsufficientCoinsDialogState();
 }
 
 class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
@@ -70,7 +71,7 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
       onUserEarnedReward: (AdWithoutView ad, RewardItem reward) async {
         // Grant coins to user
         await _coinService.rewardForAd();
-        
+
         if (mounted) {
           // Show success message
           ScaffoldMessenger.of(context).showSnackBar(
@@ -84,7 +85,9 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
           // Close dialog after a brief delay
           Future.delayed(const Duration(milliseconds: 500), () {
             if (mounted) {
-              Navigator.of(context).pop(true); // Return true to indicate coins were earned
+              Navigator.of(
+                context,
+              ).pop(true); // Return true to indicate coins were earned
             }
           });
         }
@@ -95,11 +98,9 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
   @override
   Widget build(BuildContext context) {
     final coinsNeeded = widget.requiredCoins - widget.currentCoins;
-    
+
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
@@ -107,10 +108,7 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Colors.white,
-              const Color(0xFFF7F8F8),
-            ],
+            colors: [Colors.white, const Color(0xFFF7F8F8)],
           ),
         ),
         child: Column(
@@ -120,7 +118,7 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF59E0B).withOpacity(0.1),
+                color: const Color(0xFFF59E0B).withValues(alpha: .1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -148,10 +146,7 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
             Text(
               'You need $coinsNeeded more coins to start this exercise.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 15, color: Colors.grey[600]),
             ),
 
             const SizedBox(height: 20),
@@ -235,10 +230,7 @@ class _InsufficientCoinsDialogState extends State<InsufficientCoinsDialog> {
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text(
                 'Cancel',
-                style: TextStyle(
-                  color: Color(0xFF7B6F72),
-                  fontSize: 15,
-                ),
+                style: TextStyle(color: Color(0xFF7B6F72), fontSize: 15),
               ),
             ),
           ],

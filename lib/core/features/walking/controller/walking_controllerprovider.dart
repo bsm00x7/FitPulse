@@ -13,14 +13,15 @@ class WalkingControllerProvider with ChangeNotifier {
   int _baselineSteps = 0; // Store the baseline from device
   String _status = 'Initializing...';
   bool _isInitialized = false;
-  final int _targetsSteps = PreferenceManager().getInt(StorageKey.steps) ?? 2500;
+  final int _targetsSteps =
+      PreferenceManager().getInt(StorageKey.steps) ?? 2500;
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   // Weekly history tracking
   Map<String, int> _weeklySteps = {};
   int _currentStreak = 0;
-  Set<double> _achievedMilestones = {};
+  final Set<double> _achievedMilestones = {};
   String _lastResetDate = '';
 
   // Constructor
@@ -43,7 +44,8 @@ class WalkingControllerProvider with ChangeNotifier {
   // Calculated properties
   double get calories => _stepsWalking * 0.05;
   double get distance => (_stepsWalking * 0.78) / 1000;
-  double get progressPercentage => (_stepsWalking / targetsSteps).clamp(0.0, 2.0);
+  double get progressPercentage =>
+      (_stepsWalking / targetsSteps).clamp(0.0, 2.0);
 
   // Get weekly step data for chart (last 7 days)
   List<Map<String, dynamic>> get weeklyChartData {
@@ -107,7 +109,8 @@ class WalkingControllerProvider with ChangeNotifier {
       }
     } else {
       // Same day - load existing steps
-      _stepsWalking = PreferenceManager().getInt(StorageKey.walkingStepsTrakcer) ?? 0;
+      _stepsWalking =
+          PreferenceManager().getInt(StorageKey.walkingStepsTrakcer) ?? 0;
       _baselineSteps = PreferenceManager().getInt('baseline_steps') ?? 0;
 
       if (kDebugMode) {
@@ -150,7 +153,9 @@ class WalkingControllerProvider with ChangeNotifier {
 
     // Calculate today's steps (device steps - baseline)
     final previousSteps = _stepsWalking;
-    _stepsWalking = (event.steps - _baselineSteps).clamp(0, double.infinity).toInt();
+    _stepsWalking = (event.steps - _baselineSteps)
+        .clamp(0, double.infinity)
+        .toInt();
 
     if (kDebugMode && _stepsWalking % 100 == 0 && _stepsWalking > 0) {
       print('👣 Steps Update:');
@@ -228,7 +233,9 @@ class WalkingControllerProvider with ChangeNotifier {
 
   // Load weekly history from storage
   Future<void> _loadWeeklyHistory() async {
-    final String? historyJson = PreferenceManager().getString('weekly_steps_history');
+    final String? historyJson = PreferenceManager().getString(
+      'weekly_steps_history',
+    );
     if (historyJson != null && historyJson.isNotEmpty) {
       try {
         final Map<String, dynamic> decoded = jsonDecode(historyJson);
@@ -248,7 +255,10 @@ class WalkingControllerProvider with ChangeNotifier {
 
   // Save weekly history to storage
   Future<void> _saveWeeklyHistory() async {
-    await PreferenceManager().setString('weekly_steps_history', jsonEncode(_weeklySteps));
+    await PreferenceManager().setString(
+      'weekly_steps_history',
+      jsonEncode(_weeklySteps),
+    );
   }
 
   // Update daily steps count

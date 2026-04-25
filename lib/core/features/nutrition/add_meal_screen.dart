@@ -65,7 +65,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
                   // Meal Type
                   DropdownButtonFormField<MealType>(
-                    value: _selectedMealType,
+                    initialValue: _selectedMealType,
                     decoration: const InputDecoration(
                       labelText: 'Meal Type',
                       border: OutlineInputBorder(),

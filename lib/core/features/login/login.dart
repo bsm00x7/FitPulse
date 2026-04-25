@@ -164,25 +164,4 @@ class Login extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildSocialButton(
-    BuildContext context, {
-    required String asset,
-    required VoidCallback onPressed,
-  }) {
-    final theme = Theme.of(context);
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: const BorderSide(color: Color(0xFFDDDADA), width: 1.6),
-        ),
-        minimumSize: const Size(60, 60),
-        backgroundColor: theme.colorScheme.surface,
-      ),
-      onPressed: onPressed,
-      child: SvgPicture.asset(asset, width: 24, height: 24),
-    );
-  }
 }

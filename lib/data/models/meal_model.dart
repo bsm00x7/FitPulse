@@ -50,6 +50,10 @@ class Meal {
 
   // Create from Firestore Map
   factory Meal.fromMap(Map<String, dynamic> map) {
+    double convert(String value) {
+      return double.parse(value);
+    }
+
     return Meal(
       id: map['id'] ?? '',
       userId: map['userId'] ?? '',
@@ -58,19 +62,17 @@ class Meal {
         (e) => e.toString().split('.').last == map['mealType'],
         orElse: () => MealType.snack,
       ),
-      calories: (map['calories'] ?? 0).toDouble(),
-      protein: (map['protein'] ?? 0).toDouble(),
-      carbs: (map['carbs'] ?? 0).toDouble(),
-      fats: (map['fats'] ?? 0).toDouble(),
-      fiber: (map['fiber'] ?? 0).toDouble(),
+      calories: convert(map['calories'] ?? 0),
+      protein: convert(map['protein'] ?? 0),
+      carbs: convert(map['carbs'] ?? 0),
+      fats: convert(map['fats'] ?? 0),
+      fiber: convert(map['fiber'] ?? 0),
       servingSize: map['servingSize'] ?? '',
       timestamp: DateTime.parse(map['timestamp']),
       barcode: map['barcode'],
       imageUrl: map['imageUrl'],
     );
   }
-
-  // Copy with method for easy updates
   Meal copyWith({
     String? id,
     String? userId,
@@ -104,9 +106,4 @@ class Meal {
   }
 }
 
-enum MealType {
-  breakfast,
-  lunch,
-  dinner,
-  snack,
-}
+enum MealType { breakfast, lunch, dinner, snack }

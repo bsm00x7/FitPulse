@@ -18,17 +18,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Initialize PreferenceManager
   await PreferenceManager().init();
-  // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  // Configure Firebase Auth to suppress warnings
   FirebaseAuth.instance.setLanguageCode('en');
-
-  // Initialize Google Mobile Ads SDK
   await MobileAds.instance.initialize();
-  // Initialize Coin Service
   await CoinService().initialize();
   runApp(const MyApp());
 }

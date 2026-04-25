@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../widget/header_bar.dart';
+import '../../../../widgets/header_bar.dart';
 import 'controller/add_new_targets_controller.dart';
 
 class AddNewTarget extends StatelessWidget {

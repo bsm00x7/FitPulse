@@ -1,13 +1,13 @@
 import 'package:fitness/core/features/home/widgets/app_bar.dart';
 import 'package:fitness/core/features/home/widgets/bmi_widget.dart';
 import 'package:fitness/core/features/home/widgets/target_today.dart';
-import 'package:fitness/core/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:fitness/widgets/native_ad_widget.dart';
+import '../../utility/responsive_utils.dart';
 import 'activity/activity.dart';
 import 'controller/home_controller.dart';
 
