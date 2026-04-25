@@ -1,31 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdMobService {
   static final AdMobService _instance = AdMobService._internal();
   factory AdMobService() => _instance;
   AdMobService._internal();
-  // Production Ad Unit IDs
-  static const String _productionAppId =
-      'ca-app-pub-3890360716260111~2101330014';
+
   // Native Advanced Ad Units (2 available - rotating for better fill rate)
-  static const String _productionNativeAdUnitId1 =
-      'ca-app-pub-3890360716260111/5242977604'; // Ads Natif
-  static const String _productionNativeAdUnitId2 =
-      'ca-app-pub-3890360716260111/6939457217'; // fitn
+  static final String _productionNativeAdUnitId1 = dotenv.get('PRODUCTION_NATIVE_AD_UNIT_ID1'); // native ads
+  static  final String _productionNativeAdUnitId2 =
+      dotenv.get('PRODUCTION_NATIVE_AD_UNIT_ID2'); // fitn
 
   // Rewarded Interstitial Ad Unit
-  static const String _productionRewardedAdUnitId =
-      'ca-app-pub-3890360716260111/4485217096'; // adsrewoersvidoe
+  static final  String _productionRewardedAdUnitId =
+     dotenv.get('PRODUCTION_REWARDED_AD_UNIT_ID'); // adsrewoersvidoe
 
   // Test Ad Unit IDs (for development only)
-  static const String _testNativeAdUnitId =
-      'ca-app-pub-3940256099942544/2247696110';
-  static const String _testRewardedAdUnitId =
-      'ca-app-pub-3940256099942544/5224354917';
-
-  // Track which native ad unit to use (alternate for better fill rate)
+  static final String _testNativeAdUnitId = dotenv.get('TEST_NATIVE_AD_UNIT_ID1');
+      static final String _testRewardedAdUnitId =dotenv.get('TEST_REWARDED_AD_UNIT_ID');
   static int _nativeAdIndex = 0;
 
   // Use production IDs by default, test IDs in debug mode
@@ -53,10 +47,11 @@ class AdMobService {
   RewardedAd? _rewardedAd;
   bool _isRewardedAdReady = false;
   bool get isRewardedAdReady => _isRewardedAdReady;
+
   Future<void> initialize() async {
     if (_isInitialized) {
       if (kDebugMode) {
-        print('⚠️ AdMob SDK already initialized');
+        debugPrint('⚠️ AdMob SDK already initialized');
       }
       return;
     }
@@ -66,20 +61,18 @@ class AdMobService {
       _isInitialized = true;
 
       if (kDebugMode) {
-        print('✅ AdMob SDK initialized successfully');
-        print('📱 Using ${kDebugMode ? "TEST" : "PRODUCTION"} ad units');
+        debugPrint('✅ AdMob SDK initialized successfully');
+        debugPrint('📱 Using ${kDebugMode ? "TEST" : "PRODUCTION"} ad units');
       }
     } catch (e) {
       if (kDebugMode) {
-        print('❌ Failed to initialize AdMob SDK: $e');
+        debugPrint('❌ Failed to initialize AdMob SDK: $e');
       }
       rethrow;
     }
   }
 
   /// Load a Native Ad with improved error handling
-  /// [onAdLoaded] callback when ad loads successfully
-  /// [onAdFailedToLoad] callback when ad fails to load
   NativeAd loadNativeAd({
     required Function(NativeAd ad) onAdLoaded,
     required Function(NativeAd ad, LoadAdError error) onAdFailedToLoad,
@@ -91,43 +84,30 @@ class AdMobService {
           final nativeAd = ad as NativeAd;
           _loadedAds.add(nativeAd);
           if (kDebugMode) {
-            print(
+            debugPrint(
               '✅ Native Ad loaded successfully (Total active ads: ${_loadedAds.length})',
             );
           }
-
           onAdLoaded(nativeAd);
         },
         onAdFailedToLoad: (ad, error) {
           if (kDebugMode) {
-            print('❌ Native Ad failed to load:');
-            print('   Code: ${error.code}');
-            print('   Message: ${error.message}');
-            print('   Domain: ${error.domain}');
+            debugPrint('❌ Native Ad failed to load: ${error.message}');
           }
-
           ad.dispose();
           onAdFailedToLoad(ad as NativeAd, error);
         },
         onAdClicked: (ad) {
-          if (kDebugMode) {
-            print('👆 Native Ad clicked');
-          }
+          if (kDebugMode) debugPrint('👆 Native Ad clicked');
         },
         onAdImpression: (ad) {
-          if (kDebugMode) {
-            print('👁️ Native Ad impression recorded');
-          }
+          if (kDebugMode) debugPrint('👁️ Native Ad impression recorded');
         },
         onAdClosed: (ad) {
-          if (kDebugMode) {
-            print('🔒 Native Ad closed');
-          }
+          if (kDebugMode) debugPrint('🔒 Native Ad closed');
         },
         onAdOpened: (ad) {
-          if (kDebugMode) {
-            print('🔓 Native Ad opened');
-          }
+          if (kDebugMode) debugPrint('🔓 Native Ad opened');
         },
       ),
       request: const AdRequest(),
@@ -162,9 +142,7 @@ class AdMobService {
       ),
     );
 
-    // Load the ad
     ad.load();
-
     return ad;
   }
 
@@ -172,18 +150,16 @@ class AdMobService {
   void disposeAd(NativeAd ad) {
     ad.dispose();
     _loadedAds.remove(ad);
-
     if (kDebugMode) {
-      print('🗑️ Ad disposed (Remaining active ads: ${_loadedAds.length})');
+      debugPrint('🗑️ Ad disposed (Remaining active ads: ${_loadedAds.length})');
     }
   }
 
   /// Dispose all active ads - call this when app is closing
   void disposeAll() {
     if (kDebugMode) {
-      print('🗑️ Disposing all ads (${_loadedAds.length} active ads)');
+      debugPrint('🗑️ Disposing all ads (${_loadedAds.length} active ads)');
     }
-
     for (var ad in _loadedAds) {
       ad.dispose();
     }
@@ -191,9 +167,6 @@ class AdMobService {
   }
 
   /// Load a Rewarded Ad
-  /// [onAdLoaded] callback when ad loads successfully
-  /// [onAdFailedToLoad] callback when ad fails to load
-  /// [onUserEarnedReward] callback when user earns reward by watching the ad
   void loadRewardedAd({
     Function()? onAdLoaded,
     Function(LoadAdError error)? onAdFailedToLoad,
@@ -206,57 +179,20 @@ class AdMobService {
         onAdLoaded: (ad) {
           _rewardedAd = ad;
           _isRewardedAdReady = true;
-
-          // Set up full screen content callback
-          _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-            onAdShowedFullScreenContent: (ad) {
-              if (kDebugMode) {
-                print('🎬 Rewarded Ad showed full screen content');
-              }
-            },
-            onAdDismissedFullScreenContent: (ad) {
-              if (kDebugMode) {
-                print('❌ Rewarded Ad dismissed');
-              }
-              ad.dispose();
-              _rewardedAd = null;
-              _isRewardedAdReady = false;
-              // Auto-reload next ad
-              loadRewardedAd(
-                onAdLoaded: onAdLoaded,
-                onAdFailedToLoad: onAdFailedToLoad,
-                onUserEarnedReward: onUserEarnedReward,
-              );
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              if (kDebugMode) {
-                print('❌ Rewarded Ad failed to show: ${error.message}');
-              }
-              ad.dispose();
-              _rewardedAd = null;
-              _isRewardedAdReady = false;
-            },
-            onAdImpression: (ad) {
-              if (kDebugMode) {
-                print('👁️ Rewarded Ad impression recorded');
-              }
-            },
+          _setRewardedAdCallbacks(
+            onAdLoaded: onAdLoaded,
+            onAdFailedToLoad: onAdFailedToLoad,
+            onUserEarnedReward: onUserEarnedReward,
           );
-
           if (kDebugMode) {
-            print('✅ Rewarded Ad loaded successfully');
+            debugPrint('✅ Rewarded Ad loaded successfully');
           }
-
           onAdLoaded?.call();
         },
         onAdFailedToLoad: (error) {
           if (kDebugMode) {
-            print('❌ Rewarded Ad failed to load:');
-            print('   Code: ${error.code}');
-            print('   Message: ${error.message}');
-            print('   Domain: ${error.domain}');
+            debugPrint('❌ Rewarded Ad failed to load: ${error.message}');
           }
-
           _rewardedAd = null;
           _isRewardedAdReady = false;
           onAdFailedToLoad?.call(error);
@@ -265,14 +201,49 @@ class AdMobService {
     );
   }
 
+  /// Private helper to set full screen callbacks and reduce complexity
+  void _setRewardedAdCallbacks({
+    Function()? onAdLoaded,
+    Function(LoadAdError error)? onAdFailedToLoad,
+    Function(AdWithoutView ad, RewardItem reward)? onUserEarnedReward,
+  }) {
+    if (_rewardedAd == null) return;
+
+    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (ad) {
+        if (kDebugMode) debugPrint('🎬 Rewarded Ad showed full screen content');
+      },
+      onAdDismissedFullScreenContent: (ad) {
+        if (kDebugMode) debugPrint('❌ Rewarded Ad dismissed');
+        ad.dispose();
+        _rewardedAd = null;
+        _isRewardedAdReady = false;
+        // Auto-reload next ad
+        loadRewardedAd(
+          onAdLoaded: onAdLoaded,
+          onAdFailedToLoad: onAdFailedToLoad,
+          onUserEarnedReward: onUserEarnedReward,
+        );
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        if (kDebugMode) debugPrint('❌ Rewarded Ad failed to show: ${error.message}');
+        ad.dispose();
+        _rewardedAd = null;
+        _isRewardedAdReady = false;
+      },
+      onAdImpression: (ad) {
+        if (kDebugMode) debugPrint('👁️ Rewarded Ad impression recorded');
+      },
+    );
+  }
+
   /// Show the loaded rewarded ad
-  /// [onUserEarnedReward] callback when user completes watching and earns reward
   Future<void> showRewardedAd({
     required Function(AdWithoutView ad, RewardItem reward) onUserEarnedReward,
   }) async {
     if (_rewardedAd == null || !_isRewardedAdReady) {
       if (kDebugMode) {
-        print('⚠️ Rewarded Ad not ready to show');
+        debugPrint('⚠️ Rewarded Ad not ready to show');
       }
       return;
     }
@@ -280,9 +251,7 @@ class AdMobService {
     await _rewardedAd!.show(
       onUserEarnedReward: (ad, reward) {
         if (kDebugMode) {
-          print('🎁 User earned reward:');
-          print('   Type: ${reward.type}');
-          print('   Amount: ${reward.amount}');
+          debugPrint('🎁 User earned reward: ${reward.amount} ${reward.type}');
         }
         onUserEarnedReward(ad, reward);
       },
@@ -294,9 +263,8 @@ class AdMobService {
     _rewardedAd?.dispose();
     _rewardedAd = null;
     _isRewardedAdReady = false;
-
     if (kDebugMode) {
-      print('🗑️ Rewarded Ad disposed');
+      debugPrint('🗑️ Rewarded Ad disposed');
     }
   }
 

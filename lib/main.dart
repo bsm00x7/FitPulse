@@ -3,6 +3,7 @@ import 'package:fitness/core/theme/light_theme.dart';
 import 'package:fitness/services_ads_storage_local/coin_service.dart';
 import 'package:fitness/services_ads_storage_local/preference_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -23,6 +24,7 @@ void main() async {
   FirebaseAuth.instance.setLanguageCode('en');
   await MobileAds.instance.initialize();
   await CoinService().initialize();
+  await dotenv.load();
   runApp(const MyApp());
 }
 

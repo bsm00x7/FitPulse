@@ -1,4 +1,4 @@
-import 'package:fitness/widget/floating_action_button_widget.dart';
+import 'package:fitness/widgets/floating_action_button_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'onboarding.dart';
